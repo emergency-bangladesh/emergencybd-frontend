@@ -1,0 +1,97 @@
+import { createFileRoute } from '@tanstack/react-router'
+import { IconCircleCheck } from '@tabler/icons-react'
+import { VolunteerRegistrationStepper } from './-stepper'
+import {
+  FieldErrorInfo,
+  FormAvatarUpload,
+  FormCheckbox,
+} from '@/components/ui/form'
+import { useVolunteerRegistrationForm } from '@/features/volunteer-registration/form/use-volunteer-registration-form'
+import { BackButton } from '@/components/back-button'
+import { Button } from '@/components/ui/button'
+import Muted from '@/components/ui/typography/muted'
+import { Loader } from '@/components/ui/loader'
+
+export const Route = createFileRoute(
+  '/registration/volunteer/upload-profile-picture',
+)({
+  component: RouteComponent,
+})
+
+function RouteComponent() {
+  const volunteerRegistrationForm = useVolunteerRegistrationForm()
+  return (
+    <>
+      <VolunteerRegistrationStepper currentStep={6} />
+      <div id="title" className="text-center">
+        <h3>Upload A Profile Picture</h3>
+        <Muted>
+          Upload a clear face so that anyone can identify you. This picture will
+          be used with notification when you respond to an issue. Your
+          registration application can be rejected if the profile pic is not
+          clear enough to identify you.
+        </Muted>
+      </div>
+      <form
+        id="form-fields"
+        className="flex flex-col gap-6 w-full"
+        onSubmit={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+
+          volunteerRegistrationForm.handleSubmit()
+        }}
+      >
+        <volunteerRegistrationForm.Field name="profilePicture">
+          {(field) => (
+            <div className="flex flex-col gap-1">
+              <FormAvatarUpload
+                field={field}
+                buttonLabel="Upload Profile Picture"
+              />
+              <FieldErrorInfo field={field} />
+            </div>
+          )}
+        </volunteerRegistrationForm.Field>
+        <volunteerRegistrationForm.Field
+          name="agreeTerms"
+          validators={{
+            onSubmit: ({ value }) =>
+              !value
+                ? { message: 'You must agree to the terms and conditions' }
+                : undefined,
+          }}
+        >
+          {(field) => (
+            <div className="flex flex-col gap-1">
+              <FormCheckbox
+                field={field}
+                id="agreeTerms"
+                label="I consent, the information can be used as per terms and conditions"
+              />
+              <FieldErrorInfo field={field} />
+            </div>
+          )}
+        </volunteerRegistrationForm.Field>
+        <div className="grid grid-cols-2 items-center w-full max-w-lg justify-center gap-3">
+          <BackButton to="/registration/volunteer/set-password" />
+          <volunteerRegistrationForm.Subscribe
+            selector={(state) => {
+              return {
+                canSubmit: state.canSubmit,
+                isSubmitting: state.isSubmitting,
+              }
+            }}
+          >
+            {({ canSubmit, isSubmitting }) => (
+              <Button type="submit" disabled={!canSubmit} className="w-full">
+                {isSubmitting ? <Loader /> : <IconCircleCheck />}
+                Submit
+              </Button>
+            )}
+          </volunteerRegistrationForm.Subscribe>
+        </div>
+      </form>
+    </>
+  )
+}
