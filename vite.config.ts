@@ -9,13 +9,17 @@ export default defineConfig({
   plugins: [
     devtools(),
     tanstackRouter({
-      autoCodeSplitting: true, // already helps split route-level code
+      autoCodeSplitting: true,
       routesDirectory: './src/routes',
       generatedRouteTree: './src/route-tree.gen.ts',
       enableRouteTreeFormatting: true,
       routeToken: '_layout',
     }),
-    viteReact(),
+    viteReact({
+      babel: {
+        plugins: ['babel-plugin-react-compiler'],
+      },
+    }),
     tailwindcss(),
   ],
   server: {
