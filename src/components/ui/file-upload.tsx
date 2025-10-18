@@ -9,59 +9,59 @@ import {
   IconPhoto,
   IconVideo,
   IconX,
-} from '@tabler/icons-react'
+} from "@tabler/icons-react";
 
 import {
   formatBytes,
   useFileUpload,
-} from '@/integrations/file-upload/use-file-upload'
-import { Button } from '@/components/ui/button'
+} from "@/integrations/file-upload/use-file-upload";
+import { Button } from "@/components/ui/button";
 
 const getFileIcon = (file: { file: File | { type: string; name: string } }) => {
-  const fileType = file.file instanceof File ? file.file.type : file.file.type
-  const fileName = file.file instanceof File ? file.file.name : file.file.name
+  const fileType = file.file instanceof File ? file.file.type : file.file.type;
+  const fileName = file.file instanceof File ? file.file.name : file.file.name;
 
   if (
-    fileType.includes('pdf') ||
-    fileName.endsWith('.pdf') ||
-    fileType.includes('word') ||
-    fileName.endsWith('.doc') ||
-    fileName.endsWith('.docx')
+    fileType.includes("pdf") ||
+    fileName.endsWith(".pdf") ||
+    fileType.includes("word") ||
+    fileName.endsWith(".doc") ||
+    fileName.endsWith(".docx")
   ) {
-    return <IconFileText className="size-4 opacity-60" />
+    return <IconFileText className="size-4 opacity-60" />;
   } else if (
-    fileType.includes('zip') ||
-    fileType.includes('archive') ||
-    fileName.endsWith('.zip') ||
-    fileName.endsWith('.rar')
+    fileType.includes("zip") ||
+    fileType.includes("archive") ||
+    fileName.endsWith(".zip") ||
+    fileName.endsWith(".rar")
   ) {
-    return <IconArchive className="size-4 opacity-60" />
+    return <IconArchive className="size-4 opacity-60" />;
   } else if (
-    fileType.includes('excel') ||
-    fileName.endsWith('.xls') ||
-    fileName.endsWith('.xlsx')
+    fileType.includes("excel") ||
+    fileName.endsWith(".xls") ||
+    fileName.endsWith(".xlsx")
   ) {
-    return <IconFileSpreadsheet className="size-4 opacity-60" />
-  } else if (fileType.includes('video/')) {
-    return <IconVideo className="size-4 opacity-60" />
-  } else if (fileType.includes('audio/')) {
-    return <IconHeadphones className="size-4 opacity-60" />
-  } else if (fileType.startsWith('image/')) {
-    return <IconPhoto className="size-4 opacity-60" />
+    return <IconFileSpreadsheet className="size-4 opacity-60" />;
+  } else if (fileType.includes("video/")) {
+    return <IconVideo className="size-4 opacity-60" />;
+  } else if (fileType.includes("audio/")) {
+    return <IconHeadphones className="size-4 opacity-60" />;
+  } else if (fileType.startsWith("image/")) {
+    return <IconPhoto className="size-4 opacity-60" />;
   }
-  return <IconFile className="size-4 opacity-60" />
-}
+  return <IconFile className="size-4 opacity-60" />;
+};
 
 type FileUploadProps = {
-  initialFiles?: Array<File>
-  maxSize?: number
-  maxFiles?: number
-  title: string
-  description: string
-  onFilesChange: (files: Array<File>) => void
-  buttonText?: string
-  acceptedTypes?: Array<File['type']>
-}
+  initialFiles?: Array<File>;
+  maxSize?: number;
+  maxFiles?: number;
+  title: string;
+  description: string;
+  onFilesChange: (files: Array<File>) => void;
+  buttonText?: string;
+  acceptedTypes?: Array<File["type"]>;
+};
 
 export function FileUpload({
   initialFiles,
@@ -70,7 +70,7 @@ export function FileUpload({
   title,
   description,
   onFilesChange,
-  acceptedTypes = ['*'],
+  acceptedTypes = ["*"],
 }: FileUploadProps) {
   const [
     { files, isDragging, errors },
@@ -89,13 +89,13 @@ export function FileUpload({
     maxFiles,
     maxSize,
     onFilesChange: (fwp) => {
-      onFilesChange(fwp.map((file) => file.file))
+      onFilesChange(fwp.map((file) => file.file));
     },
     acceptedTypes,
     initialFiles,
-  })
+  });
 
-  const showDropArea = !maxFiles || files.length < maxFiles
+  const showDropArea = !maxFiles || files.length < maxFiles;
 
   return (
     <div className="flex flex-col gap-2">
@@ -129,13 +129,13 @@ export function FileUpload({
               {description}
             </p>
             <p className="leading-normal mt-0! pt-0! text-muted-foreground/70 text-xs">
-              Accepted File Types:{' '}
-              {acceptedTypes.length > 0 && acceptedTypes[0] === '*'
-                ? 'All'
+              Accepted File Types:{" "}
+              {acceptedTypes.length > 0 && acceptedTypes[0] === "*"
+                ? "All"
                 : acceptedTypes
-                    .map((t) => t.split('/')[1].toUpperCase())
-                    .map((t) => (t.includes('+') ? t.split('+')[0] : t))
-                    .join(', ')}
+                    .map((t) => t.split("/")[1].toUpperCase())
+                    .map((t) => (t.includes("+") ? t.split("+")[0] : t))
+                    .join(", ")}
             </p>
           </div>
         </div>
@@ -196,5 +196,5 @@ export function FileUpload({
         </div>
       )}
     </div>
-  )
+  );
 }

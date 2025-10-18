@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 export function PrivacyPolicyEn() {
   return (
@@ -10,7 +10,7 @@ export function PrivacyPolicyEn() {
             Privacy Policy for Emergency BD
           </CardTitle>
           <p className="text-sm text-muted-foreground mt-1">
-            Effective Date:{' '}
+            Effective Date:{" "}
             <span className="text-primary font-medium">30 September 2025</span>
           </p>
         </CardHeader>
@@ -84,7 +84,7 @@ export function PrivacyPolicyEn() {
                 hosting, communication, and payment processing.
               </li>
               <li>
-                <span className="font-medium">With Emergency Responders:</span>{' '}
+                <span className="font-medium">With Emergency Responders:</span>{" "}
                 To assist healthcare providers and authorities during crises.
               </li>
               <li>
@@ -181,18 +181,18 @@ export function PrivacyPolicyEn() {
           <section>
             <h2 className="text-xl font-semibold mb-2">10. Contact Us</h2>
             <p>
-              If you have questions about this Privacy Policy, contact us at{' '}
+              If you have questions about this Privacy Policy, contact us at{" "}
               <a
                 href="mailto:project.emergencybd@gmail.com"
                 className="text-destructive hover:underline"
               >
                 project.emergencybd@gmail.com
-              </a>{' '}
+              </a>{" "}
               or through our social media handles.
             </p>
           </section>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

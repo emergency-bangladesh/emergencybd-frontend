@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
-import { toast } from 'sonner'
-import { format } from 'date-fns'
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { format } from "date-fns";
 import {
   IconAlertCircle,
   IconBriefcase,
@@ -13,84 +13,84 @@ import {
   IconMapPin,
   IconPhone,
   IconUser,
-} from '@tabler/icons-react'
-import { Loader } from './ui/loader'
-import type { Issue, LostAndFoundIssue } from '@/types/issue'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { apiUrl, fetchBackend } from '@/lib/fetch-backend'
-import { useAuth } from '@/features/auth/use-auth'
-import { parseDateFromUtc } from '@/lib/utils'
+} from "@tabler/icons-react";
+import { Loader } from "./ui/loader";
+import type { Issue, LostAndFoundIssue } from "@/types/issue";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { apiUrl, fetchBackend } from "@/lib/fetch-backend";
+import { useAuth } from "@/features/auth/use-auth";
+import { parseDateFromUtc } from "@/lib/utils";
 
 interface LostAndFoundIssueCardProps {
-  issue: Issue
+  issue: Issue;
 }
 
 const statusConfig = {
   open: {
-    label: 'Open',
-    className: 'bg-amber-600 text-white hover:bg-amber-700',
+    label: "Open",
+    className: "bg-amber-600 text-white hover:bg-amber-700",
   },
   working: {
-    label: 'In Progress',
-    className: 'bg-blue-600 text-white hover:bg-blue-700',
+    label: "In Progress",
+    className: "bg-blue-600 text-white hover:bg-blue-700",
   },
   solved: {
-    label: 'Found',
-    className: 'bg-green-600 text-white hover:bg-green-700',
+    label: "Found",
+    className: "bg-green-600 text-white hover:bg-green-700",
   },
   invalid: {
-    label: 'Invalid',
-    className: 'bg-muted text-muted-foreground hover:bg-muted/90',
+    label: "Invalid",
+    className: "bg-muted text-muted-foreground hover:bg-muted/90",
   },
-}
+};
 
 export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
   const onRespond = () => {
     try {
-      fetchBackend(`/issues/${issue.uuid}/respond`, 'POST')
+      fetchBackend(`/issues/${issue.uuid}/respond`, "POST");
     } catch (error) {
-      toast.error('Something went wrong', {
+      toast.error("Something went wrong", {
         description: (error as Error).message,
-      })
+      });
     }
-  }
+  };
   const onMarkResolved = () => {
     try {
-      fetchBackend(`/issues/${issue.uuid}/update/status/solved`, 'PATCH')
+      fetchBackend(`/issues/${issue.uuid}/update/status/solved`, "PATCH");
     } catch (error) {
-      toast.error('Something went wrong', {
+      toast.error("Something went wrong", {
         description: (error as Error).message,
-      })
+      });
     }
-  }
+  };
   const onMarkInvalid = () => {
     try {
-      fetchBackend(`/issues/${issue.uuid}/update/status/invalid`, 'PATCH')
+      fetchBackend(`/issues/${issue.uuid}/update/status/invalid`, "PATCH");
     } catch (error) {
-      toast.error('Something went wrong', {
+      toast.error("Something went wrong", {
         description: (error as Error).message,
-      })
+      });
     }
-  }
+  };
 
-  const { user } = useAuth()
-  const currentUserUuid = user?.uuid
-  const isVolunteer = user?.type === 'volunteer'
+  const { user } = useAuth();
+  const currentUserUuid = user?.uuid;
+  const isVolunteer = user?.type === "volunteer";
 
-  const formatDate = (date: Date) => date.toLocaleDateString()
-  const formatTime = (date: Date) => format(date, 'hh:mm a')
+  const formatDate = (date: Date) => date.toLocaleDateString();
+  const formatTime = (date: Date) => format(date, "hh:mm a");
 
   const { data: lostAndFoundIssue, isLoading: isIssueLoading } = useQuery({
-    queryKey: ['issue', 'lost_and_found', issue.uuid],
+    queryKey: ["issue", "lost_and_found", issue.uuid],
     queryFn: async (): Promise<LostAndFoundIssue> => {
       const res = await fetchBackend(
         `/issues/lost_and_found/${issue.uuid}`,
-        'GET',
-      )
-      const json = await res.json()
-      const data = json.data
+        "GET",
+      );
+      const json = await res.json();
+      const data = json.data;
       return {
         accountUuid: data.account_uuid,
         age: data.age_of_person,
@@ -110,39 +110,39 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
         category: data.category,
         issueUuid: issue.uuid,
         emergencyPhoneNumber: data.emergency_phone_number,
-      }
+      };
     },
-  })
+  });
 
   const { data: image_urls, isLoading: areImagesLoading } = useQuery({
-    queryKey: ['issue', 'lost_and_found', issue.uuid, 'images'],
+    queryKey: ["issue", "lost_and_found", issue.uuid, "images"],
     queryFn: async () => {
       const res = await fetchBackend(
         `/image/issue/lost-and-found/${issue.uuid}/images`,
-        'GET',
-      )
-      const data = await res.json()
-      return data.data as Array<string>
+        "GET",
+      );
+      const data = await res.json();
+      return data.data as Array<string>;
     },
-  })
+  });
 
-  if (isIssueLoading || areImagesLoading) return <Loader />
+  if (isIssueLoading || areImagesLoading) return <Loader />;
 
   if (!lostAndFoundIssue || !image_urls) {
-    return null
+    return null;
   }
 
-  const statusInfo = statusConfig[lostAndFoundIssue.status]
+  const statusInfo = statusConfig[lostAndFoundIssue.status];
 
-  const isOwner = currentUserUuid === lostAndFoundIssue.accountUuid
+  const isOwner = currentUserUuid === lostAndFoundIssue.accountUuid;
   const isVolunteerResponding =
-    isVolunteer && currentUserUuid !== lostAndFoundIssue.accountUuid
-  const hasVolunteerResponded = lostAndFoundIssue.status === 'working'
+    isVolunteer && currentUserUuid !== lostAndFoundIssue.accountUuid;
+  const hasVolunteerResponded = lostAndFoundIssue.status === "working";
 
   // Validate image_urls length (1-3 images)
-  const validImages = image_urls.slice(0, 3)
+  const validImages = image_urls.slice(0, 3);
 
-  console.log(JSON.stringify({ validImages }))
+  console.log(JSON.stringify({ validImages }));
 
   return (
     <Card className="w-full max-w-2xl overflow-hidden transition-shadow hover:shadow-lg">
@@ -168,17 +168,17 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
           <div
             className={`grid gap-2 ${
               validImages.length === 1
-                ? 'grid-cols-1'
+                ? "grid-cols-1"
                 : validImages.length === 2
-                  ? 'grid-cols-2'
-                  : 'grid-cols-3'
+                  ? "grid-cols-2"
+                  : "grid-cols-3"
             }`}
           >
             {validImages.map((url, index) => (
               <div
                 key={index}
                 className={`relative overflow-hidden rounded-lg ${
-                  validImages.length === 1 ? 'aspect-[4/3]' : 'aspect-square'
+                  validImages.length === 1 ? "aspect-[4/3]" : "aspect-square"
                 }`}
               >
                 <img
@@ -213,7 +213,7 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
         <div className="flex items-center gap-2">
           <IconUser className="h-4 w-4 text-muted-foreground" />
           <p className="text-sm text-muted-foreground">
-            Contact Person:{' '}
+            Contact Person:{" "}
             <span className="font-medium text-card-foreground">
               {lostAndFoundIssue.contactPersonName}
             </span>
@@ -299,7 +299,7 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
               </Button>
             )}
 
-            {isVolunteerResponding && lostAndFoundIssue.status === 'open' && (
+            {isVolunteerResponding && lostAndFoundIssue.status === "open" && (
               <Button
                 onClick={() => onRespond()}
                 className="flex-1 sm:flex-none"
@@ -346,5 +346,5 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

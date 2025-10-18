@@ -1,8 +1,8 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import React, { useMemo } from 'react'
-import { VolunteerRegistrationStepper } from './-stepper'
-import type { VolunteerRegistrationFormValue } from '@/features/volunteer-registration/form/form-schema'
-import { useVolunteerRegistrationForm } from '@/features/volunteer-registration/form/use-volunteer-registration-form'
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import React, { useMemo } from "react";
+import { VolunteerRegistrationStepper } from "./-stepper";
+import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
+import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
 import {
   FieldErrorInfo,
   FormDatePicker,
@@ -10,42 +10,42 @@ import {
   FormSelect,
   FormTelInput,
   FormTextInput,
-} from '@/components/ui/form'
-import { SelectItem } from '@/components/ui/select'
-import { validateFormStepPersonalInformation } from '@/features/volunteer-registration/form/form-step-validation'
-import { BackButton } from '@/components/back-button'
-import { accountExistsWithPhoneNumber } from '@/actions/validate-account'
-import { volunteerExistsWithEmailAddress } from '@/actions/validate-volunteer'
-import { NextButton } from '@/components/next-button'
+} from "@/components/ui/form";
+import { SelectItem } from "@/components/ui/select";
+import { validateFormStepPersonalInformation } from "@/features/volunteer-registration/form/form-step-validation";
+import { BackButton } from "@/components/back-button";
+import { accountExistsWithPhoneNumber } from "@/actions/validate-account";
+import { volunteerExistsWithEmailAddress } from "@/actions/validate-volunteer";
+import { NextButton } from "@/components/next-button";
 
 export const Route = createFileRoute(
-  '/registration/volunteer/personal-information',
+  "/registration/volunteer/personal-information",
 )({
   component: PersonalInformationFormSection,
-})
+});
 
 function PersonalInformationFormSection() {
-  const volunteerRegistrationForm = useVolunteerRegistrationForm()
-  const navigate = useNavigate()
+  const volunteerRegistrationForm = useVolunteerRegistrationForm();
+  const navigate = useNavigate();
 
   const fieldNames = useMemo(
     () => [
-      'name',
-      'email',
-      'phoneNumber',
-      'bloodGroup',
-      'dateOfBirth',
-      'gender',
+      "name",
+      "email",
+      "phoneNumber",
+      "bloodGroup",
+      "dateOfBirth",
+      "gender",
     ],
     [],
-  )
+  );
 
   async function handleNextButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
 
-    const values = volunteerRegistrationForm.state.values
-    const isValid = validateFormStepPersonalInformation(values)
+    const values = volunteerRegistrationForm.state.values;
+    const isValid = validateFormStepPersonalInformation(values);
 
     if (!isValid) {
       fieldNames.forEach((fieldName) => {
@@ -55,22 +55,22 @@ function PersonalInformationFormSection() {
             ...prev,
             isTouched: true,
           }),
-        )
-      })
+        );
+      });
 
       await Promise.all(
         fieldNames.map((fieldName) =>
           volunteerRegistrationForm.validateField(
             fieldName as keyof VolunteerRegistrationFormValue,
-            'submit',
+            "submit",
           ),
         ),
-      )
+      );
 
-      return
+      return;
     }
 
-    navigate({ to: '/registration/volunteer/location-information' })
+    navigate({ to: "/registration/volunteer/location-information" });
   }
 
   return (
@@ -99,13 +99,13 @@ function PersonalInformationFormSection() {
             name="phoneNumber"
             validators={{
               onChangeAsync: async ({ value }) => {
-                const exists = await accountExistsWithPhoneNumber(value)
+                const exists = await accountExistsWithPhoneNumber(value);
                 if (exists) {
                   return {
-                    message: 'This phone number already exists',
-                  }
+                    message: "This phone number already exists",
+                  };
                 }
-                return undefined
+                return undefined;
               },
             }}
           >
@@ -138,13 +138,13 @@ function PersonalInformationFormSection() {
           name="email"
           validators={{
             onChangeAsync: async ({ value }) => {
-              const exists = await volunteerExistsWithEmailAddress(value)
+              const exists = await volunteerExistsWithEmailAddress(value);
               if (exists) {
                 return {
-                  message: 'This email already exists',
-                }
+                  message: "This email already exists",
+                };
               }
-              return undefined
+              return undefined;
             },
           }}
         >
@@ -208,5 +208,5 @@ function PersonalInformationFormSection() {
         </div>
       </form>
     </>
-  )
+  );
 }

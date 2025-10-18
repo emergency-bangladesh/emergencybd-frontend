@@ -1,12 +1,12 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { AvatarFallback } from '@radix-ui/react-avatar'
+import { createFileRoute } from "@tanstack/react-router";
+import { AvatarFallback } from "@radix-ui/react-avatar";
 import {
   IconCalendarEvent,
   IconClock,
   IconForbid,
   IconLocationPin,
-} from '@tabler/icons-react'
-import { format } from 'date-fns'
+} from "@tabler/icons-react";
+import { format } from "date-fns";
 import {
   Timeline,
   TimelineContent,
@@ -16,39 +16,39 @@ import {
   TimelineItem,
   TimelineSeparator,
   TimelineTitle,
-} from '@/components/ui/timeline'
-import { Avatar, AvatarImage } from '@/components/ui/avatar'
-import Muted from '@/components/ui/typography/muted'
-import { volunteerProfilePicUrl } from '@/actions/volunteer'
-import { teamQueryOptions, useTeamQuery } from '@/queries/use-team-query'
-import { Loader } from '@/components/ui/loader'
-import { useTeamPlanQuery } from '@/queries/use-team-plan-query'
+} from "@/components/ui/timeline";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import Muted from "@/components/ui/typography/muted";
+import { volunteerProfilePicUrl } from "@/actions/volunteer";
+import { teamQueryOptions, useTeamQuery } from "@/queries/use-team-query";
+import { Loader } from "@/components/ui/loader";
+import { useTeamPlanQuery } from "@/queries/use-team-plan-query";
 
-export const Route = createFileRoute('/team/$uuid')({
+export const Route = createFileRoute("/team/$uuid")({
   component: RouteComponent,
   loader: ({ params, context: { queryClient } }) => {
-    queryClient.ensureQueryData(teamQueryOptions(params.uuid))
+    queryClient.ensureQueryData(teamQueryOptions(params.uuid));
   },
-})
+});
 
 function RouteComponent() {
-  const { uuid } = Route.useParams()
-  const { data: team, isLoading } = useTeamQuery(uuid)
+  const { uuid } = Route.useParams();
+  const { data: team, isLoading } = useTeamQuery(uuid);
   const { data: teamPlans, isLoading: isTeamPlanLoading } =
-    useTeamPlanQuery(uuid)
+    useTeamPlanQuery(uuid);
 
   if (isLoading)
     return (
       <div className="flex items-center justify-center w-full h-full">
         <Loader />
       </div>
-    )
+    );
   if (!team)
     return (
       <div className="flex items-center justify-center w-full h-full">
         No team found with uuid {uuid}
       </div>
-    )
+    );
 
   return (
     <div className="mx-auto max-w-4xl w-full p-4 h-full flex flex-col items-center gap-12">
@@ -58,7 +58,7 @@ function RouteComponent() {
       >
         <h1>{team.name}</h1>
         <small className="text-muted-foreground">
-          Expires on: {format(team.expirationDate, 'dd MMMM, yyyy')}
+          Expires on: {format(team.expirationDate, "dd MMMM, yyyy")}
         </small>
         <div className="bg-background flex gap-1 items-center rounded-full border shadow-sm mt-1 p-1 w-fit">
           <div className="flex -space-x-1 items-center">
@@ -87,7 +87,7 @@ function RouteComponent() {
             +
             <strong className="text-foreground font-medium">
               {team.membersCount}
-            </strong>{' '}
+            </strong>{" "}
             members →
           </p>
         </div>
@@ -127,11 +127,11 @@ function RouteComponent() {
                   <TimelineDate className="mt-1 mb-0 flex items-center gap-2">
                     <IconClock size={14} />
                     <span className="text-foreground">
-                      {format(item.startDate, 'dd MMMM, yyyy')}
+                      {format(item.startDate, "dd MMMM, yyyy")}
                     </span>
                     to
                     <span className="text-foreground">
-                      {format(item.endDate, 'dd MMMM, yyyy')}
+                      {format(item.endDate, "dd MMMM, yyyy")}
                     </span>
                   </TimelineDate>
                 </TimelineContent>
@@ -147,5 +147,5 @@ function RouteComponent() {
         )}
       </div>
     </div>
-  )
+  );
 }

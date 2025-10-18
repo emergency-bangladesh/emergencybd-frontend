@@ -1,7 +1,7 @@
 type PilProps = {
-  icon: React.ReactNode
-  text: string
-}
+  icon: React.ReactNode;
+  text: string;
+};
 
 export const Pil = ({ icon, text }: PilProps) => {
   return (
@@ -9,5 +9,5 @@ export const Pil = ({ icon, text }: PilProps) => {
       {icon}
       {text}
     </div>
-  )
-}
+  );
+};

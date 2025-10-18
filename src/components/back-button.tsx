@@ -1,10 +1,10 @@
-import { Link } from '@tanstack/react-router'
-import { IconArrowLeft } from '@tabler/icons-react'
-import { Button } from './ui/button'
-import type { LinkProps } from '@tanstack/react-router'
-import type { ComponentProps } from 'react'
-import { cn } from '@/lib/utils'
-import { useLanguage } from '@/integrations/language/use-language'
+import { Link } from "@tanstack/react-router";
+import { IconArrowLeft } from "@tabler/icons-react";
+import { Button } from "./ui/button";
+import type { LinkProps } from "@tanstack/react-router";
+import type { ComponentProps } from "react";
+import { cn } from "@/lib/utils";
+import { useLanguage } from "@/integrations/language/use-language";
 
 export const BackButton = ({
   to,
@@ -13,24 +13,24 @@ export const BackButton = ({
   variant,
   ...props
 }: {
-  to?: LinkProps['to']
-  label?: string
+  to?: LinkProps["to"];
+  label?: string;
 } & Omit<
   ComponentProps<typeof Button>,
-  'children' | 'onClick' | 'asChild'
+  "children" | "onClick" | "asChild"
 >) => {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
   return (
     <Button
-      variant={variant || 'outline'}
-      className={cn('w-full', className)}
+      variant={variant || "outline"}
+      className={cn("w-full", className)}
       asChild
       {...props}
     >
-      <Link to={to || '..'} className="flex items-center justify-center gap-2">
-        <IconArrowLeft />{' '}
-        {buttonText ?? (language === 'en' ? 'Back' : 'ফিরে যান')}
+      <Link to={to || ".."} className="flex items-center justify-center gap-2">
+        <IconArrowLeft />{" "}
+        {buttonText ?? (language === "en" ? "Back" : "ফিরে যান")}
       </Link>
     </Button>
-  )
-}
+  );
+};

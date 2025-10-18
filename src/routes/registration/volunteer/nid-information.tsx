@@ -1,37 +1,37 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import React, { useMemo } from 'react'
-import { VolunteerRegistrationStepper } from './-stepper'
-import type { VolunteerRegistrationFormValue } from '@/features/volunteer-registration/form/form-schema'
-import { useVolunteerRegistrationForm } from '@/features/volunteer-registration/form/use-volunteer-registration-form'
-import { FieldErrorInfo, FormTextInput } from '@/components/ui/form'
-import { validateFormStepIDInformation } from '@/features/volunteer-registration/form/form-step-validation'
-import { BackButton } from '@/components/back-button'
-import { FileUpload } from '@/components/ui/file-upload'
-import { NextButton } from '@/components/next-button'
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import React, { useMemo } from "react";
+import { VolunteerRegistrationStepper } from "./-stepper";
+import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
+import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import { FieldErrorInfo, FormTextInput } from "@/components/ui/form";
+import { validateFormStepIDInformation } from "@/features/volunteer-registration/form/form-step-validation";
+import { BackButton } from "@/components/back-button";
+import { FileUpload } from "@/components/ui/file-upload";
+import { NextButton } from "@/components/next-button";
 
-export const Route = createFileRoute('/registration/volunteer/nid-information')(
+export const Route = createFileRoute("/registration/volunteer/nid-information")(
   {
     component: NidInformationFormSection,
   },
-)
+);
 
 function NidInformationFormSection() {
-  const volunteerRegistrationForm = useVolunteerRegistrationForm()
-  const navigate = useNavigate()
+  const volunteerRegistrationForm = useVolunteerRegistrationForm();
+  const navigate = useNavigate();
 
-  volunteerRegistrationForm.setFieldValue('idType', 'NID')
-  volunteerRegistrationForm.setFieldValue('brnDate', undefined)
-  volunteerRegistrationForm.setFieldValue('parentPhoneNumber', undefined)
-  volunteerRegistrationForm.setFieldValue('brnNumber', undefined)
+  volunteerRegistrationForm.setFieldValue("idType", "NID");
+  volunteerRegistrationForm.setFieldValue("brnDate", undefined);
+  volunteerRegistrationForm.setFieldValue("parentPhoneNumber", undefined);
+  volunteerRegistrationForm.setFieldValue("brnNumber", undefined);
 
-  const fieldNames = useMemo(() => ['nidNumber', 'nidImage1', 'nidImage2'], [])
+  const fieldNames = useMemo(() => ["nidNumber", "nidImage1", "nidImage2"], []);
 
   async function handleNextButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
 
-    const values = volunteerRegistrationForm.state.values
-    const isValid = validateFormStepIDInformation(values)
+    const values = volunteerRegistrationForm.state.values;
+    const isValid = validateFormStepIDInformation(values);
 
     if (!isValid) {
       fieldNames.forEach((fieldName) => {
@@ -41,24 +41,24 @@ function NidInformationFormSection() {
             ...prev,
             isTouched: true,
           }),
-        )
-      })
+        );
+      });
 
-      await new Promise((resolve) => setTimeout(resolve, 0)) // flush touch state
+      await new Promise((resolve) => setTimeout(resolve, 0)); // flush touch state
 
       await Promise.all(
         fieldNames.map((fieldName) =>
           volunteerRegistrationForm.validateField(
             fieldName as keyof VolunteerRegistrationFormValue,
-            'submit',
+            "submit",
           ),
         ),
-      )
+      );
 
-      return
+      return;
     }
 
-    navigate({ to: '/registration/volunteer/set-password' })
+    navigate({ to: "/registration/volunteer/set-password" });
   }
 
   return (
@@ -87,8 +87,8 @@ function NidInformationFormSection() {
             <volunteerRegistrationForm.Field name="nidImage2">
               {(nidImage2Field) => {
                 function setFilesToFields(files: Array<File>) {
-                  nidImage1Field.handleChange(files[0])
-                  nidImage2Field.handleChange(files[1])
+                  nidImage1Field.handleChange(files[0]);
+                  nidImage2Field.handleChange(files[1]);
                 }
                 return (
                   <div className="flex flex-col gap-1">
@@ -96,7 +96,7 @@ function NidInformationFormSection() {
                       maxFiles={2}
                       title="Upload NID"
                       description="Upload the front & back of your NID as proof"
-                      acceptedTypes={['image/jpeg', 'image/png', 'image/webp']}
+                      acceptedTypes={["image/jpeg", "image/png", "image/webp"]}
                       onFilesChange={setFilesToFields}
                       {...(!!nidImage1Field.state.value &&
                         !!nidImage2Field.state.value && {
@@ -109,7 +109,7 @@ function NidInformationFormSection() {
                     <FieldErrorInfo field={nidImage1Field} />
                     <FieldErrorInfo field={nidImage2Field} />
                   </div>
-                )
+                );
               }}
             </volunteerRegistrationForm.Field>
           )}
@@ -121,5 +121,5 @@ function NidInformationFormSection() {
         </div>
       </form>
     </>
-  )
+  );
 }

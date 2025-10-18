@@ -1,26 +1,26 @@
-import * as React from 'react'
-import { IconCheck, IconEye, IconEyeOff, IconX } from '@tabler/icons-react'
-import { useMemo, useState } from 'react'
-import { Label } from './label'
-import { Input } from './input'
-import { Select, SelectContent, SelectTrigger, SelectValue } from './select'
-import { DatePicker } from './date-picker'
-import { Checkbox } from './checkbox'
-import { Textarea } from './textarea'
-import { Combobox } from './combo-box'
-import AvatarUpload from './avatar-upload'
-import { DateAndTimePicker } from './date-and-time-picker'
-import type { Calendar } from './calendar'
-import type { ComboboxOption } from './combo-box'
-import type { AnyFieldApi } from '@tanstack/react-form'
-import { useLanguage } from '@/integrations/language/use-language'
+import * as React from "react";
+import { IconCheck, IconEye, IconEyeOff, IconX } from "@tabler/icons-react";
+import { useMemo, useState } from "react";
+import { Label } from "./label";
+import { Input } from "./input";
+import { Select, SelectContent, SelectTrigger, SelectValue } from "./select";
+import { DatePicker } from "./date-picker";
+import { Checkbox } from "./checkbox";
+import { Textarea } from "./textarea";
+import { Combobox } from "./combo-box";
+import AvatarUpload from "./avatar-upload";
+import { DateAndTimePicker } from "./date-and-time-picker";
+import type { Calendar } from "./calendar";
+import type { ComboboxOption } from "./combo-box";
+import type { AnyFieldApi } from "@tanstack/react-form";
+import { useLanguage } from "@/integrations/language/use-language";
 
 export function FieldErrorInfo({
   field,
   condition = true,
 }: {
-  field: AnyFieldApi
-  condition?: boolean
+  field: AnyFieldApi;
+  condition?: boolean;
 }) {
   return (
     <>
@@ -32,16 +32,16 @@ export function FieldErrorInfo({
           </small>
         )}
     </>
-  )
+  );
 }
 
 type GenericFormInputProps = {
-  field: AnyFieldApi
-  label: string
+  field: AnyFieldApi;
+  label: string;
 } & Omit<
   React.ComponentProps<typeof Input>,
-  'aria-invalid' | 'value' | 'onChange' | 'onBlur' | 'type'
->
+  "aria-invalid" | "value" | "onChange" | "onBlur" | "type"
+>;
 
 export const FormTextInput = ({
   field,
@@ -51,8 +51,8 @@ export const FormTextInput = ({
 }: GenericFormInputProps) => (
   <div className="flex flex-col gap-2 w-full">
     <Label className="px-1" htmlFor={id}>
-      {' '}
-      {label}{' '}
+      {" "}
+      {label}{" "}
     </Label>
     <Input
       id={id}
@@ -64,7 +64,7 @@ export const FormTextInput = ({
       {...props}
     />
   </div>
-)
+);
 
 export const FormEmailInput = ({
   field,
@@ -86,7 +86,7 @@ export const FormEmailInput = ({
       {...props}
     />
   </div>
-)
+);
 
 export const FormTelInput = ({
   field,
@@ -106,11 +106,11 @@ export const FormTelInput = ({
       value={field.state.value}
       onBlur={field.handleBlur}
       onChange={(e) => field.handleChange(e.target.value)}
-      placeholder={placeholder ?? '01XXX-XXXXXX'}
+      placeholder={placeholder ?? "01XXX-XXXXXX"}
       {...props}
     />
   </div>
-)
+);
 
 export const FormNumberInput = ({
   field,
@@ -132,12 +132,15 @@ export const FormNumberInput = ({
       {...props}
     />
   </div>
-)
+);
 
 type FormTextAreaProps = {
-  field: AnyFieldApi
-  label: string
-} & Omit<React.ComponentProps<typeof Textarea>, 'value' | 'onChange' | 'onBlur'>
+  field: AnyFieldApi;
+  label: string;
+} & Omit<
+  React.ComponentProps<typeof Textarea>,
+  "value" | "onChange" | "onBlur"
+>;
 
 export const FormTextArea = ({
   field,
@@ -158,7 +161,7 @@ export const FormTextArea = ({
       {...props}
     />
   </div>
-)
+);
 
 export const FormPasswordInput = ({
   field,
@@ -166,9 +169,9 @@ export const FormPasswordInput = ({
   label,
   ...props
 }: GenericFormInputProps) => {
-  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const toggleVisibility = () => setIsVisible((prevState) => !prevState)
+  const toggleVisibility = () => setIsVisible((prevState) => !prevState);
 
   return (
     <div className="flex flex-col gap-2 w-full">
@@ -179,7 +182,7 @@ export const FormPasswordInput = ({
         <Input
           id={id}
           className="pe-9"
-          type={isVisible ? 'text' : 'password'}
+          type={isVisible ? "text" : "password"}
           aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
           value={field.state.value}
           onBlur={field.handleBlur}
@@ -190,7 +193,7 @@ export const FormPasswordInput = ({
           className="text-muted-foreground/80 hover:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md transition-[color,box-shadow] outline-none focus:z-10 focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
           type="button"
           onClick={toggleVisibility}
-          aria-label={isVisible ? 'Hide password' : 'Show password'}
+          aria-label={isVisible ? "Hide password" : "Show password"}
           aria-pressed={isVisible}
           aria-controls={id}
         >
@@ -202,8 +205,8 @@ export const FormPasswordInput = ({
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export const FormPasswordInputWithValidationFeedback = ({
   field,
@@ -211,38 +214,38 @@ export const FormPasswordInputWithValidationFeedback = ({
   label,
   ...props
 }: GenericFormInputProps) => {
-  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const toggleVisibility = () => setIsVisible((prevState) => !prevState)
+  const toggleVisibility = () => setIsVisible((prevState) => !prevState);
 
   const checkStrength = (pass: string) => {
     const requirements = [
-      { regex: /.{8,}/, text: 'At least 8 characters' },
-      { regex: /[0-9]/, text: 'At least 1 number' },
-      { regex: /[a-z]/, text: 'At least 1 lowercase letter' },
-      { regex: /[A-Z]/, text: 'At least 1 uppercase letter' },
-      { regex: /[^A-Za-z0-9]/, text: 'At least 1 special character' },
-    ]
+      { regex: /.{8,}/, text: "At least 8 characters" },
+      { regex: /[0-9]/, text: "At least 1 number" },
+      { regex: /[a-z]/, text: "At least 1 lowercase letter" },
+      { regex: /[A-Z]/, text: "At least 1 uppercase letter" },
+      { regex: /[^A-Za-z0-9]/, text: "At least 1 special character" },
+    ];
 
     return requirements.map((req) => ({
       met: req.regex.test(pass),
       text: req.text,
-    }))
-  }
+    }));
+  };
 
-  const strength = checkStrength(field.state.value ?? '')
+  const strength = checkStrength(field.state.value ?? "");
 
   const strengthScore = useMemo(() => {
-    return strength.filter((req) => req.met).length
-  }, [strength])
+    return strength.filter((req) => req.met).length;
+  }, [strength]);
 
   const getStrengthColor = (score: number) => {
-    if (score === 0) return 'bg-border'
-    if (score <= 1) return 'bg-red-500'
-    if (score <= 2) return 'bg-orange-500'
-    if (score <= 3) return 'bg-amber-500'
-    return 'bg-emerald-500'
-  }
+    if (score === 0) return "bg-border";
+    if (score <= 1) return "bg-red-500";
+    if (score <= 2) return "bg-orange-500";
+    if (score <= 3) return "bg-amber-500";
+    return "bg-emerald-500";
+  };
 
   return (
     <div className="flex flex-col gap-2 w-full">
@@ -253,7 +256,7 @@ export const FormPasswordInputWithValidationFeedback = ({
         <Input
           id={id}
           className="pe-9"
-          type={isVisible ? 'text' : 'password'}
+          type={isVisible ? "text" : "password"}
           aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
           value={field.state.value}
           onBlur={field.handleBlur}
@@ -264,7 +267,7 @@ export const FormPasswordInputWithValidationFeedback = ({
           className="text-muted-foreground/80 hover:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md transition-[color,box-shadow] outline-none focus:z-10 focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
           type="button"
           onClick={toggleVisibility}
-          aria-label={isVisible ? 'Hide password' : 'Show password'}
+          aria-label={isVisible ? "Hide password" : "Show password"}
           aria-pressed={isVisible}
           aria-controls={id}
         >
@@ -309,27 +312,27 @@ export const FormPasswordInputWithValidationFeedback = ({
               />
             )}
             <span
-              className={`text-xs ${req.met ? 'text-emerald-600' : 'text-muted-foreground'}`}
+              className={`text-xs ${req.met ? "text-emerald-600" : "text-muted-foreground"}`}
             >
               {req.text}
               <span className="sr-only">
-                {req.met ? ' - Requirement met' : ' - Requirement not met'}
+                {req.met ? " - Requirement met" : " - Requirement not met"}
               </span>
             </span>
           </li>
         ))}
       </ul>
     </div>
-  )
-}
+  );
+};
 
 type FormSelectProps = {
-  field: AnyFieldApi
-  label: string
-  id: string
-  children: React.ReactNode
-  placeholder?: string
-} & Omit<React.ComponentProps<typeof Select>, 'value' | 'onValueChange'>
+  field: AnyFieldApi;
+  label: string;
+  id: string;
+  children: React.ReactNode;
+  placeholder?: string;
+} & Omit<React.ComponentProps<typeof Select>, "value" | "onValueChange">;
 
 export const FormSelect = ({
   field,
@@ -359,18 +362,18 @@ export const FormSelect = ({
       <SelectContent>{children}</SelectContent>
     </Select>
   </div>
-)
+);
 
 type FormComboboxProps = {
-  field: AnyFieldApi
-  id: string
-  label: string
-  options: Array<ComboboxOption>
-  onChangeExtra?: (value?: string) => void
+  field: AnyFieldApi;
+  id: string;
+  label: string;
+  options: Array<ComboboxOption>;
+  onChangeExtra?: (value?: string) => void;
 } & Omit<
   React.ComponentProps<typeof Combobox>,
-  'value' | 'onChange' | 'options'
->
+  "value" | "onChange" | "options"
+>;
 
 export const FormComboBox = ({
   field,
@@ -390,25 +393,25 @@ export const FormComboBox = ({
         options={options}
         value={field.state.value}
         onChange={(value) => {
-          field.handleChange(value)
-          onChangeExtra?.(value)
+          field.handleChange(value);
+          onChangeExtra?.(value);
         }}
         onBlur={field.handleBlur}
         {...props}
       />
     </div>
-  )
-}
+  );
+};
 
 type FormDatePickerProps = {
-  field: AnyFieldApi
-  id: string
-  label: string
-  placeholder?: string
+  field: AnyFieldApi;
+  id: string;
+  label: string;
+  placeholder?: string;
 } & Omit<
   React.ComponentProps<typeof Calendar>,
-  'mode' | 'selected' | 'onSelect' | 'captionLayout' | 'month' | 'onMonthChange'
->
+  "mode" | "selected" | "onSelect" | "captionLayout" | "month" | "onMonthChange"
+>;
 
 export const FormDatePicker = ({
   field,
@@ -432,17 +435,17 @@ export const FormDatePicker = ({
         {...props}
       />
     </div>
-  )
-}
+  );
+};
 
 type FormDateAndTimePickerProps = {
-  field: AnyFieldApi
+  field: AnyFieldApi;
 
-  label: string
+  label: string;
 } & Omit<
   React.ComponentProps<typeof DateAndTimePicker>,
-  'mode' | 'selected' | 'onSelect' | 'onChange' | 'placeholder'
->
+  "mode" | "selected" | "onSelect" | "onChange" | "placeholder"
+>;
 
 export const FormDateAndTimePicker = ({
   field,
@@ -451,8 +454,8 @@ export const FormDateAndTimePicker = ({
 
   ...props
 }: FormDateAndTimePickerProps) => {
-  const initialValue = field.state.value as Date | undefined
-  const { language } = useLanguage()
+  const initialValue = field.state.value as Date | undefined;
+  const { language } = useLanguage();
 
   return (
     <div className="flex flex-col gap-2 w-full">
@@ -464,22 +467,22 @@ export const FormDateAndTimePicker = ({
         onBlur={field.handleBlur}
         initialDateTime={initialValue}
         id={id}
-        placeholder={language === 'en' ? 'Select Date' : 'তারিখ নির্বাচন করুন'}
+        placeholder={language === "en" ? "Select Date" : "তারিখ নির্বাচন করুন"}
         {...props}
       />
     </div>
-  )
-}
+  );
+};
 
 type FormCheckboxProps = {
-  field: AnyFieldApi
-  label: string
-  id?: string
-  description?: string
+  field: AnyFieldApi;
+  label: string;
+  id?: string;
+  description?: string;
 } & Omit<
   React.ComponentProps<typeof Checkbox>,
-  'checked' | 'onCheckedChange' | 'onBlur'
->
+  "checked" | "onCheckedChange" | "onBlur"
+>;
 
 export const FormCheckbox = ({
   field,
@@ -504,14 +507,14 @@ export const FormCheckbox = ({
       )}
     </div>
   </div>
-)
+);
 
 type FormAvatarUploadProps = { field: AnyFieldApi } & Omit<
   React.ComponentProps<typeof AvatarUpload>,
-  'onFileChange'
->
+  "onFileChange"
+>;
 export function FormAvatarUpload({ field, ...props }: FormAvatarUploadProps) {
-  const setAvatarToField = (file: File | undefined) => field.handleChange(file)
+  const setAvatarToField = (file: File | undefined) => field.handleChange(file);
 
   return (
     <AvatarUpload
@@ -519,5 +522,5 @@ export function FormAvatarUpload({ field, ...props }: FormAvatarUploadProps) {
       onFileChange={setAvatarToField}
       initialAvatar={field.state.value}
     />
-  )
+  );
 }

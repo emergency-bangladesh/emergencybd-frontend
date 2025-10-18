@@ -1,13 +1,13 @@
-import { useContext } from 'react'
-import { LostAndFoundFormContext } from './form-context'
-import type { LostAndFoundFormInstance } from './form-provider'
+import { useContext } from "react";
+import { LostAndFoundFormContext } from "./form-context";
+import type { LostAndFoundFormInstance } from "./form-provider";
 
 export function useLostAndFoundForm(): LostAndFoundFormInstance {
-  const context = useContext(LostAndFoundFormContext)
+  const context = useContext(LostAndFoundFormContext);
   if (!context)
     throw new Error(
-      'useLostAndFoundForm must be used within a LostAndFoundFormProvider',
-    )
+      "useLostAndFoundForm must be used within a LostAndFoundFormProvider",
+    );
 
-  return context
+  return context;
 }

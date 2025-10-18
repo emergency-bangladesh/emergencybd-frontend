@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
-import { toast } from 'sonner'
-import { format } from 'date-fns'
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { format } from "date-fns";
 import {
   IconAlertCircle,
   IconCalendar,
@@ -12,84 +12,84 @@ import {
   IconMapPin,
   IconPhone,
   IconUser,
-} from '@tabler/icons-react'
-import { Loader } from './ui/loader'
-import type { BloodDonationIssue, Issue } from '@/types/issue'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { useAuth } from '@/features/auth/use-auth'
-import { fetchBackend } from '@/lib/fetch-backend'
-import { parseDateFromUtc } from '@/lib/utils'
+} from "@tabler/icons-react";
+import { Loader } from "./ui/loader";
+import type { BloodDonationIssue, Issue } from "@/types/issue";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/features/auth/use-auth";
+import { fetchBackend } from "@/lib/fetch-backend";
+import { parseDateFromUtc } from "@/lib/utils";
 
 interface bloodDonationIssueCardProps {
-  issue: Issue
+  issue: Issue;
 }
 
 const statusConfig = {
   open: {
-    label: 'Open',
-    className: 'bg-primary text-primary-foreground hover:bg-primary/90',
+    label: "Open",
+    className: "bg-primary text-primary-foreground hover:bg-primary/90",
   },
   working: {
-    label: 'In Progress',
-    className: 'bg-chart-4 text-foreground hover:bg-chart-4/90',
+    label: "In Progress",
+    className: "bg-chart-4 text-foreground hover:bg-chart-4/90",
   },
   solved: {
-    label: 'Solved',
-    className: 'bg-chart-4 text-foreground hover:bg-chart-4/90',
+    label: "Solved",
+    className: "bg-chart-4 text-foreground hover:bg-chart-4/90",
   },
   invalid: {
-    label: 'Invalid',
-    className: 'bg-muted text-muted-foreground hover:bg-muted/90',
+    label: "Invalid",
+    className: "bg-muted text-muted-foreground hover:bg-muted/90",
   },
-}
+};
 
 export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
   const onRespond = async () => {
     try {
-      await fetchBackend(`/issues/${issue.uuid}/respond`, 'POST')
+      await fetchBackend(`/issues/${issue.uuid}/respond`, "POST");
     } catch (error) {
-      toast.error('Something went wrong', {
+      toast.error("Something went wrong", {
         description: (error as Error).message,
-      })
+      });
     }
-  }
+  };
   const onMarkResolved = async () => {
     try {
-      await fetchBackend(`/issues/${issue.uuid}/update/status/solved`, 'POST')
+      await fetchBackend(`/issues/${issue.uuid}/update/status/solved`, "POST");
     } catch (error) {
-      toast.error('Something went wrong', {
+      toast.error("Something went wrong", {
         description: (error as Error).message,
-      })
+      });
     }
-  }
+  };
   const onMarkInvalid = async () => {
     try {
-      await fetchBackend(`/issues/${issue.uuid}/update/status/invalid`, 'POST')
+      await fetchBackend(`/issues/${issue.uuid}/update/status/invalid`, "POST");
     } catch (error) {
-      toast.error('Something went wrong', {
+      toast.error("Something went wrong", {
         description: (error as Error).message,
-      })
+      });
     }
-  }
+  };
 
-  const { user } = useAuth()
-  const currentUserUuid = user?.uuid
-  const isVolunteer = user?.type === 'volunteer'
+  const { user } = useAuth();
+  const currentUserUuid = user?.uuid;
+  const isVolunteer = user?.type === "volunteer";
 
-  const formatDate = (date: Date) => date.toLocaleDateString()
-  const formatTime = (date: Date) => format(date, 'hh:mm a')
+  const formatDate = (date: Date) => date.toLocaleDateString();
+  const formatTime = (date: Date) => format(date, "hh:mm a");
 
   const { data: bloodDonationIssue, isLoading } = useQuery({
-    queryKey: ['issue', 'blood_donation', issue.uuid],
+    queryKey: ["issue", "blood_donation", issue.uuid],
     queryFn: async (): Promise<BloodDonationIssue> => {
       const res = await fetchBackend(
         `/issues/blood_donation/${issue.uuid}`,
-        'GET',
-      )
-      const json = await res.json()
-      const data = json.data
+        "GET",
+      );
+      const json = await res.json();
+      const data = json.data;
       return {
         accountUuid: data.account_uuid,
         amountBag: data.amount_bag,
@@ -108,21 +108,21 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
         upazila: data.upazila,
         category: data.category,
         issueUuid: issue.uuid,
-      }
+      };
     },
-  })
+  });
 
-  if (isLoading) return <Loader />
+  if (isLoading) return <Loader />;
 
   if (!bloodDonationIssue) {
-    return null
+    return null;
   }
 
-  const statusInfo = statusConfig[bloodDonationIssue.status]
-  const isOwner = currentUserUuid === bloodDonationIssue.accountUuid
+  const statusInfo = statusConfig[bloodDonationIssue.status];
+  const isOwner = currentUserUuid === bloodDonationIssue.accountUuid;
   const isVolunteerResponding =
-    isVolunteer && currentUserUuid !== bloodDonationIssue.accountUuid
-  const hasVolunteerResponded = bloodDonationIssue.status === 'working'
+    isVolunteer && currentUserUuid !== bloodDonationIssue.accountUuid;
+  const hasVolunteerResponded = bloodDonationIssue.status === "working";
 
   return (
     <Card className="w-full md:w-2xl max-w-2xl overflow-hidden transition-shadow hover:shadow-lg">
@@ -137,8 +137,8 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
             <div>
               <p className="text-sm text-muted-foreground">Required Blood</p>
               <p className="text-3xl font-bold text-primary">
-                {bloodDonationIssue.amountBag}{' '}
-                {bloodDonationIssue.amountBag === 1 ? 'Bag' : 'Bags'}
+                {bloodDonationIssue.amountBag}{" "}
+                {bloodDonationIssue.amountBag === 1 ? "Bag" : "Bags"}
               </p>
             </div>
           </div>
@@ -155,7 +155,7 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
           <div className="flex items-center gap-2">
             <IconUser className="h-4 w-4 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">
-              Contact:{' '}
+              Contact:{" "}
               <span className="font-medium text-card-foreground">
                 {bloodDonationIssue.contactPersonName}
               </span>
@@ -184,7 +184,7 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
               <p className="text-sm font-medium text-card-foreground">
                 <span className="text-muted-foreground">Primary: </span>
                 {bloodDonationIssue.phoneNumber}
-              </p>{' '}
+              </p>{" "}
               <p className="text-sm font-medium text-card-foreground">
                 <span className="text-muted-foreground">Emergency: </span>
                 {bloodDonationIssue.emergencyPhoneNumber}
@@ -227,7 +227,7 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
               </Button>
             )}
 
-            {isVolunteerResponding && bloodDonationIssue.status === 'open' && (
+            {isVolunteerResponding && bloodDonationIssue.status === "open" && (
               <Button
                 onClick={() => onRespond()}
                 className="flex-1 sm:flex-none"
@@ -274,5 +274,5 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

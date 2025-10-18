@@ -1,79 +1,79 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useCallback } from 'react'
-import { LostAndFoundIssueStepper } from './-stepper'
-import { LostAndFoundInfo } from './-info'
-import type { LostAndFoundFormValue } from '@/features/issue-reporting/lost-and-found/form/form-schema'
-import { SelectItem } from '@/components/ui/select'
-import { useLostAndFoundForm } from '@/features/issue-reporting/lost-and-found/form/use-lost-and-found-form'
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useCallback } from "react";
+import { LostAndFoundIssueStepper } from "./-stepper";
+import { LostAndFoundInfo } from "./-info";
+import type { LostAndFoundFormValue } from "@/features/issue-reporting/lost-and-found/form/form-schema";
+import { SelectItem } from "@/components/ui/select";
+import { useLostAndFoundForm } from "@/features/issue-reporting/lost-and-found/form/use-lost-and-found-form";
 import {
   FieldErrorInfo,
   FormComboBox,
   FormSelect,
   FormTextInput,
-} from '@/components/ui/form'
-import { DISTRICT_WITH_UPAZILA_OR_THANA } from '@/constants'
-import { BackButton } from '@/components/back-button'
-import { validateLostAndFoundLocationInformationStep } from '@/features/issue-reporting/lost-and-found/form/form-step-validation'
-import { NextButton } from '@/components/next-button'
+} from "@/components/ui/form";
+import { DISTRICT_WITH_UPAZILA_OR_THANA } from "@/constants";
+import { BackButton } from "@/components/back-button";
+import { validateLostAndFoundLocationInformationStep } from "@/features/issue-reporting/lost-and-found/form/form-step-validation";
+import { NextButton } from "@/components/next-button";
 
 export const Route = createFileRoute(
-  '/issues/new/lost-and-found/add-more-information',
+  "/issues/new/lost-and-found/add-more-information",
 )({
   component: AddLocationInformationSection,
-})
+});
 
 const districtOptions = DISTRICT_WITH_UPAZILA_OR_THANA.map((district) => ({
   value: district.name,
   label: district.name,
-}))
+}));
 
-const fieldNames = ['lastSeenLocation', 'district', 'upazila', 'bloodGroup']
+const fieldNames = ["lastSeenLocation", "district", "upazila", "bloodGroup"];
 
 function AddLocationInformationSection() {
-  const form = useLostAndFoundForm()
+  const form = useLostAndFoundForm();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   async function handleNextButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
 
-    const values = form.state.values
-    const isValid = validateLostAndFoundLocationInformationStep(values)
+    const values = form.state.values;
+    const isValid = validateLostAndFoundLocationInformationStep(values);
 
     if (!isValid) {
       fieldNames.forEach((fieldName) => {
         form.setFieldMeta(fieldName as keyof LostAndFoundFormValue, (prev) => ({
           ...prev,
           isTouched: true,
-        }))
-      })
+        }));
+      });
 
       await Promise.all(
         fieldNames.map((fieldName) =>
           form.validateField(
             fieldName as keyof LostAndFoundFormValue,
-            'submit',
+            "submit",
           ),
         ),
-      )
+      );
 
-      return
+      return;
     }
 
-    navigate({ to: '/issues/new/lost-and-found/add-images' })
+    navigate({ to: "/issues/new/lost-and-found/add-images" });
   }
 
   const getAllUpazilaOrThana = useCallback((district: string | undefined) => {
-    if (!district) return []
+    if (!district) return [];
 
     const districtData = DISTRICT_WITH_UPAZILA_OR_THANA.find(
       (d) => d.name === district,
-    )
-    if (!districtData) return []
+    );
+    if (!districtData) return [];
 
-    return districtData.allUpazilaOrThana.map((u) => ({ value: u, label: u }))
-  }, [])
+    return districtData.allUpazilaOrThana.map((u) => ({ value: u, label: u }));
+  }, []);
 
   return (
     <>
@@ -110,7 +110,7 @@ function AddLocationInformationSection() {
                   searchPlaceholder="Search districts..."
                   noResultsMessage="No districts found."
                   onChangeExtra={() =>
-                    form.setFieldValue('upazila', undefined!)
+                    form.setFieldValue("upazila", undefined!)
                   }
                 />
                 <FieldErrorInfo field={districtField} />
@@ -183,5 +183,5 @@ function AddLocationInformationSection() {
         </div>
       </form>
     </>
-  )
+  );
 }

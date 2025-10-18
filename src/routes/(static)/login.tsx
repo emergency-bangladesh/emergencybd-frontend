@@ -1,55 +1,55 @@
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
-import { z } from 'zod'
-import { useForm } from '@tanstack/react-form'
-import { useState } from 'react'
-import { IconAlertTriangle, IconLogin2 } from '@tabler/icons-react'
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { z } from "zod";
+import { useForm } from "@tanstack/react-form";
+import { useState } from "react";
+import { IconAlertTriangle, IconLogin2 } from "@tabler/icons-react";
 import {
   FieldErrorInfo,
   FormEmailInput,
   FormPasswordInput,
-} from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
-import { useAuth } from '@/features/auth/use-auth'
-import { ApiError } from '@/lib/errors'
-import Muted from '@/components/ui/typography/muted'
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/features/auth/use-auth";
+import { ApiError } from "@/lib/errors";
+import Muted from "@/components/ui/typography/muted";
 
 const loginFormSchema = z.object({
-  email: z.email('Invalid email address'),
-  password: z.string().min(1, 'Password is required'),
-})
+  email: z.email("Invalid email address"),
+  password: z.string().min(1, "Password is required"),
+});
 
-export const Route = createFileRoute('/(static)/login')({
+export const Route = createFileRoute("/(static)/login")({
   component: LoginForm,
   validateSearch: z.object({
     next: z.string().optional(),
   }),
-})
+});
 
 function LoginForm() {
-  const navigate = useNavigate()
-  const { next } = Route.useSearch()
-  const { login } = useAuth()
-  const [generalError, setGeneralError] = useState<string | null>(null)
+  const navigate = useNavigate();
+  const { next } = Route.useSearch();
+  const { login } = useAuth();
+  const [generalError, setGeneralError] = useState<string | null>(null);
 
   const loginForm = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     validators: {
       onChange: loginFormSchema,
     },
     onSubmit: async ({ value }) => {
       try {
-        setGeneralError(null)
-        console.log('Logging in...')
-        const user = await login(value)
-        console.log('Logged in!')
-        console.log({ user })
+        setGeneralError(null);
+        console.log("Logging in...");
+        const user = await login(value);
+        console.log("Logged in!");
+        console.log({ user });
         if (next) {
-          navigate({ to: next })
+          navigate({ to: next });
         } else {
-          navigate({ to: '/' })
+          navigate({ to: "/" });
         }
       } catch (error) {
         if (error instanceof ApiError) {
@@ -57,24 +57,24 @@ function LoginForm() {
             loginForm.setErrorMap({
               onChange: {
                 fields: {
-                  email: { message: 'No account found with this email' },
+                  email: { message: "No account found with this email" },
                 },
               },
-            })
+            });
           } else if (error.status === 403) {
             loginForm.setErrorMap({
               onSubmit: {
-                fields: { password: { message: 'Invalid Password' } },
+                fields: { password: { message: "Invalid Password" } },
               },
-            })
+            });
           } else {
-            setGeneralError('An unexpected error occurred. Please try again.')
+            setGeneralError("An unexpected error occurred. Please try again.");
           }
         }
-        console.error('Login error:', error)
+        console.error("Login error:", error);
       }
     },
-  })
+  });
 
   return (
     <div className="flex justify-center items-center max-w-lg flex-col gap-8">
@@ -88,10 +88,10 @@ function LoginForm() {
         id="form-fields"
         className="flex flex-col gap-6 w-full"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
-          e.preventDefault()
-          e.stopPropagation()
+          e.preventDefault();
+          e.stopPropagation();
 
-          await loginForm.handleSubmit()
+          await loginForm.handleSubmit();
         }}
       >
         {generalError && (
@@ -139,12 +139,12 @@ function LoginForm() {
           <Link to="." className="underline">
             Forgot Password?
           </Link>
-          {' or '}
+          {" or "}
           <Link to="/registration" className="underline">
             Create a new account
           </Link>
         </div>
       </form>
     </div>
-  )
+  );
 }

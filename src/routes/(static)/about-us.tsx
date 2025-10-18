@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   IconClipboardList,
   IconClock,
@@ -6,15 +6,15 @@ import {
   IconHeart,
   IconSearch,
   IconUsers,
-} from '@tabler/icons-react'
-import { Card, CardContent, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import { Badge } from '@/components/ui/badge'
+} from "@tabler/icons-react";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
-export const Route = createFileRoute('/(static)/about-us')({
+export const Route = createFileRoute("/(static)/about-us")({
   component: AboutUs,
-})
+});
 
 function AboutUs() {
   return (
@@ -314,5 +314,5 @@ function AboutUs() {
         </section>
       </main>
     </>
-  )
+  );
 }

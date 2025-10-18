@@ -1,9 +1,9 @@
-import { Outlet, createFileRoute } from '@tanstack/react-router'
-import { LostAndFoundFormProvider } from '@/features/issue-reporting/lost-and-found/form/form-provider'
+import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { LostAndFoundFormProvider } from "@/features/issue-reporting/lost-and-found/form/form-provider";
 
-export const Route = createFileRoute('/issues/new/lost-and-found')({
+export const Route = createFileRoute("/issues/new/lost-and-found")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   return (
@@ -12,5 +12,5 @@ function RouteComponent() {
         <Outlet />
       </div>
     </LostAndFoundFormProvider>
-  )
+  );
 }

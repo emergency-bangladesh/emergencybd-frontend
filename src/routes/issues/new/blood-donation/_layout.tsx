@@ -1,9 +1,9 @@
-import { Outlet, createFileRoute } from '@tanstack/react-router'
-import { BloodDonationIssueFormProvider } from '@/features/issue-reporting/blood-donation/form/form-provider'
+import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { BloodDonationIssueFormProvider } from "@/features/issue-reporting/blood-donation/form/form-provider";
 
-export const Route = createFileRoute('/issues/new/blood-donation')({
+export const Route = createFileRoute("/issues/new/blood-donation")({
   component: BloodDonationIssueLayout,
-})
+});
 
 function BloodDonationIssueLayout() {
   return (
@@ -12,5 +12,5 @@ function BloodDonationIssueLayout() {
         <Outlet />
       </div>
     </BloodDonationIssueFormProvider>
-  )
+  );
 }

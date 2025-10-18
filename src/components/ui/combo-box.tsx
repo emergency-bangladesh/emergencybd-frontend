@@ -1,8 +1,8 @@
-import * as React from 'react'
-import { IconCheck, IconSelector } from '@tabler/icons-react'
+import * as React from "react";
+import { IconCheck, IconSelector } from "@tabler/icons-react";
 
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -10,52 +10,52 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command'
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
+} from "@/components/ui/popover";
 
 export type ComboboxOption = {
-  value: string
-  label: string
-}
+  value: string;
+  label: string;
+};
 
 type ComboboxProps = {
-  options: Array<ComboboxOption>
-  value?: string
-  onChange: (value: string) => void
-  onBlur?: () => void
-  placeholder?: string
-  searchPlaceholder?: string
-  noResultsMessage?: string
-  className?: string
-  id?: string
-  disabled?: boolean
-}
+  options: Array<ComboboxOption>;
+  value?: string;
+  onChange: (value: string) => void;
+  onBlur?: () => void;
+  placeholder?: string;
+  searchPlaceholder?: string;
+  noResultsMessage?: string;
+  className?: string;
+  id?: string;
+  disabled?: boolean;
+};
 
 export function Combobox({
   options,
   value,
   onChange,
   onBlur,
-  placeholder = 'Select an option',
-  searchPlaceholder = 'Search',
-  noResultsMessage = 'No results found.',
+  placeholder = "Select an option",
+  searchPlaceholder = "Search",
+  noResultsMessage = "No results found.",
   className,
   id,
   disabled,
 }: ComboboxProps) {
-  const [open, setOpen] = React.useState(false)
-  const initialRender = React.useRef(true)
+  const [open, setOpen] = React.useState(false);
+  const initialRender = React.useRef(true);
 
   React.useEffect(() => {
     if (initialRender.current) {
-      initialRender.current = false
-      return
+      initialRender.current = false;
+      return;
     }
-  })
+  });
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -65,7 +65,7 @@ export function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={cn('w-full justify-between', className)}
+          className={cn("w-full justify-between", className)}
           onBlur={onBlur}
           disabled={disabled}
         >
@@ -90,17 +90,17 @@ export function Combobox({
                   key={option.value}
                   value={option.value}
                   onSelect={(currentValue: string) => {
-                    onChange(currentValue === value ? '' : currentValue)
-                    setOpen(false)
+                    onChange(currentValue === value ? "" : currentValue);
+                    setOpen(false);
                   }}
                 >
                   <IconCheck
                     className={cn(
-                      'mr-2 h-4 w-4',
+                      "mr-2 h-4 w-4",
                       value &&
                         value.toLowerCase() === option.value.toLowerCase()
-                        ? 'opacity-100'
-                        : 'opacity-0',
+                        ? "opacity-100"
+                        : "opacity-0",
                     )}
                   />
                   {option.label}
@@ -111,5 +111,5 @@ export function Combobox({
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

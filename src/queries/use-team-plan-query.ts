@@ -1,13 +1,13 @@
-import { queryOptions, useQuery } from '@tanstack/react-query'
-import { getTeamPlans } from '@/actions/team'
+import { queryOptions, useQuery } from "@tanstack/react-query";
+import { getTeamPlans } from "@/actions/team";
 
 export function teamPlanQueryOptions(uuid: string) {
   return queryOptions({
-    queryKey: ['team', 'plan', uuid],
+    queryKey: ["team", "plan", uuid],
     queryFn: () => getTeamPlans(uuid),
-  })
+  });
 }
 
 export function useTeamPlanQuery(uuid: string) {
-  return useQuery(teamPlanQueryOptions(uuid))
+  return useQuery(teamPlanQueryOptions(uuid));
 }

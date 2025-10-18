@@ -3,37 +3,37 @@ import {
   IconPlus,
   IconSparkles,
   IconUserPlus,
-} from '@tabler/icons-react'
-import Logo from '@/components/logo'
-import { BackgroundBox } from '@/components/ui/background-box'
-import { Button } from '@/components/ui/button'
-import { Pil } from '@/components/ui/pil'
-import { useLanguage } from '@/integrations/language/use-language'
+} from "@tabler/icons-react";
+import Logo from "@/components/logo";
+import { BackgroundBox } from "@/components/ui/background-box";
+import { Button } from "@/components/ui/button";
+import { Pil } from "@/components/ui/pil";
+import { useLanguage } from "@/integrations/language/use-language";
 
 const copies = {
   pilText: {
-    en: 'Completely free to use!',
-    bn: 'সম্পূর্ণ বিনামূল্যে ব্যবহারযোগ্য!',
+    en: "Completely free to use!",
+    bn: "সম্পূর্ণ বিনামূল্যে ব্যবহারযোগ্য!",
   },
-  logoText: { en: 'Emergency Bangladesh', bn: 'ইমারজেন্সি বাংলাদেশ' },
+  logoText: { en: "Emergency Bangladesh", bn: "ইমারজেন্সি বাংলাদেশ" },
   heroHeading: {
-    en: 'The Trusted and Free Live-Saving Solution',
-    bn: 'বিশ্বস্ত এবং বিনামূল্যে জীবন বাঁচানোর একটি সমাধান',
+    en: "The Trusted and Free Live-Saving Solution",
+    bn: "বিশ্বস্ত এবং বিনামূল্যে জীবন বাঁচানোর একটি সমাধান",
   },
   heroDescription: {
-    en: 'Real-time notifications that save lives: Instant Warnings, Faster Response, Safer Communities.',
-    bn: 'জীবন বাঁচাতে রিয়েল-টাইম নোটিফিকেশন: তাৎক্ষণিক সতর্কতা। দ্রুত রেসপন্স। নিরাপদ সমাজ।',
+    en: "Real-time notifications that save lives: Instant Warnings, Faster Response, Safer Communities.",
+    bn: "জীবন বাঁচাতে রিয়েল-টাইম নোটিফিকেশন: তাৎক্ষণিক সতর্কতা। দ্রুত রেসপন্স। নিরাপদ সমাজ।",
   },
-  newIssueLinkText: { en: 'Report an Issue', bn: 'নতুন সমস্যা রিপোর্ট করুন' },
+  newIssueLinkText: { en: "Report an Issue", bn: "নতুন সমস্যা রিপোর্ট করুন" },
   volunteerLinkText: {
-    en: 'Join as aVolunteer',
-    bn: 'ভলান্টিয়ার হিসেবে যোগদান করুন',
+    en: "Join as aVolunteer",
+    bn: "ভলান্টিয়ার হিসেবে যোগদান করুন",
   },
-  sourceCodeLinkText: { en: 'Source Code', bn: 'সোর্স কোড' },
-}
+  sourceCodeLinkText: { en: "Source Code", bn: "সোর্স কোড" },
+};
 
 export const HeroSection = () => {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
   return (
     <BackgroundBox>
       <div className="flex flex-col items-center justify-center gap-6 text-center sm:gap-8">
@@ -58,7 +58,7 @@ export const HeroSection = () => {
           id="cta-buttons"
           className="grid grid-cols-1 sm:grid-cols-3 items-center justify-center gap-3 w-full max-w-3xl sm:gap-4"
         >
-          <Button variant={'outline'} asChild className="w-full">
+          <Button variant={"outline"} asChild className="w-full">
             <a href="/issues/new">
               <IconPlus className="size-4" />
               {copies.newIssueLinkText[language]}
@@ -70,7 +70,7 @@ export const HeroSection = () => {
               {copies.volunteerLinkText[language]}
             </a>
           </Button>
-          <Button variant={'outline'} asChild className="w-full sm:col-span-1">
+          <Button variant={"outline"} asChild className="w-full sm:col-span-1">
             <a
               href="http://github.com/emergency-bangladesh"
               target="_blank"
@@ -83,5 +83,5 @@ export const HeroSection = () => {
         </div>
       </div>
     </BackgroundBox>
-  )
-}
+  );
+};

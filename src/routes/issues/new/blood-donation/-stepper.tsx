@@ -3,20 +3,20 @@ import {
   StepperIndicator,
   StepperItem,
   StepperSeparator,
-} from '@/components/ui/stepper'
-import { useLanguage } from '@/integrations/language/use-language'
+} from "@/components/ui/stepper";
+import { useLanguage } from "@/integrations/language/use-language";
 
 const steps = {
-  en: ['1', '2', '3'],
-  bn: ['১', '২', '৩'],
-}
+  en: ["1", "2", "3"],
+  bn: ["১", "২", "৩"],
+};
 
 export function BloodDonationIssueStepper({
   currentStep,
 }: {
-  currentStep: number
+  currentStep: number;
 }) {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
   return (
     <div className="mx-auto w-full max-w-lg text-center">
       <Stepper value={currentStep}>
@@ -28,5 +28,5 @@ export function BloodDonationIssueStepper({
         ))}
       </Stepper>
     </div>
-  )
+  );
 }

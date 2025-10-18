@@ -1,13 +1,13 @@
-import { IconPhotoPlus, IconX } from '@tabler/icons-react'
-import { useFileUpload } from '@/integrations/file-upload/use-file-upload'
-import { Button } from '@/components/ui/button'
+import { IconPhotoPlus, IconX } from "@tabler/icons-react";
+import { useFileUpload } from "@/integrations/file-upload/use-file-upload";
+import { Button } from "@/components/ui/button";
 
 interface AvatarUploadProps {
-  maxSize?: number
-  buttonLabel?: string
-  onFileChange: (file: File | undefined) => void
-  initialAvatar?: File
-  initialAvatarSrc?: string
+  maxSize?: number;
+  buttonLabel?: string;
+  onFileChange: (file: File | undefined) => void;
+  initialAvatar?: File;
+  initialAvatarSrc?: string;
 }
 
 export default function AvatarUpload({
@@ -17,7 +17,7 @@ export default function AvatarUpload({
   initialAvatar,
   initialAvatarSrc,
 }: AvatarUploadProps) {
-  const acceptedTypes = ['image/jpeg', 'image/png', 'image/webp']
+  const acceptedTypes = ["image/jpeg", "image/png", "image/webp"];
   const [
     { files, isDragging },
     {
@@ -36,9 +36,9 @@ export default function AvatarUpload({
     maxSize,
     onFilesChange: (fwp) => onFileChange(fwp[0]?.file),
     initialFiles: initialAvatar ? [initialAvatar] : undefined,
-  })
+  });
 
-  const previewUrl = files[0]?.preview || initialAvatarSrc || null
+  const previewUrl = files[0]?.preview || initialAvatarSrc || null;
 
   return (
     <div className="flex flex-col items-center gap-2">
@@ -53,17 +53,17 @@ export default function AvatarUpload({
           onDrop={handleDrop}
           data-dragging={isDragging || undefined}
           aria-label={
-            previewUrl ? 'Change image' : buttonLabel || 'Upload image'
+            previewUrl ? "Change image" : buttonLabel || "Upload image"
           }
         >
           {previewUrl ? (
             <img
               className="size-full object-cover"
               src={previewUrl}
-              alt={files[0]?.file.name || 'Uploaded image'}
+              alt={files[0]?.file.name || "Uploaded image"}
               width={64}
               height={64}
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: "cover" }}
             />
           ) : (
             <div aria-hidden="true">
@@ -89,5 +89,5 @@ export default function AvatarUpload({
         />
       </div>
     </div>
-  )
+  );
 }

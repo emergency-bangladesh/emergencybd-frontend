@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 export function TermsAndConditionsEn() {
   return (
@@ -11,7 +11,7 @@ export function TermsAndConditionsEn() {
               Terms & Conditions for Emergency BD
             </CardTitle>
             <p className="text-sm text-muted-foreground mt-1">
-              Effective Date:{' '}
+              Effective Date:{" "}
               <span className="text-primary font-medium">
                 30 September 2025
               </span>
@@ -112,7 +112,7 @@ export function TermsAndConditionsEn() {
                 6. Privacy and Data Protection
               </h2>
               <p>
-                By using the App, you agree to our{' '}
+                By using the App, you agree to our{" "}
                 <span className="text-primary font-medium">Privacy Policy</span>
                 . You are responsible for providing truthful and accurate
                 information.
@@ -246,7 +246,7 @@ export function TermsAndConditionsEn() {
             <section>
               <h2 className="text-xl font-semibold mb-2">17. Contact Us</h2>
               <p>
-                For questions or concerns, contact us at{' '}
+                For questions or concerns, contact us at{" "}
                 <a
                   href="mailto:project.emergencybd@gmail.com"
                   className="text-destructive hover:underline"
@@ -260,5 +260,5 @@ export function TermsAndConditionsEn() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

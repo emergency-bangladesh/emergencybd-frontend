@@ -1,18 +1,18 @@
-import type { VolunteerData } from '@/types/volunteer'
-import { apiUrl, fetchBackend } from '@/lib/fetch-backend'
-import { parseDateFromUtc } from '@/lib/utils'
+import type { VolunteerData } from "@/types/volunteer";
+import { apiUrl, fetchBackend } from "@/lib/fetch-backend";
+import { parseDateFromUtc } from "@/lib/utils";
 
 export function volunteerProfilePicUrl(uuid: string) {
-  return `${apiUrl}/image/volunteer/${uuid}/profile-pic`
+  return `${apiUrl}/image/volunteer/${uuid}/profile-pic`;
 }
 
 export const getVolunteerDetails = async (
   uuid: string,
 ): Promise<VolunteerData> => {
-  const res = await fetchBackend(`/volunteers/${uuid}`, 'GET')
-  const jsonParsed = await res.json()
-  const data = jsonParsed.data
-  console.log({ volunteerData: data })
+  const res = await fetchBackend(`/volunteers/${uuid}`, "GET");
+  const jsonParsed = await res.json();
+  const data = jsonParsed.data;
+  console.log({ volunteerData: data });
   return {
     volunteer_uuid: data.volunteer_uuid,
     fullName: data.full_name,
@@ -34,5 +34,5 @@ export const getVolunteerDetails = async (
         }
       : undefined,
     createdAt: parseDateFromUtc(data.created_at),
-  }
-}
+  };
+};

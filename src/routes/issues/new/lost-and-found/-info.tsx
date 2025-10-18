@@ -1,5 +1,5 @@
-import { IconCircleDashedX } from '@tabler/icons-react'
-import { Info } from '@/components/ui/info'
+import { IconCircleDashedX } from "@tabler/icons-react";
+import { Info } from "@/components/ui/info";
 
 export function LostAndFoundInfo() {
   return (
@@ -7,5 +7,5 @@ export function LostAndFoundInfo() {
       icon={<IconCircleDashedX />}
       text="Information regarding ‘Someone Is Lost’"
     />
-  )
+  );
 }

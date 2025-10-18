@@ -7,45 +7,45 @@ import {
   TimelineItem,
   TimelineSeparator,
   TimelineTitle,
-} from '@/components/ui/timeline'
+} from "@/components/ui/timeline";
 
 const items = [
   {
     id: 1,
-    date: '15 minutes ago',
-    title: 'Hannah Kandell',
-    action: 'opened a new issue',
+    date: "15 minutes ago",
+    title: "Hannah Kandell",
+    action: "opened a new issue",
     description:
       "I'm having trouble with the new component library. It's not rendering properly.",
-    image: '/avatar-40-01.jpg',
+    image: "/avatar-40-01.jpg",
   },
   {
     id: 2,
-    date: '10 minutes ago',
-    title: 'Chris Tompson',
-    action: 'commented on',
+    date: "10 minutes ago",
+    title: "Chris Tompson",
+    action: "commented on",
     description:
       "Hey Hannah, I'm having trouble with the new component library. It's not rendering properly.",
-    image: '/avatar-40-02.jpg',
+    image: "/avatar-40-02.jpg",
   },
   {
     id: 3,
-    date: '5 minutes ago',
-    title: 'Emma Davis',
-    action: 'assigned you to',
+    date: "5 minutes ago",
+    title: "Emma Davis",
+    action: "assigned you to",
     description:
-      'The new component library is not rendering properly. Can you take a look?',
-    image: '/avatar-40-03.jpg',
+      "The new component library is not rendering properly. Can you take a look?",
+    image: "/avatar-40-03.jpg",
   },
   {
     id: 4,
-    date: '2 minutes ago',
-    title: 'Alex Morgan',
-    action: 'closed the issue',
-    description: 'The issue has been fixed. Please review the changes.',
-    image: '/avatar-40-05.jpg',
+    date: "2 minutes ago",
+    title: "Alex Morgan",
+    action: "closed the issue",
+    description: "The issue has been fixed. Please review the changes.",
+    image: "/avatar-40-05.jpg",
   },
-]
+];
 
 export default function TimelineLayout536() {
   return (
@@ -59,7 +59,7 @@ export default function TimelineLayout536() {
           <TimelineHeader>
             <TimelineSeparator className="group-data-[orientation=vertical]/timeline:-left-7 group-data-[orientation=vertical]/timeline:h-[calc(100%-1.5rem-0.25rem)] group-data-[orientation=vertical]/timeline:translate-y-6.5" />
             <TimelineTitle className="mt-0.5">
-              {item.title}{' '}
+              {item.title}{" "}
               <span className="text-muted-foreground text-sm font-normal">
                 {item.action}
               </span>
@@ -79,5 +79,5 @@ export default function TimelineLayout536() {
         </TimelineItem>
       ))}
     </Timeline>
-  )
+  );
 }

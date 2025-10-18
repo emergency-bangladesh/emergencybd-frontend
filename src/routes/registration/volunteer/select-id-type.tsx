@@ -1,12 +1,12 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { IconFile, IconId } from '@tabler/icons-react'
-import { VolunteerRegistrationStepper } from './-stepper'
-import { BackButton } from '@/components/back-button'
-import { LinkCard } from '@/components/ui/link-card'
+import { createFileRoute } from "@tanstack/react-router";
+import { IconFile, IconId } from "@tabler/icons-react";
+import { VolunteerRegistrationStepper } from "./-stepper";
+import { BackButton } from "@/components/back-button";
+import { LinkCard } from "@/components/ui/link-card";
 
-export const Route = createFileRoute('/registration/volunteer/select-id-type')({
+export const Route = createFileRoute("/registration/volunteer/select-id-type")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   return (
@@ -32,5 +32,5 @@ function RouteComponent() {
         <BackButton to="/registration/volunteer/location-information" />
       </div>
     </>
-  )
+  );
 }

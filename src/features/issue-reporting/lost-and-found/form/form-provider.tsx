@@ -1,16 +1,16 @@
-import { useForm } from '@tanstack/react-form'
-import { toast } from 'sonner'
-import { useNavigate } from '@tanstack/react-router'
-import { reportLostAndFoundIssue } from '../actions/report-lost-and-found-issue'
-import { lostAndFoundSchema } from './form-schema'
-import { LostAndFoundFormContext } from './form-context'
-import type { LostAndFoundFormValue } from './form-schema'
-import type { ReactNode } from 'react'
-import { useAuth } from '@/features/auth/use-auth'
+import { useForm } from "@tanstack/react-form";
+import { toast } from "sonner";
+import { useNavigate } from "@tanstack/react-router";
+import { reportLostAndFoundIssue } from "../actions/report-lost-and-found-issue";
+import { lostAndFoundSchema } from "./form-schema";
+import { LostAndFoundFormContext } from "./form-context";
+import type { LostAndFoundFormValue } from "./form-schema";
+import type { ReactNode } from "react";
+import { useAuth } from "@/features/auth/use-auth";
 
 function useInitLostAndFoundForm() {
-  const navigate = useNavigate()
-  const { user } = useAuth()
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const defaultValues: LostAndFoundFormValue = {
     personsName: undefined!,
     age: undefined!,
@@ -27,7 +27,7 @@ function useInitLostAndFoundForm() {
     fullName: user?.name || undefined!,
     phoneNumber: user?.phoneNumber || undefined!,
     emergencyContactNumber: user?.phoneNumber || undefined!,
-  }
+  };
 
   const form = useForm({
     defaultValues,
@@ -36,33 +36,33 @@ function useInitLostAndFoundForm() {
     },
     onSubmit: async ({ value }) => {
       try {
-        const { issue_uuid: uuid } = await reportLostAndFoundIssue(value)
-        toast.success('Issue Reported successfully')
-        navigate({ to: '/issues/$uuid', params: { uuid: uuid } })
+        const { issue_uuid: uuid } = await reportLostAndFoundIssue(value);
+        toast.success("Issue Reported successfully");
+        navigate({ to: "/issues/$uuid", params: { uuid: uuid } });
       } catch (err) {
-        toast.error('Something went wrong', {
+        toast.error("Something went wrong", {
           description: (err as Error).message,
-        })
+        });
       }
     },
-  })
-  return form
+  });
+  return form;
 }
 
 export type LostAndFoundFormInstance = ReturnType<
   typeof useInitLostAndFoundForm
->
+>;
 
 export function LostAndFoundFormProvider({
   children,
 }: {
-  children: ReactNode
+  children: ReactNode;
 }) {
-  const form = useInitLostAndFoundForm()
+  const form = useInitLostAndFoundForm();
 
   return (
     <LostAndFoundFormContext.Provider value={form}>
       {children}
     </LostAndFoundFormContext.Provider>
-  )
+  );
 }

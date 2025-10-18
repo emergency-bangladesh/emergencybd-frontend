@@ -1,11 +1,11 @@
-import { IconUserScan } from '@tabler/icons-react'
-import { createFileRoute } from '@tanstack/react-router'
-import { BackButton } from '@/components/back-button'
-import { LinkCard } from '@/components/ui/link-card'
+import { IconUserScan } from "@tabler/icons-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { BackButton } from "@/components/back-button";
+import { LinkCard } from "@/components/ui/link-card";
 
-export const Route = createFileRoute('/registration/')({
+export const Route = createFileRoute("/registration/")({
   component: RegistrationSelectorPage,
-})
+});
 
 function RegistrationSelectorPage() {
   return (
@@ -27,5 +27,5 @@ function RegistrationSelectorPage() {
       </section>
       <BackButton />
     </div>
-  )
+  );
 }

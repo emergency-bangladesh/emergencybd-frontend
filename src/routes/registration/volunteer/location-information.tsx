@@ -1,28 +1,28 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useCallback, useMemo } from 'react'
-import { VolunteerRegistrationStepper } from './-stepper'
-import type { MouseEvent } from 'react'
-import type { VolunteerRegistrationFormValue } from '@/features/volunteer-registration/form/form-schema'
-import { useVolunteerRegistrationForm } from '@/features/volunteer-registration/form/use-volunteer-registration-form'
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useCallback, useMemo } from "react";
+import { VolunteerRegistrationStepper } from "./-stepper";
+import type { MouseEvent } from "react";
+import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
+import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
 import {
   FieldErrorInfo,
   FormCheckbox,
   FormComboBox,
-} from '@/components/ui/form'
-import { validateFormStepLocationInformation } from '@/features/volunteer-registration/form/form-step-validation'
-import { BackButton } from '@/components/back-button'
-import { DISTRICT_WITH_UPAZILA_OR_THANA } from '@/constants'
-import { NextButton } from '@/components/next-button'
+} from "@/components/ui/form";
+import { validateFormStepLocationInformation } from "@/features/volunteer-registration/form/form-step-validation";
+import { BackButton } from "@/components/back-button";
+import { DISTRICT_WITH_UPAZILA_OR_THANA } from "@/constants";
+import { NextButton } from "@/components/next-button";
 
 export const Route = createFileRoute(
-  '/registration/volunteer/location-information',
+  "/registration/volunteer/location-information",
 )({
   component: LocationInformationFormSection,
-})
+});
 
 function LocationInformationFormSection() {
-  const volunteerRegistrationForm = useVolunteerRegistrationForm()
-  const navigate = useNavigate()
+  const volunteerRegistrationForm = useVolunteerRegistrationForm();
+  const navigate = useNavigate();
 
   const districtOptions = useMemo(
     () =>
@@ -31,36 +31,36 @@ function LocationInformationFormSection() {
         label: district.name,
       })),
     [],
-  )
+  );
 
   const getAllUpazilaOrThana = useCallback((district: string | undefined) => {
-    if (!district) return []
+    if (!district) return [];
 
     const districtData = DISTRICT_WITH_UPAZILA_OR_THANA.find(
       (d) => d.name === district,
-    )
-    if (!districtData) return []
+    );
+    if (!districtData) return [];
 
-    return districtData.allUpazilaOrThana.map((u) => ({ value: u, label: u }))
-  }, [])
+    return districtData.allUpazilaOrThana.map((u) => ({ value: u, label: u }));
+  }, []);
 
   const fieldNames = useMemo(
     () => [
-      'permanentDistrict',
-      'permanentupazila',
-      'currentSameAsPermanent',
-      'currentDistrict',
-      'currentupazila',
+      "permanentDistrict",
+      "permanentupazila",
+      "currentSameAsPermanent",
+      "currentDistrict",
+      "currentupazila",
     ],
     [],
-  )
+  );
 
   async function handleNextButtonClick(e: MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
 
-    const values = volunteerRegistrationForm.state.values
-    const isValid = validateFormStepLocationInformation(values)
+    const values = volunteerRegistrationForm.state.values;
+    const isValid = validateFormStepLocationInformation(values);
 
     if (!isValid) {
       fieldNames.forEach((fieldName) => {
@@ -70,22 +70,22 @@ function LocationInformationFormSection() {
             ...prev,
             isTouched: true,
           }),
-        )
-      })
+        );
+      });
 
       await Promise.all(
         fieldNames.map((fieldName) =>
           volunteerRegistrationForm.validateField(
             fieldName as keyof VolunteerRegistrationFormValue,
-            'submit',
+            "submit",
           ),
         ),
-      )
+      );
 
-      return
+      return;
     }
 
-    navigate({ to: '/registration/volunteer/select-id-type' })
+    navigate({ to: "/registration/volunteer/select-id-type" });
   }
 
   return (
@@ -114,7 +114,7 @@ function LocationInformationFormSection() {
                     noResultsMessage="No districts found."
                     onChangeExtra={() =>
                       volunteerRegistrationForm.setFieldValue(
-                        'permanentUpazila',
+                        "permanentUpazila",
                         undefined!,
                       )
                     }
@@ -182,7 +182,7 @@ function LocationInformationFormSection() {
                         noResultsMessage="No districts found."
                         onChangeExtra={() =>
                           volunteerRegistrationForm.setFieldValue(
-                            'currentUpazila',
+                            "currentUpazila",
                             undefined,
                           )
                         }
@@ -230,5 +230,5 @@ function LocationInformationFormSection() {
         </div>
       </form>
     </>
-  )
+  );
 }

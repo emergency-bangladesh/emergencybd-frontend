@@ -1,5 +1,5 @@
-import imageCompression from 'browser-image-compression'
-import type { Options } from 'browser-image-compression'
+import imageCompression from "browser-image-compression";
+import type { Options } from "browser-image-compression";
 
 /**
  * A private helper function to compress an image file using browser-image-compression.
@@ -9,13 +9,13 @@ import type { Options } from 'browser-image-compression'
  */
 async function _compress(file: File, options: Options): Promise<File> {
   try {
-    const compressedFile = await imageCompression(file, options)
-    return compressedFile
+    const compressedFile = await imageCompression(file, options);
+    return compressedFile;
   } catch (error) {
-    console.error('Image compression failed:', error)
+    console.error("Image compression failed:", error);
     throw new Error(
       `Image compression failed: ${error instanceof Error ? error.message : String(error)}`,
-    )
+    );
   }
 }
 
@@ -29,9 +29,9 @@ export async function compressNidImage(file: File): Promise<File> {
     maxSizeMB: 1,
     maxWidthOrHeight: 1920,
     useWebWorker: true,
-    fileType: 'image/webp',
-  }
-  return _compress(file, options)
+    fileType: "image/webp",
+  };
+  return _compress(file, options);
 }
 
 /**
@@ -44,7 +44,7 @@ export async function compressProfileImage(file: File): Promise<File> {
     maxSizeMB: 0.5,
     maxWidthOrHeight: 512,
     useWebWorker: true,
-    fileType: 'image/webp',
-  }
-  return _compress(file, options)
+    fileType: "image/webp",
+  };
+  return _compress(file, options);
 }

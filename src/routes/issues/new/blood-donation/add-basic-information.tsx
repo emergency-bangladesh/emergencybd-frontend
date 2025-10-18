@@ -1,79 +1,79 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { BloodDonationInfo } from './-info'
-import { BloodDonationIssueStepper } from './-stepper'
-import type { BloodDonationIssueFormValue } from '@/features/issue-reporting/blood-donation/form/form-schema'
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { BloodDonationInfo } from "./-info";
+import { BloodDonationIssueStepper } from "./-stepper";
+import type { BloodDonationIssueFormValue } from "@/features/issue-reporting/blood-donation/form/form-schema";
 import {
   FieldErrorInfo,
   FormDateAndTimePicker,
   FormNumberInput,
   FormSelect,
   FormTextInput,
-} from '@/components/ui/form'
-import { SelectItem } from '@/components/ui/select'
-import { useBloodDonationIssueForm } from '@/features/issue-reporting/blood-donation/form/use-blood-donation-issue-form'
-import { BackButton } from '@/components/back-button'
-import { validateBloodDonationBasicInformationStep } from '@/features/issue-reporting/blood-donation/form/form-step-validation'
-import { NextButton } from '@/components/next-button'
-import { useLanguage } from '@/integrations/language/use-language'
+} from "@/components/ui/form";
+import { SelectItem } from "@/components/ui/select";
+import { useBloodDonationIssueForm } from "@/features/issue-reporting/blood-donation/form/use-blood-donation-issue-form";
+import { BackButton } from "@/components/back-button";
+import { validateBloodDonationBasicInformationStep } from "@/features/issue-reporting/blood-donation/form/form-step-validation";
+import { NextButton } from "@/components/next-button";
+import { useLanguage } from "@/integrations/language/use-language";
 
 export const Route = createFileRoute(
-  '/issues/new/blood-donation/add-basic-information',
+  "/issues/new/blood-donation/add-basic-information",
 )({
   component: AddBasicInformationSection,
-})
+});
 
 const fieldNames = [
-  'patientName',
-  'bloodGroup',
-  'amountInBag',
-  'exactDateAndTime',
-]
+  "patientName",
+  "bloodGroup",
+  "amountInBag",
+  "exactDateAndTime",
+];
 
-const title = { en: 'Add Detailed Information', bn: 'বিস্তারিত তথ্য যোগ করুন' }
+const title = { en: "Add Detailed Information", bn: "বিস্তারিত তথ্য যোগ করুন" };
 const subtitle = {
-  en: 'Add details to let our volunteers respond efficiently',
-  bn: 'আমাদের স্বেচ্ছাসেবকদের দক্ষতার সাথে প্রতিক্রিয়া জানাতে বিস্তারিত যোগ করুন।',
-}
+  en: "Add details to let our volunteers respond efficiently",
+  bn: "আমাদের স্বেচ্ছাসেবকদের দক্ষতার সাথে প্রতিক্রিয়া জানাতে বিস্তারিত যোগ করুন।",
+};
 const patientNameLabel = {
-  en: 'Patient Name',
-  bn: 'রোগীর নাম',
-}
+  en: "Patient Name",
+  bn: "রোগীর নাম",
+};
 const patientNamePlaceholder = {
-  en: 'Name of Patient',
-  bn: 'রোগীর নাম',
-}
+  en: "Name of Patient",
+  bn: "রোগীর নাম",
+};
 const bloodGroupLabel = {
-  en: 'Blood Group',
-  bn: 'রক্তের গ্রুপ',
-}
+  en: "Blood Group",
+  bn: "রক্তের গ্রুপ",
+};
 const bloodGroupPlaceholder = {
-  en: 'Select Blood Group',
-  bn: 'রক্তের গ্রুপ নির্বাচন করুন',
-}
+  en: "Select Blood Group",
+  bn: "রক্তের গ্রুপ নির্বাচন করুন",
+};
 const amountInBagLabel = {
-  en: 'Amount (numeric input) (in bag)',
-  bn: 'পরিমাণ (ব্যাগে) (ইংরেজি নিউমেরিকে)',
-}
+  en: "Amount (numeric input) (in bag)",
+  bn: "পরিমাণ (ব্যাগে) (ইংরেজি নিউমেরিকে)",
+};
 const amountInBagPlaceholder = {
-  en: 'e.g., 3',
-  bn: 'যেমন, 3',
-}
+  en: "e.g., 3",
+  bn: "যেমন, 3",
+};
 const exactDateAndTimeLabel = {
-  en: 'Exact Date and Time',
-  bn: 'যথাযথ তারিখ এবং সময়',
-}
+  en: "Exact Date and Time",
+  bn: "যথাযথ তারিখ এবং সময়",
+};
 
 function AddBasicInformationSection() {
-  const navigate = useNavigate()
-  const form = useBloodDonationIssueForm()
-  const { language } = useLanguage()
+  const navigate = useNavigate();
+  const form = useBloodDonationIssueForm();
+  const { language } = useLanguage();
 
   async function handleNextButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
 
-    const values = form.state.values
-    const isValid = validateBloodDonationBasicInformationStep(values)
+    const values = form.state.values;
+    const isValid = validateBloodDonationBasicInformationStep(values);
 
     if (!isValid) {
       fieldNames.forEach((fieldName) => {
@@ -83,22 +83,22 @@ function AddBasicInformationSection() {
             ...prev,
             isTouched: true,
           }),
-        )
-      })
+        );
+      });
 
       await Promise.all(
         fieldNames.map((fieldName) =>
           form.validateField(
             fieldName as keyof BloodDonationIssueFormValue,
-            'submit',
+            "submit",
           ),
         ),
-      )
+      );
 
-      return
+      return;
     }
 
-    navigate({ to: '/issues/new/blood-donation/add-location-information' })
+    navigate({ to: "/issues/new/blood-donation/add-location-information" });
   }
 
   return (
@@ -175,13 +175,11 @@ function AddBasicInformationSection() {
         <div className="grid grid-cols-2 items-center w-full max-w-lg justify-center gap-3">
           <BackButton
             to="/issues/new"
-            label={
-              language === 'en' ? 'Edit Issue Type' : 'সমস্যার ধরণ এডিট করুন'
-            }
+            label={language === "en" ? "Edit Issue Type" : "সমস্যার ধরণ এডিট করুন"}
           />
           <NextButton onClick={handleNextButtonClick} />
         </div>
       </form>
     </>
-  )
+  );
 }

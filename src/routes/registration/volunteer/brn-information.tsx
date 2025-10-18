@@ -1,45 +1,45 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import React, { useMemo } from 'react'
-import { VolunteerRegistrationStepper } from './-stepper'
-import type { VolunteerRegistrationFormValue } from '@/features/volunteer-registration/form/form-schema'
-import { useVolunteerRegistrationForm } from '@/features/volunteer-registration/form/use-volunteer-registration-form'
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import React, { useMemo } from "react";
+import { VolunteerRegistrationStepper } from "./-stepper";
+import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
+import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
 import {
   FieldErrorInfo,
   FormDatePicker,
   FormTelInput,
   FormTextInput,
-} from '@/components/ui/form'
-import { validateFormStepIDInformation } from '@/features/volunteer-registration/form/form-step-validation'
-import { BackButton } from '@/components/back-button'
-import { volunteerExistsWithPhoneNumber } from '@/actions/validate-volunteer'
-import { NextButton } from '@/components/next-button'
+} from "@/components/ui/form";
+import { validateFormStepIDInformation } from "@/features/volunteer-registration/form/form-step-validation";
+import { BackButton } from "@/components/back-button";
+import { volunteerExistsWithPhoneNumber } from "@/actions/validate-volunteer";
+import { NextButton } from "@/components/next-button";
 
-export const Route = createFileRoute('/registration/volunteer/brn-information')(
+export const Route = createFileRoute("/registration/volunteer/brn-information")(
   {
     component: BrnInformationFormSection,
   },
-)
+);
 
 function BrnInformationFormSection() {
-  const volunteerRegistrationForm = useVolunteerRegistrationForm()
-  const navigate = useNavigate()
+  const volunteerRegistrationForm = useVolunteerRegistrationForm();
+  const navigate = useNavigate();
 
-  volunteerRegistrationForm.setFieldValue('idType', 'BRN')
-  volunteerRegistrationForm.setFieldValue('nidNumber', undefined)
-  volunteerRegistrationForm.setFieldValue('nidImage1', undefined)
-  volunteerRegistrationForm.setFieldValue('nidImage2', undefined)
+  volunteerRegistrationForm.setFieldValue("idType", "BRN");
+  volunteerRegistrationForm.setFieldValue("nidNumber", undefined);
+  volunteerRegistrationForm.setFieldValue("nidImage1", undefined);
+  volunteerRegistrationForm.setFieldValue("nidImage2", undefined);
 
   const fieldNames = useMemo(
-    () => ['brnNumber', 'brnDate', 'parentPhoneNumber'],
+    () => ["brnNumber", "brnDate", "parentPhoneNumber"],
     [],
-  )
+  );
 
   async function handleNextButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
 
-    const values = volunteerRegistrationForm.state.values
-    const isValid = validateFormStepIDInformation(values)
+    const values = volunteerRegistrationForm.state.values;
+    const isValid = validateFormStepIDInformation(values);
 
     if (!isValid) {
       fieldNames.forEach((fieldName) => {
@@ -49,22 +49,22 @@ function BrnInformationFormSection() {
             ...prev,
             isTouched: true,
           }),
-        )
-      })
+        );
+      });
 
       await Promise.all(
         fieldNames.map((fieldName) =>
           volunteerRegistrationForm.validateField(
             fieldName as keyof VolunteerRegistrationFormValue,
-            'submit',
+            "submit",
           ),
         ),
-      )
+      );
 
-      return
+      return;
     }
 
-    navigate({ to: '/registration/volunteer/set-password' })
+    navigate({ to: "/registration/volunteer/set-password" });
   }
 
   return (
@@ -91,11 +91,11 @@ function BrnInformationFormSection() {
         <volunteerRegistrationForm.Field
           name="brnDate"
           validators={{
-            onChangeListenTo: ['dateOfBirth'],
+            onChangeListenTo: ["dateOfBirth"],
             onChange: ({ value, fieldApi }) =>
               value?.getTime() !=
-              fieldApi.form.getFieldValue('dateOfBirth').getTime()
-                ? { message: 'Unacceptable Entity' }
+              fieldApi.form.getFieldValue("dateOfBirth").getTime()
+                ? { message: "Unacceptable Entity" }
                 : undefined,
           }}
         >
@@ -115,11 +115,11 @@ function BrnInformationFormSection() {
           name="parentPhoneNumber"
           validators={{
             onChangeAsync: async ({ value }) => {
-              const exists = await volunteerExistsWithPhoneNumber(value!)
+              const exists = await volunteerExistsWithPhoneNumber(value!);
               if (!exists) {
-                return { message: 'No accounts Found with this Phone number' }
+                return { message: "No accounts Found with this Phone number" };
               }
-              return undefined
+              return undefined;
             },
           }}
         >
@@ -141,5 +141,5 @@ function BrnInformationFormSection() {
         </div>
       </form>
     </>
-  )
+  );
 }

@@ -1,62 +1,62 @@
-import { Link } from '@tanstack/react-router'
-import { IconLogin2, IconMenu2, IconUserPlus } from '@tabler/icons-react'
-import Logo from './logo'
+import { Link } from "@tanstack/react-router";
+import { IconLogin2, IconMenu2, IconUserPlus } from "@tabler/icons-react";
+import Logo from "./logo";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from './ui/navigation-menu'
-import { ThemeSwitch } from './theme-toggle'
-import { Button } from './ui/button'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
-import { UserNav } from './user-nav'
-import { LanguageSwitch } from './language-switch'
-import type { LinkProps } from '@tanstack/react-router'
-import type { Language } from '@/integrations/language/language-provider'
-import { useAuth } from '@/features/auth/use-auth'
-import { useLanguage } from '@/integrations/language/use-language'
+} from "./ui/navigation-menu";
+import { ThemeSwitch } from "./theme-toggle";
+import { Button } from "./ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { UserNav } from "./user-nav";
+import { LanguageSwitch } from "./language-switch";
+import type { LinkProps } from "@tanstack/react-router";
+import type { Language } from "@/integrations/language/language-provider";
+import { useAuth } from "@/features/auth/use-auth";
+import { useLanguage } from "@/integrations/language/use-language";
 
 const navMenuLinks: Array<{
-  to: LinkProps['to']
-  text: Record<Language, string>
+  to: LinkProps["to"];
+  text: Record<Language, string>;
 }> = [
   {
-    to: '/issues',
-    text: { en: 'Reported Issues', bn: 'রিপোর্ট করা সমস্যাবলী' },
+    to: "/issues",
+    text: { en: "Reported Issues", bn: "রিপোর্ট করা সমস্যাবলী" },
   },
-  { to: '/faq', text: { en: 'FAQ', bn: 'এফ এ কিউ' } },
-  { to: '/about-us', text: { en: 'About Us', bn: 'আমাদের সম্পর্কে জানুন' } },
-  { to: '/contact-us', text: { en: 'Contact Us', bn: 'যোগাযোগ' } },
-]
+  { to: "/faq", text: { en: "FAQ", bn: "এফ এ কিউ" } },
+  { to: "/about-us", text: { en: "About Us", bn: "আমাদের সম্পর্কে জানুন" } },
+  { to: "/contact-us", text: { en: "Contact Us", bn: "যোগাযোগ" } },
+];
 
 const LoginButton = () => {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
   return (
     <Button variant="ghost" asChild>
       <Link to="/login">
         <IconLogin2 className="mr-1" />
-        {language === 'en' ? 'Login' : 'লগ ইন'}
+        {language === "en" ? "Login" : "লগ ইন"}
       </Link>
     </Button>
-  )
-}
+  );
+};
 
 const RegisterButton = () => {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
   return (
     <Button asChild>
       <Link to="/registration">
         <IconUserPlus className="mr-1" />
-        {language === 'en' ? 'Register' : 'নিবন্ধন করুন'}
+        {language === "en" ? "Register" : "নিবন্ধন করুন"}
       </Link>
     </Button>
-  )
-}
+  );
+};
 
 const DesktopNavMenu = () => {
-  const { user } = useAuth()
-  const { language } = useLanguage()
+  const { user } = useAuth();
+  const { language } = useLanguage();
 
   return (
     <div className="hidden md:flex w-full items-center justify-between">
@@ -81,7 +81,7 @@ const DesktopNavMenu = () => {
       {/* Right side */}
       <div className="flex items-center gap-4">
         <ThemeSwitch variant="accent" />
-        <LanguageSwitch variant={'accent'} />
+        <LanguageSwitch variant={"accent"} />
         {user ? (
           <UserNav />
         ) : (
@@ -92,12 +92,12 @@ const DesktopNavMenu = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 const MobileNavMenu = () => {
-  const { user } = useAuth()
-  const { language } = useLanguage()
+  const { user } = useAuth();
+  const { language } = useLanguage();
 
   return (
     <div className="flex md:hidden w-full items-center justify-between">
@@ -107,7 +107,7 @@ const MobileNavMenu = () => {
 
       <div className="flex items-center gap-2">
         <ThemeSwitch variant="accent" />
-        <LanguageSwitch variant={'accent'} />
+        <LanguageSwitch variant={"accent"} />
         {user ? <UserNav /> : null}
 
         <Popover>
@@ -139,8 +139,8 @@ const MobileNavMenu = () => {
         </Popover>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export const Navbar = () => {
   return (
@@ -148,5 +148,5 @@ export const Navbar = () => {
       <DesktopNavMenu />
       <MobileNavMenu />
     </nav>
-  )
-}
+  );
+};

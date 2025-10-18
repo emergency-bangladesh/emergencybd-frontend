@@ -1,11 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { IconCircleCheck, IconMail } from '@tabler/icons-react'
-import { Button } from '@/components/ui/button'
-import Muted from '@/components/ui/typography/muted'
+import { createFileRoute } from "@tanstack/react-router";
+import { IconCircleCheck, IconMail } from "@tabler/icons-react";
+import { Button } from "@/components/ui/button";
+import Muted from "@/components/ui/typography/muted";
 
-export const Route = createFileRoute('/registration/success')({
+export const Route = createFileRoute("/registration/success")({
   component: RegistrationSuccessComponent,
-})
+});
 
 function RegistrationSuccessComponent() {
   return (
@@ -27,10 +27,11 @@ function RegistrationSuccessComponent() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <IconMail className="mr-2 h-4 w-4" /> Contact Us for Faster Validation
+            <IconMail className="mr-2 h-4 w-4" /> Contact Us for Faster
+            Validation
           </a>
         </Button>
       </div>
     </div>
-  )
+  );
 }

@@ -293,5 +293,5 @@ export const PeoplesImage = () => {
         />
       </svg>
     </div>
-  )
-}
+  );
+};

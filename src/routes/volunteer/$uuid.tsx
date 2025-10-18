@@ -1,5 +1,5 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
+import { Link, createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import {
   IconBan,
   IconCalendar,
@@ -7,9 +7,9 @@ import {
   IconLocationPin,
   IconMail,
   IconUsers,
-} from '@tabler/icons-react'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
+} from "@tabler/icons-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Timeline,
   TimelineContent,
@@ -19,60 +19,60 @@ import {
   TimelineItem,
   TimelineSeparator,
   TimelineTitle,
-} from '@/components/ui/timeline'
+} from "@/components/ui/timeline";
 import {
   useVolunteerQuery,
   volunteerQueryOptions,
-} from '@/queries/use-volunteer-query'
-import { Loader } from '@/components/ui/loader'
-import { useAuth } from '@/features/auth/use-auth'
-import { fetchBackend } from '@/lib/fetch-backend'
-import { parseDateFromUtc } from '@/lib/utils'
+} from "@/queries/use-volunteer-query";
+import { Loader } from "@/components/ui/loader";
+import { useAuth } from "@/features/auth/use-auth";
+import { fetchBackend } from "@/lib/fetch-backend";
+import { parseDateFromUtc } from "@/lib/utils";
 
-export const Route = createFileRoute('/volunteer/$uuid')({
+export const Route = createFileRoute("/volunteer/$uuid")({
   component: VolunteerProfilePage,
   loader: ({ params, context: { queryClient } }) => {
-    const uuid = params.uuid
-    queryClient.ensureQueryData(volunteerQueryOptions(uuid))
+    const uuid = params.uuid;
+    queryClient.ensureQueryData(volunteerQueryOptions(uuid));
     queryClient.ensureQueryData({
-      queryKey: ['volunteer-recent-activity', uuid],
+      queryKey: ["volunteer-recent-activity", uuid],
       queryFn: async () => {
         const res = await fetchBackend(
           `/volunteers/${uuid}/recent-activities`,
-          'GET',
-        )
-        const data = await res.json()
+          "GET",
+        );
+        const data = await res.json();
         return data.data as Array<{
-          title: string
-          description: string
-          time: string
-        }>
+          title: string;
+          description: string;
+          time: string;
+        }>;
       },
-    })
+    });
   },
-})
+});
 
 function VolunteerProfilePage() {
-  const { uuid } = Route.useParams()
-  const { user } = useAuth()
-  const { data: volunteer, isLoading } = useVolunteerQuery(uuid)
+  const { uuid } = Route.useParams();
+  const { user } = useAuth();
+  const { data: volunteer, isLoading } = useVolunteerQuery(uuid);
   const { data: recentActivities } = useQuery({
-    queryKey: ['volunteer-recent-activity', uuid],
+    queryKey: ["volunteer-recent-activity", uuid],
     queryFn: async () => {
       const res = await fetchBackend(
         `/volunteers/${uuid}/recent-activities`,
-        'GET',
-      )
-      const data = await res.json()
+        "GET",
+      );
+      const data = await res.json();
       return data.data as Array<{
-        title: string
-        description: string
-        time: string
-      }>
+        title: string;
+        description: string;
+        time: string;
+      }>;
     },
-  })
+  });
 
-  if (isLoading) return <Loader />
+  if (isLoading) return <Loader />;
 
   return (
     <div className="mx-auto max-w-4xl w-full p-4">
@@ -98,9 +98,9 @@ function VolunteerProfilePage() {
             />
             <AvatarFallback className="text-3xl">
               {volunteer?.fullName
-                .split(' ')
+                .split(" ")
                 .map((n) => n[0])
-                .join('')}
+                .join("")}
             </AvatarFallback>
           </Avatar>
 
@@ -108,7 +108,7 @@ function VolunteerProfilePage() {
           <div className="flex flex-col items-center gap-2 md:items-start">
             <div className="flex items-center gap-2">
               <h1 className="text-3xl font-bold">{volunteer?.fullName}</h1>
-              {volunteer?.status === 'verified' && (
+              {volunteer?.status === "verified" && (
                 <IconCircleCheck className="size-6 fill-blue-500 text-white" />
               )}
             </div>
@@ -146,7 +146,7 @@ function VolunteerProfilePage() {
           <div className="flex items-center gap-3 text-muted-foreground">
             <IconCalendar className="size-5" />
             <span>
-              Joined on{' '}
+              Joined on{" "}
               <span className="font-semibold text-foreground">
                 {volunteer?.createdAt.toLocaleDateString()}
               </span>
@@ -155,7 +155,7 @@ function VolunteerProfilePage() {
           <div className="flex items-center gap-3 text-muted-foreground">
             <IconLocationPin className="size-5" />
             <span>
-              Lives in{' '}
+              Lives in{" "}
               <span className="font-semibold text-foreground">
                 {volunteer?.currentUpazila}, {volunteer?.currentDistrict}
               </span>
@@ -168,9 +168,9 @@ function VolunteerProfilePage() {
             onClick={() => {
               // TODO: Navigate to team profile page
               console.log(
-                'Navigate to team profile:',
+                "Navigate to team profile:",
                 volunteer.teamInformation?.teamName,
-              )
+              );
             }}
             className="group mb-6 w-fit rounded-lg border-2 border-border bg-muted/30 p-4 text-left transition-all hover:border-primary hover:bg-muted/50 hover:shadow-md"
           >
@@ -222,5 +222,5 @@ function VolunteerProfilePage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

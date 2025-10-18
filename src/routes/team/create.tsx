@@ -1,35 +1,35 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { IconPlus } from '@tabler/icons-react'
-import { TeamCreationFormProvider } from '@/features/team-creation/form/form-provider'
-import { useTeamCreationForm } from '@/features/team-creation/form/use-team-creation-form'
+import { createFileRoute } from "@tanstack/react-router";
+import { IconPlus } from "@tabler/icons-react";
+import { TeamCreationFormProvider } from "@/features/team-creation/form/form-provider";
+import { useTeamCreationForm } from "@/features/team-creation/form/use-team-creation-form";
 import {
   FieldErrorInfo,
   FormDatePicker,
   FormEmailInput,
   FormTextInput,
-} from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
-import { BackButton } from '@/components/back-button'
-import { teamExistsWithName } from '@/actions/validate-team'
-import { RequireAuth } from '@/components/require-auth'
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { BackButton } from "@/components/back-button";
+import { teamExistsWithName } from "@/actions/validate-team";
+import { RequireAuth } from "@/components/require-auth";
 
-export const Route = createFileRoute('/team/create')({
+export const Route = createFileRoute("/team/create")({
   component: () => (
-    <RequireAuth allowedUserTypes={['volunteer']}>
+    <RequireAuth allowedUserTypes={["volunteer"]}>
       <TeamCreationFormProvider>
         <TeamCreationFormSection />
       </TeamCreationFormProvider>
     </RequireAuth>
   ),
-})
+});
 
 function TeamCreationFormSection() {
-  const form = useTeamCreationForm()
+  const form = useTeamCreationForm();
   const handleCreateTeam = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
-    form.handleSubmit()
-  }
+    e.preventDefault();
+    e.stopPropagation();
+    form.handleSubmit();
+  };
   return (
     <>
       <div className="flex justify-center items-center max-w-lg flex-col gap-8 mx-auto p-5">
@@ -45,10 +45,10 @@ function TeamCreationFormSection() {
             name="teamName"
             validators={{
               onChangeAsync: async ({ value }) => {
-                const exists = await teamExistsWithName(value)
+                const exists = await teamExistsWithName(value);
                 if (exists)
-                  return { message: 'A team with this name already exists' }
-                return undefined
+                  return { message: "A team with this name already exists" };
+                return undefined;
               },
             }}
           >
@@ -99,5 +99,5 @@ function TeamCreationFormSection() {
         </form>
       </div>
     </>
-  )
+  );
 }

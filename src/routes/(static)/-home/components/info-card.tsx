@@ -1,10 +1,10 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 type InfoCardProps = {
-  icon: React.ElementType
-  title: string
-  description: string
-}
+  icon: React.ElementType;
+  title: string;
+  description: string;
+};
 
 export const InfoCard = ({ icon: Icon, title, description }: InfoCardProps) => (
   <Card className="bg-[linear-gradient(180deg,var(--background)_25%,var(--accent)_100%)] hover:bg-none transition-all ease-in-out duration-300 h-full">
@@ -14,4 +14,4 @@ export const InfoCard = ({ icon: Icon, title, description }: InfoCardProps) => (
     </CardHeader>
     <CardContent>{description}</CardContent>
   </Card>
-)
+);

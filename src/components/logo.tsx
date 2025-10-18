@@ -1,13 +1,13 @@
-import type { ComponentProps } from 'react'
-import { cn } from '@/lib/utils'
+import type { ComponentProps } from "react";
+import { cn } from "@/lib/utils";
 
-type LogoProps = Omit<ComponentProps<'svg'>, 'width' | 'height'>
+type LogoProps = Omit<ComponentProps<"svg">, "width" | "height">;
 
 const Logo = ({ className, ...props }: LogoProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 2000 2000"
-    className={cn('size-7.5', className)}
+    className={cn("size-7.5", className)}
     {...props}
   >
     <path
@@ -36,6 +36,6 @@ const Logo = ({ className, ...props }: LogoProps) => (
       points="1206.65,998.42 1040.92,1157.22 1038.09,1287.68 1332.03,1006.04 1050.59,712.32 1047.97,832.81"
     />
   </svg>
-)
+);
 
-export default Logo
+export default Logo;

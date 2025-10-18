@@ -1,9 +1,9 @@
-'use client'
-import { Link } from '@tanstack/react-router'
-import { Button } from './ui/button'
-import { Loader } from './ui/loader'
-import Muted from './ui/typography/muted'
-import { useAuth } from '@/features/auth/use-auth'
+"use client";
+import { Link } from "@tanstack/react-router";
+import { Button } from "./ui/button";
+import { Loader } from "./ui/loader";
+import Muted from "./ui/typography/muted";
+import { useAuth } from "@/features/auth/use-auth";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,15 +12,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { useVolunteerQuery } from '@/queries/use-volunteer-query'
-import { volunteerProfilePicUrl } from '@/actions/volunteer'
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useVolunteerQuery } from "@/queries/use-volunteer-query";
+import { volunteerProfilePicUrl } from "@/actions/volunteer";
 
 function VolunteerNavGroup({ uuid }: { uuid: string }) {
-  const { data: volunteer } = useVolunteerQuery(uuid)
+  const { data: volunteer } = useVolunteerQuery(uuid);
 
-  console.log({ volunteer })
+  console.log({ volunteer });
 
   return (
     <>
@@ -62,20 +62,20 @@ function VolunteerNavGroup({ uuid }: { uuid: string }) {
         </DropdownMenuItem>
       </DropdownMenuGroup>
     </>
-  )
+  );
 }
 
 export function UserNav() {
-  const { user, logout, isLoading } = useAuth()
+  const { user, logout, isLoading } = useAuth();
 
-  if (isLoading) return <Loader />
-  if (!user) return null
+  if (isLoading) return <Loader />;
+  if (!user) return null;
 
   const initials = user.name
-    .split(' ')
+    .split(" ")
     .map((n) => n[0])
-    .join('')
-    .toUpperCase()
+    .join("")
+    .toUpperCase();
 
   return (
     <DropdownMenu>
@@ -85,7 +85,7 @@ export function UserNav() {
           className="relative h-9 w-9 rounded-full hover:bg-accent"
         >
           <Avatar className="h-8 w-8">
-            {user.type === 'volunteer' && (
+            {user.type === "volunteer" && (
               <AvatarImage
                 src={volunteerProfilePicUrl(user.uuid)}
                 alt={user.name}
@@ -113,7 +113,7 @@ export function UserNav() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {user.type === 'volunteer' ? (
+        {user.type === "volunteer" ? (
           <VolunteerNavGroup uuid={user.uuid} />
         ) : (
           <DropdownMenuGroup>
@@ -143,5 +143,5 @@ export function UserNav() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

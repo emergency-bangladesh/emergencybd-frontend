@@ -1,25 +1,25 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { IconCircleCheck } from '@tabler/icons-react'
-import { VolunteerRegistrationStepper } from './-stepper'
+import { createFileRoute } from "@tanstack/react-router";
+import { IconCircleCheck } from "@tabler/icons-react";
+import { VolunteerRegistrationStepper } from "./-stepper";
 import {
   FieldErrorInfo,
   FormAvatarUpload,
   FormCheckbox,
-} from '@/components/ui/form'
-import { useVolunteerRegistrationForm } from '@/features/volunteer-registration/form/use-volunteer-registration-form'
-import { BackButton } from '@/components/back-button'
-import { Button } from '@/components/ui/button'
-import Muted from '@/components/ui/typography/muted'
-import { Loader } from '@/components/ui/loader'
+} from "@/components/ui/form";
+import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import { BackButton } from "@/components/back-button";
+import { Button } from "@/components/ui/button";
+import Muted from "@/components/ui/typography/muted";
+import { Loader } from "@/components/ui/loader";
 
 export const Route = createFileRoute(
-  '/registration/volunteer/upload-profile-picture',
+  "/registration/volunteer/upload-profile-picture",
 )({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  const volunteerRegistrationForm = useVolunteerRegistrationForm()
+  const volunteerRegistrationForm = useVolunteerRegistrationForm();
   return (
     <>
       <VolunteerRegistrationStepper currentStep={6} />
@@ -36,10 +36,10 @@ function RouteComponent() {
         id="form-fields"
         className="flex flex-col gap-6 w-full"
         onSubmit={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
+          e.preventDefault();
+          e.stopPropagation();
 
-          volunteerRegistrationForm.handleSubmit()
+          volunteerRegistrationForm.handleSubmit();
         }}
       >
         <volunteerRegistrationForm.Field name="profilePicture">
@@ -58,7 +58,7 @@ function RouteComponent() {
           validators={{
             onSubmit: ({ value }) =>
               !value
-                ? { message: 'You must agree to the terms and conditions' }
+                ? { message: "You must agree to the terms and conditions" }
                 : undefined,
           }}
         >
@@ -80,7 +80,7 @@ function RouteComponent() {
               return {
                 canSubmit: state.canSubmit,
                 isSubmitting: state.isSubmitting,
-              }
+              };
             }}
           >
             {({ canSubmit, isSubmitting }) => (
@@ -93,5 +93,5 @@ function RouteComponent() {
         </div>
       </form>
     </>
-  )
+  );
 }

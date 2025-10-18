@@ -1,67 +1,72 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useCallback } from 'react'
-import { BloodDonationInfo } from './-info'
-import { BloodDonationIssueStepper } from './-stepper'
-import type { BloodDonationIssueFormValue } from '@/features/issue-reporting/blood-donation/form/form-schema'
-import { useBloodDonationIssueForm } from '@/features/issue-reporting/blood-donation/form/use-blood-donation-issue-form'
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useCallback } from "react";
+import { BloodDonationInfo } from "./-info";
+import { BloodDonationIssueStepper } from "./-stepper";
+import type { BloodDonationIssueFormValue } from "@/features/issue-reporting/blood-donation/form/form-schema";
+import { useBloodDonationIssueForm } from "@/features/issue-reporting/blood-donation/form/use-blood-donation-issue-form";
 import {
   FieldErrorInfo,
   FormComboBox,
   FormTextArea,
   FormTextInput,
-} from '@/components/ui/form'
-import { DISTRICT_WITH_UPAZILA_OR_THANA } from '@/constants'
-import { BackButton } from '@/components/back-button'
-import { validateBloodDonationLocationInformationStep } from '@/features/issue-reporting/blood-donation/form/form-step-validation'
-import { NextButton } from '@/components/next-button'
-import { useLanguage } from '@/integrations/language/use-language'
+} from "@/components/ui/form";
+import { DISTRICT_WITH_UPAZILA_OR_THANA } from "@/constants";
+import { BackButton } from "@/components/back-button";
+import { validateBloodDonationLocationInformationStep } from "@/features/issue-reporting/blood-donation/form/form-step-validation";
+import { NextButton } from "@/components/next-button";
+import { useLanguage } from "@/integrations/language/use-language";
 
 export const Route = createFileRoute(
-  '/issues/new/blood-donation/add-location-information',
+  "/issues/new/blood-donation/add-location-information",
 )({
   component: AddLocationInformationSection,
-})
+});
 
 const districtOptions = DISTRICT_WITH_UPAZILA_OR_THANA.map((district) => ({
   value: district.name,
   label: district.name,
-}))
+}));
 
-const fieldNames = ['hospitalName', 'district', 'upazila', 'specialInstruction']
+const fieldNames = [
+  "hospitalName",
+  "district",
+  "upazila",
+  "specialInstruction",
+];
 const title = {
-  en: 'Add Location Information',
-  bn: 'লোকেশন তথ্য দিন',
-}
+  en: "Add Location Information",
+  bn: "লোকেশন তথ্য দিন",
+};
 const hospitalNameLabel = {
   en: "Hospital's Name",
-  bn: 'হাসপাতালের নাম',
-}
+  bn: "হাসপাতালের নাম",
+};
 const hostpitalNamePlaceholder = {
-  en: 'Name of Hospital',
-  bn: 'হাসপাতালের নাম',
-}
-const districtLabel = { en: 'District', bn: 'জেলা' }
-const upazilaLabel = { en: 'Upazila/Thana', bn: 'উপজেলা/থানা' }
+  en: "Name of Hospital",
+  bn: "হাসপাতালের নাম",
+};
+const districtLabel = { en: "District", bn: "জেলা" };
+const upazilaLabel = { en: "Upazila/Thana", bn: "উপজেলা/থানা" };
 const specialInstructionLabel = {
-  en: 'Special Instruction (within 10,000 characters)',
-  bn: 'বিশেষ নির্দেশাবলী (১০,০০০ অক্ষরের মধ্যে)',
-}
+  en: "Special Instruction (within 10,000 characters)",
+  bn: "বিশেষ নির্দেশাবলী (১০,০০০ অক্ষরের মধ্যে)",
+};
 const specialInstructionPlaceholder = {
-  en: 'Add instructions, if any',
-  bn: 'নির্দেশনা যোগ করুন, যদি থাকে',
-}
+  en: "Add instructions, if any",
+  bn: "নির্দেশনা যোগ করুন, যদি থাকে",
+};
 
 function AddLocationInformationSection() {
-  const navigate = useNavigate()
-  const form = useBloodDonationIssueForm()
-  const { language } = useLanguage()
+  const navigate = useNavigate();
+  const form = useBloodDonationIssueForm();
+  const { language } = useLanguage();
 
   async function handleNextButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
 
-    const values = form.state.values
-    const isValid = validateBloodDonationLocationInformationStep(values)
+    const values = form.state.values;
+    const isValid = validateBloodDonationLocationInformationStep(values);
 
     if (!isValid) {
       fieldNames.forEach((fieldName) => {
@@ -71,34 +76,34 @@ function AddLocationInformationSection() {
             ...prev,
             isTouched: true,
           }),
-        )
-      })
+        );
+      });
 
       await Promise.all(
         fieldNames.map((fieldName) =>
           form.validateField(
             fieldName as keyof BloodDonationIssueFormValue,
-            'submit',
+            "submit",
           ),
         ),
-      )
+      );
 
-      return
+      return;
     }
 
-    navigate({ to: '/issues/new/blood-donation/add-contact-information' })
+    navigate({ to: "/issues/new/blood-donation/add-contact-information" });
   }
 
   const getAllUpazilaOrThana = useCallback((district: string | undefined) => {
-    if (!district) return []
+    if (!district) return [];
 
     const districtData = DISTRICT_WITH_UPAZILA_OR_THANA.find(
       (d) => d.name === district,
-    )
-    if (!districtData) return []
+    );
+    if (!districtData) return [];
 
-    return districtData.allUpazilaOrThana.map((u) => ({ value: u, label: u }))
-  }, [])
+    return districtData.allUpazilaOrThana.map((u) => ({ value: u, label: u }));
+  }, []);
   return (
     <>
       <BloodDonationIssueStepper currentStep={2} />
@@ -128,20 +133,20 @@ function AddLocationInformationSection() {
                   field={districtField}
                   label={districtLabel[language]}
                   placeholder={
-                    language === 'en' ? 'Select District' : 'জেলা নির্বাচন করুন'
+                    language === "en" ? "Select District" : "জেলা নির্বাচন করুন"
                   }
                   id="permanentDistrict"
                   options={districtOptions}
                   searchPlaceholder={
-                    language === 'en' ? 'Search districts' : 'জেলা খুঁজুন'
+                    language === "en" ? "Search districts" : "জেলা খুঁজুন"
                   }
                   noResultsMessage={
-                    language === 'en'
-                      ? 'No districts found.'
-                      : 'এমন কোনো জেলা নেই'
+                    language === "en"
+                      ? "No districts found."
+                      : "এমন কোনো জেলা নেই"
                   }
                   onChangeExtra={() =>
-                    form.setFieldValue('upazila', undefined!)
+                    form.setFieldValue("upazila", undefined!)
                   }
                 />
                 <FieldErrorInfo field={districtField} />
@@ -157,22 +162,22 @@ function AddLocationInformationSection() {
                       field={field}
                       label={upazilaLabel[language]}
                       placeholder={
-                        language === 'en'
-                          ? 'Select Upazila/Thana'
-                          : 'উপজেলা/থানা নির্বাচন করুন'
+                        language === "en"
+                          ? "Select Upazila/Thana"
+                          : "উপজেলা/থানা নির্বাচন করুন"
                       }
                       id="permanentUpazila"
                       options={getAllUpazilaOrThana(district)}
                       disabled={!district}
                       searchPlaceholder={
-                        language === 'en'
-                          ? 'Search Upazila/Thana'
-                          : 'উপজেলা/থানা খুঁজুন'
+                        language === "en"
+                          ? "Search Upazila/Thana"
+                          : "উপজেলা/থানা খুঁজুন"
                       }
                       noResultsMessage={
-                        language === 'en'
-                          ? 'No upazila found.'
-                          : 'এমন কোনো উপজেলা নেই'
+                        language === "en"
+                          ? "No upazila found."
+                          : "এমন কোনো উপজেলা নেই"
                       }
                     />
                     <FieldErrorInfo field={field} />
@@ -199,5 +204,5 @@ function AddLocationInformationSection() {
         </div>
       </form>
     </>
-  )
+  );
 }
