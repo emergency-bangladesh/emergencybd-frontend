@@ -1,8 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import React, { useMemo } from "react";
-import { VolunteerRegistrationStepper } from "./-stepper";
-import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
-import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import type React from "react";
+import { useMemo } from "react";
+import {
+  volunteerExistsWithEmailAddress,
+  volunteerExistsWithPhoneNumber,
+} from "@/actions/validate-volunteer";
+import { BackButton } from "@/components/back-button";
+import { NextButton } from "@/components/next-button";
 import {
   FieldErrorInfo,
   FormDatePicker,
@@ -12,11 +16,10 @@ import {
   FormTextInput,
 } from "@/components/ui/form";
 import { SelectItem } from "@/components/ui/select";
+import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
 import { validateFormStepPersonalInformation } from "@/features/volunteer-registration/form/form-step-validation";
-import { BackButton } from "@/components/back-button";
-import { accountExistsWithPhoneNumber } from "@/actions/validate-account";
-import { volunteerExistsWithEmailAddress } from "@/actions/validate-volunteer";
-import { NextButton } from "@/components/next-button";
+import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import { VolunteerRegistrationStepper } from "./-stepper";
 
 export const Route = createFileRoute(
   "/registration/volunteer/personal-information",
@@ -76,11 +79,11 @@ function PersonalInformationFormSection() {
   return (
     <>
       <VolunteerRegistrationStepper currentStep={1} />
-      <div id="title" className="text-center">
+      <div className="text-center">
         <h3>Personal Information</h3>
         <p>In this page, you will be providing your personal information</p>
       </div>
-      <form id="form-fields" className="flex flex-col gap-6 w-full">
+      <form className="flex flex-col gap-6 w-full">
         <volunteerRegistrationForm.Field name="name">
           {(field) => (
             <div className="flex flex-col gap-1">
@@ -88,7 +91,6 @@ function PersonalInformationFormSection() {
                 field={field}
                 label="Full Name"
                 placeholder="Your Full Name"
-                id="name"
               />
               <FieldErrorInfo field={field} />
             </div>
@@ -99,11 +101,9 @@ function PersonalInformationFormSection() {
             name="phoneNumber"
             validators={{
               onChangeAsync: async ({ value }) => {
-                const exists = await accountExistsWithPhoneNumber(value);
+                const exists = await volunteerExistsWithPhoneNumber(value);
                 if (exists) {
-                  return {
-                    message: "This phone number already exists",
-                  };
+                  return "This phone number already exists";
                 }
                 return undefined;
               },
@@ -115,7 +115,6 @@ function PersonalInformationFormSection() {
                   field={field}
                   label="Phone Number"
                   placeholder="01XXXXXXXXX"
-                  id="phoneNumber"
                 />
                 <FieldErrorInfo field={field} />
               </div>
@@ -124,11 +123,7 @@ function PersonalInformationFormSection() {
           <volunteerRegistrationForm.Field name="dateOfBirth">
             {(field) => (
               <div className="flex flex-col gap-1 w-full">
-                <FormDatePicker
-                  field={field}
-                  label="Date of Birth"
-                  id="date-of-birth"
-                />
+                <FormDatePicker field={field} label="Date of Birth" />
                 <FieldErrorInfo field={field} />
               </div>
             )}
@@ -140,9 +135,7 @@ function PersonalInformationFormSection() {
             onChangeAsync: async ({ value }) => {
               const exists = await volunteerExistsWithEmailAddress(value);
               if (exists) {
-                return {
-                  message: "This email already exists",
-                };
+                return "This email already exists";
               }
               return undefined;
             },
@@ -154,7 +147,6 @@ function PersonalInformationFormSection() {
                 field={field}
                 label="Email Address"
                 placeholder="you@email.com"
-                id="email"
               />
               <FieldErrorInfo field={field} />
             </div>
@@ -168,7 +160,6 @@ function PersonalInformationFormSection() {
                   field={field}
                   label="Blood Group"
                   placeholder="Select Blood Group"
-                  id="bloodGroup"
                 >
                   <SelectItem value="A+">A+</SelectItem>
                   <SelectItem value="A-">A-</SelectItem>
@@ -191,7 +182,6 @@ function PersonalInformationFormSection() {
                   field={field}
                   label="Gender"
                   placeholder="Select Gender"
-                  id="gender"
                 >
                   <SelectItem value="male">Male</SelectItem>
                   <SelectItem value="female">Female</SelectItem>

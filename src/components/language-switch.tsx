@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
-import { useLanguage } from "@/integrations/language/use-language";
 import { SelectSwitch } from "@/components/ui/select-switch";
+import { useLanguage } from "@/integrations/language/use-language";
 
 type LanguageSwitchProps = {
   variant?: ComponentProps<typeof SelectSwitch>["variant"];

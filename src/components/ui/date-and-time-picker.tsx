@@ -1,7 +1,6 @@
-import * as React from "react";
-import { format } from "date-fns";
 import { IconChevronDown } from "@tabler/icons-react";
-import Muted from "./typography/muted";
+import { format } from "date-fns";
+import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -11,6 +10,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import Muted from "./typography/muted";
 
 type DateAndTimePickerProps = {
   initialDateTime?: Date;
@@ -62,7 +62,7 @@ export function DateAndTimePicker({
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            id="date-picker"
+            id={React.useId()}
             className="w-full justify-between font-normal"
           >
             {date ? date.toLocaleDateString() : <Muted>{placeholder}</Muted>}
@@ -85,7 +85,7 @@ export function DateAndTimePicker({
       </Popover>
       <Input
         type="time"
-        id="time-picker"
+        id={React.useId()}
         value={time || ""}
         onChange={(e) => setTime(e.target.value)}
         step="1"

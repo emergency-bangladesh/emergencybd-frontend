@@ -1,11 +1,11 @@
-import * as React from "react";
 import { IconCalendar } from "@tabler/icons-react";
 import { format, parse } from "date-fns";
+import * as React from "react";
+import { cn } from "@/lib/utils";
 import { Button } from "./button";
 import { Calendar } from "./calendar";
 import { Input } from "./input";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
-import { cn } from "@/lib/utils";
 
 function formatDate(date: Date | undefined) {
   if (!date) {
@@ -19,7 +19,7 @@ function isValidDate(date: Date | undefined) {
   if (!date) {
     return false;
   }
-  return !isNaN(date.getTime());
+  return !Number.isNaN(date.getTime());
 }
 
 type DatePickerProps = {
@@ -95,55 +95,53 @@ export function DatePicker({
   };
 
   return (
-    <>
-      <div className="relative flex gap-2">
-        <Input
-          id={id}
-          value={value}
-          placeholder={placeholder || "DD MMMM, YYYY"}
-          className={cn(
-            "bg-background pr-10",
-            className,
-            error && "border-destructive focus-visible:ring-destructive",
-          )}
-          onBlur={handleInputBlur}
-          onChange={handleInputChange}
-          onKeyDown={(e) => {
-            if (e.key === "ArrowDown") {
-              e.preventDefault();
-              setOpen(true);
-            }
-          }}
-        />
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              id="date-picker"
-              variant="ghost"
-              className="absolute top-1/2 right-2 size-6 -translate-y-1/2"
-            >
-              <IconCalendar className="size-3.5" />
-              <span className="sr-only">Select date</span>
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent
-            className="w-auto overflow-hidden p-0"
-            align="end"
-            alignOffset={-8}
-            sideOffset={10}
+    <div className="relative flex gap-2">
+      <Input
+        id={id}
+        value={value}
+        placeholder={placeholder || "DD MMMM, YYYY"}
+        className={cn(
+          "bg-background pr-10",
+          className,
+          error && "border-destructive focus-visible:ring-destructive",
+        )}
+        onBlur={handleInputBlur}
+        onChange={handleInputChange}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            setOpen(true);
+          }
+        }}
+      />
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            id={React.useId()}
+            variant="ghost"
+            className="absolute top-1/2 right-2 size-6 -translate-y-1/2"
           >
-            <Calendar
-              mode="single"
-              selected={calendarDate}
-              captionLayout="dropdown"
-              month={month}
-              onMonthChange={setMonth}
-              onSelect={handleDateSelect}
-              {...props}
-            />
-          </PopoverContent>
-        </Popover>
-      </div>
-    </>
+            <IconCalendar className="size-3.5" />
+            <span className="sr-only">Select date</span>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          className="w-auto overflow-hidden p-0"
+          align="end"
+          alignOffset={-8}
+          sideOffset={10}
+        >
+          <Calendar
+            mode="single"
+            selected={calendarDate}
+            captionLayout="dropdown"
+            month={month}
+            onMonthChange={setMonth}
+            onSelect={handleDateSelect}
+            {...props}
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
   );
 }

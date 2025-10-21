@@ -1,3 +1,4 @@
+import type { VolunteerRegistrationFormValue } from "./form-schema";
 import {
   IDInformationSchema,
   locationInformationSchema,
@@ -6,7 +7,6 @@ import {
   profilePictureSchema,
   volunteerRegistrationFormSchema,
 } from "./form-schema";
-import type { VolunteerRegistrationFormValue } from "./form-schema";
 
 export const validateFormStepPersonalInformation = (
   data: Partial<VolunteerRegistrationFormValue>,

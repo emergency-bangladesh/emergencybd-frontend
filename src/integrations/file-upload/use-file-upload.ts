@@ -1,6 +1,6 @@
-import { useCallback, useRef, useState } from "react";
 import type * as React from "react";
 import type { ChangeEvent, DragEvent, InputHTMLAttributes } from "react";
+import { useCallback, useRef, useState } from "react";
 
 export type FileWithPreview = {
   file: File;
@@ -368,5 +368,5 @@ export const formatBytes = (bytes: number, decimals = 2): string => {
 
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + sizes[i];
+  return Number.parseFloat((bytes / k ** i).toFixed(dm)) + sizes[i];
 };

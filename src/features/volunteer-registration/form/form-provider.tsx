@@ -1,10 +1,10 @@
 import { useForm } from "@tanstack/react-form";
-import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { registerVolunteer } from "../actions/register-volunteer";
-import { volunteerRegistrationFormSchema } from "./form-schema";
 import { VolunteerRegistrationFormContext } from "./form-context";
 import type { VolunteerRegistrationFormValue } from "./form-schema";
+import { volunteerRegistrationFormSchema } from "./form-schema";
 
 function useInitVolunteerRegistrationForm() {
   const navigate = useNavigate();

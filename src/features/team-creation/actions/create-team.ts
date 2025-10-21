@@ -1,5 +1,5 @@
-import type { TeamCreationFormValue } from "../form/form-schema";
 import { fetchBackend } from "@/lib/fetch-backend";
+import type { TeamCreationFormValue } from "../form/form-schema";
 
 type TeamCreatePayload = {
   name: string;

@@ -1,4 +1,3 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   IconClipboardList,
   IconClock,
@@ -7,10 +6,11 @@ import {
   IconSearch,
   IconUsers,
 } from "@tabler/icons-react";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 export const Route = createFileRoute("/(static)/about-us")({
   component: AboutUs,

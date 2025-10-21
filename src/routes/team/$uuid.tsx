@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import {
   IconCalendarEvent,
@@ -6,7 +5,11 @@ import {
   IconForbid,
   IconLocationPin,
 } from "@tabler/icons-react";
+import { createFileRoute } from "@tanstack/react-router";
 import { format } from "date-fns";
+import { volunteerProfilePicUrl } from "@/actions/volunteer";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Loader } from "@/components/ui/loader";
 import {
   Timeline,
   TimelineContent,
@@ -17,12 +20,9 @@ import {
   TimelineSeparator,
   TimelineTitle,
 } from "@/components/ui/timeline";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import Muted from "@/components/ui/typography/muted";
-import { volunteerProfilePicUrl } from "@/actions/volunteer";
-import { teamQueryOptions, useTeamQuery } from "@/queries/use-team-query";
-import { Loader } from "@/components/ui/loader";
 import { useTeamPlanQuery } from "@/queries/use-team-plan-query";
+import { teamQueryOptions, useTeamQuery } from "@/queries/use-team-query";
 
 export const Route = createFileRoute("/team/$uuid")({
   component: RouteComponent,

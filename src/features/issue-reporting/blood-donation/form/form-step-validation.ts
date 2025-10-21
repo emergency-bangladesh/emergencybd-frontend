@@ -1,8 +1,8 @@
+import type { BloodDonationIssueFormValue } from "./form-schema";
 import {
   basicInformationSchema,
   locationInformationSchema,
 } from "./form-schema";
-import type { BloodDonationIssueFormValue } from "./form-schema";
 
 export function validateBloodDonationBasicInformationStep(
   values: Partial<BloodDonationIssueFormValue>,

@@ -1,10 +1,10 @@
 import { useForm } from "@tanstack/react-form";
-import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { createTeam } from "../actions/create-team";
-import { teamCreationFormSchema } from "./form-schema";
 import { TeamCreationFormContext } from "./form-context";
 import type { TeamCreationFormValue } from "./form-schema";
+import { teamCreationFormSchema } from "./form-schema";
 
 function useInitTeamCreationForm() {
   const navigate = useNavigate();

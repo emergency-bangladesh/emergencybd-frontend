@@ -1,9 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useCallback } from "react";
-import { BloodDonationInfo } from "./-info";
-import { BloodDonationIssueStepper } from "./-stepper";
-import type { BloodDonationIssueFormValue } from "@/features/issue-reporting/blood-donation/form/form-schema";
-import { useBloodDonationIssueForm } from "@/features/issue-reporting/blood-donation/form/use-blood-donation-issue-form";
+import { BackButton } from "@/components/back-button";
+import { NextButton } from "@/components/next-button";
 import {
   FieldErrorInfo,
   FormComboBox,
@@ -11,10 +9,12 @@ import {
   FormTextInput,
 } from "@/components/ui/form";
 import { DISTRICT_WITH_UPAZILA_OR_THANA } from "@/constants";
-import { BackButton } from "@/components/back-button";
+import type { BloodDonationIssueFormValue } from "@/features/issue-reporting/blood-donation/form/form-schema";
 import { validateBloodDonationLocationInformationStep } from "@/features/issue-reporting/blood-donation/form/form-step-validation";
-import { NextButton } from "@/components/next-button";
+import { useBloodDonationIssueForm } from "@/features/issue-reporting/blood-donation/form/use-blood-donation-issue-form";
 import { useLanguage } from "@/integrations/language/use-language";
+import { BloodDonationInfo } from "./-info";
+import { BloodDonationIssueStepper } from "./-stepper";
 
 export const Route = createFileRoute(
   "/issues/new/blood-donation/add-location-information",
@@ -107,11 +107,11 @@ function AddLocationInformationSection() {
   return (
     <>
       <BloodDonationIssueStepper currentStep={2} />
-      <div id="title" className="text-center">
+      <div className="text-center">
         <h3>{title[language]}</h3>
       </div>
       <BloodDonationInfo />
-      <form id="form-fields" className="flex flex-col gap-6 w-full">
+      <form className="flex flex-col gap-6 w-full">
         <form.Field name="hospitalName">
           {(field) => (
             <div className="flex flex-col gap-1">
@@ -119,7 +119,6 @@ function AddLocationInformationSection() {
                 field={field}
                 label={hospitalNameLabel[language]}
                 placeholder={hostpitalNamePlaceholder[language]}
-                id="hospitalName"
               />
               <FieldErrorInfo field={field} />
             </div>
@@ -135,7 +134,6 @@ function AddLocationInformationSection() {
                   placeholder={
                     language === "en" ? "Select District" : "জেলা নির্বাচন করুন"
                   }
-                  id="permanentDistrict"
                   options={districtOptions}
                   searchPlaceholder={
                     language === "en" ? "Search districts" : "জেলা খুঁজুন"
@@ -166,7 +164,6 @@ function AddLocationInformationSection() {
                           ? "Select Upazila/Thana"
                           : "উপজেলা/থানা নির্বাচন করুন"
                       }
-                      id="permanentUpazila"
                       options={getAllUpazilaOrThana(district)}
                       disabled={!district}
                       searchPlaceholder={
@@ -194,7 +191,6 @@ function AddLocationInformationSection() {
               field={field}
               label={specialInstructionLabel[language]}
               placeholder={specialInstructionPlaceholder[language]}
-              id="specialInstruction"
             />
           )}
         </form.Field>

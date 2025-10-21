@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { IconBrandFacebook, IconMail } from "@tabler/icons-react";
+import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { SOCIAL_LINKS } from "@/constants";
 import { useLanguage } from "@/integrations/language/use-language";

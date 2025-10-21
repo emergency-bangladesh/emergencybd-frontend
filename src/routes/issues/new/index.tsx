@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { IconCircleDashedX, IconDropletPlus } from "@tabler/icons-react";
+import { createFileRoute } from "@tanstack/react-router";
 import { BackButton } from "@/components/back-button";
 import { LinkCard } from "@/components/ui/link-card";
 import { useLanguage } from "@/integrations/language/use-language";

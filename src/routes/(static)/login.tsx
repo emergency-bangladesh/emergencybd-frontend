@@ -1,17 +1,17 @@
-import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
-import { z } from "zod";
-import { useForm } from "@tanstack/react-form";
-import { useState } from "react";
 import { IconAlertTriangle, IconLogin2 } from "@tabler/icons-react";
+import { useForm } from "@tanstack/react-form";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
 import {
   FieldErrorInfo,
   FormEmailInput,
   FormPasswordInput,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/features/auth/use-auth";
-import { ApiError } from "@/lib/errors";
 import Muted from "@/components/ui/typography/muted";
+import { useAuth } from "@/features/auth/hooks/use-auth";
+import { ApiError } from "@/lib/errors";
 
 const loginFormSchema = z.object({
   email: z.email("Invalid email address"),
@@ -78,14 +78,13 @@ function LoginForm() {
 
   return (
     <div className="flex justify-center items-center max-w-lg flex-col gap-8">
-      <div id="title" className="text-center">
+      <div className="text-center">
         <h1 className="text-3xl font-bold">Login to Your Account</h1>
         <p className="text-muted-foreground">
           Regardless you&apos;re a volunteer or general user
         </p>
       </div>
       <form
-        id="form-fields"
         className="flex flex-col gap-6 w-full"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
@@ -106,7 +105,6 @@ function LoginForm() {
                 field={field}
                 label="Email Address"
                 placeholder="you@example.com"
-                id="email"
               />
               <FieldErrorInfo field={field} />
             </div>
@@ -120,7 +118,6 @@ function LoginForm() {
                 field={field}
                 label="Password"
                 placeholder="********"
-                id="password"
               />
               <FieldErrorInfo field={field} />
             </div>

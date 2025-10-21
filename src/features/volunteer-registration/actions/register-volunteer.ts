@@ -1,9 +1,9 @@
-import type { VolunteerRegistrationFormValue } from "../form/form-schema";
 import {
   compressNidImage,
   compressProfileImage,
 } from "@/integrations/image-compression/image-compressor";
 import { fetchBackend } from "@/lib/fetch-backend";
+import type { VolunteerRegistrationFormValue } from "../form/form-schema";
 
 interface CreateVolunteerPayload {
   full_name: string;

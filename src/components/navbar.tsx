@@ -1,21 +1,21 @@
-import { Link } from "@tanstack/react-router";
 import { IconLogin2, IconMenu2, IconUserPlus } from "@tabler/icons-react";
+import type { LinkProps } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
+import { useAuth } from "@/features/auth/hooks/use-auth";
+import type { Language } from "@/integrations/language/language-provider";
+import { useLanguage } from "@/integrations/language/use-language";
+import { LanguageSwitch } from "./language-switch";
 import Logo from "./logo";
+import { ThemeSwitch } from "./theme-toggle";
+import { Button } from "./ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
 } from "./ui/navigation-menu";
-import { ThemeSwitch } from "./theme-toggle";
-import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { UserNav } from "./user-nav";
-import { LanguageSwitch } from "./language-switch";
-import type { LinkProps } from "@tanstack/react-router";
-import type { Language } from "@/integrations/language/language-provider";
-import { useAuth } from "@/features/auth/use-auth";
-import { useLanguage } from "@/integrations/language/use-language";
 
 const navMenuLinks: Array<{
   to: LinkProps["to"];
@@ -67,8 +67,8 @@ const DesktopNavMenu = () => {
         </Link>
         <NavigationMenu viewport={false}>
           <NavigationMenuList className="flex gap-4">
-            {navMenuLinks.map((navLink, index) => (
-              <NavigationMenuItem key={index}>
+            {navMenuLinks.map((navLink) => (
+              <NavigationMenuItem key={navLink.to}>
                 <NavigationMenuLink asChild className="font-medium">
                   <Link to={navLink.to}>{navLink.text[language]}</Link>
                 </NavigationMenuLink>
@@ -119,8 +119,8 @@ const MobileNavMenu = () => {
           <PopoverContent className="flex flex-col gap-4 w-48">
             <NavigationMenu viewport={false}>
               <NavigationMenuList className="flex flex-col gap-2">
-                {navMenuLinks.map((navLink, index) => (
-                  <NavigationMenuItem key={index}>
+                {navMenuLinks.map((navLink) => (
+                  <NavigationMenuItem key={navLink.to}>
                     <NavigationMenuLink asChild>
                       <Link to={navLink.to}>{navLink.text[language]}</Link>
                     </NavigationMenuLink>

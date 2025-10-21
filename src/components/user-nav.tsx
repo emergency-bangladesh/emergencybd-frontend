@@ -1,9 +1,7 @@
 "use client";
 import { Link } from "@tanstack/react-router";
-import { Button } from "./ui/button";
-import { Loader } from "./ui/loader";
-import Muted from "./ui/typography/muted";
-import { useAuth } from "@/features/auth/use-auth";
+import { volunteerProfilePicUrl } from "@/actions/volunteer";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,9 +11,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuth } from "@/features/auth/hooks/use-auth";
 import { useVolunteerQuery } from "@/queries/use-volunteer-query";
-import { volunteerProfilePicUrl } from "@/actions/volunteer";
+import { Button } from "./ui/button";
+import { Loader } from "./ui/loader";
+import Muted from "./ui/typography/muted";
 
 function VolunteerNavGroup({ uuid }: { uuid: string }) {
   const { data: volunteer } = useVolunteerQuery(uuid);

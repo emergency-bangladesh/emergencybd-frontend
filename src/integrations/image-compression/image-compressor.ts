@@ -1,5 +1,5 @@
-import imageCompression from "browser-image-compression";
 import type { Options } from "browser-image-compression";
+import imageCompression from "browser-image-compression";
 
 /**
  * A private helper function to compress an image file using browser-image-compression.

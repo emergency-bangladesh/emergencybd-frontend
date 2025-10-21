@@ -1,17 +1,17 @@
+import { TanStackDevtools } from "@tanstack/react-devtools";
+import type { QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import {
+  createRootRouteWithContext,
   Link,
   Outlet,
-  createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { TanStackDevtools } from "@tanstack/react-devtools";
-import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
-import type { QueryClient } from "@tanstack/react-query";
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
-import Muted from "@/components/ui/typography/muted";
 import Large from "@/components/ui/typography/large";
+import Muted from "@/components/ui/typography/muted";
 
 interface RouterContext {
   queryClient: QueryClient;

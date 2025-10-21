@@ -8,7 +8,7 @@ type Options<TState, TData = TState, TArgs extends Array<unknown> = []> =
   | { key: Array<unknown>; resolver: (...args: TArgs) => Promise<TData> };
 
 export function createState<T>(options: Options<T>) {
-  return function () {
+  return () => {
     const queryClient = useQueryClient();
     const queryKey = options.key;
     const queryFn =

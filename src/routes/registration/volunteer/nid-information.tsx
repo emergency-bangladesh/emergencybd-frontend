@@ -1,13 +1,14 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import React, { useMemo } from "react";
-import { VolunteerRegistrationStepper } from "./-stepper";
-import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
-import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
-import { FieldErrorInfo, FormTextInput } from "@/components/ui/form";
-import { validateFormStepIDInformation } from "@/features/volunteer-registration/form/form-step-validation";
+import type React from "react";
+import { useMemo } from "react";
 import { BackButton } from "@/components/back-button";
-import { FileUpload } from "@/components/ui/file-upload";
 import { NextButton } from "@/components/next-button";
+import { FileUpload } from "@/components/ui/file-upload";
+import { FieldErrorInfo, FormTextInput } from "@/components/ui/form";
+import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
+import { validateFormStepIDInformation } from "@/features/volunteer-registration/form/form-step-validation";
+import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import { VolunteerRegistrationStepper } from "./-stepper";
 
 export const Route = createFileRoute("/registration/volunteer/nid-information")(
   {
@@ -64,11 +65,11 @@ function NidInformationFormSection() {
   return (
     <>
       <VolunteerRegistrationStepper currentStep={4} />
-      <div id="title" className="text-center">
+      <div className="text-center">
         <h3>Add NID Information</h3>
         <p>Add your NID number along with the image as proof</p>
       </div>
-      <form id="form-fields" className="flex flex-col gap-6 w-full">
+      <form className="flex flex-col gap-6 w-full">
         <volunteerRegistrationForm.Field name="nidNumber">
           {(field) => (
             <div className="flex flex-col gap-1">
@@ -76,7 +77,6 @@ function NidInformationFormSection() {
                 field={field}
                 label="NID Number"
                 placeholder="Your 10 or 17 digit NID number"
-                id="nidNumber"
               />
               <FieldErrorInfo field={field} />
             </div>

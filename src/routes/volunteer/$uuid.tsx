@@ -1,5 +1,3 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import {
   IconBan,
   IconCalendar,
@@ -8,8 +6,11 @@ import {
   IconMail,
   IconUsers,
 } from "@tabler/icons-react";
+import { useQuery } from "@tanstack/react-query";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Loader } from "@/components/ui/loader";
 import {
   Timeline,
   TimelineContent,
@@ -20,14 +21,13 @@ import {
   TimelineSeparator,
   TimelineTitle,
 } from "@/components/ui/timeline";
+import { useAuth } from "@/features/auth/hooks/use-auth";
+import { fetchBackend } from "@/lib/fetch-backend";
+import { parseDateFromUtc } from "@/lib/utils";
 import {
   useVolunteerQuery,
   volunteerQueryOptions,
 } from "@/queries/use-volunteer-query";
-import { Loader } from "@/components/ui/loader";
-import { useAuth } from "@/features/auth/use-auth";
-import { fetchBackend } from "@/lib/fetch-backend";
-import { parseDateFromUtc } from "@/lib/utils";
 
 export const Route = createFileRoute("/volunteer/$uuid")({
   component: VolunteerProfilePage,
@@ -53,6 +53,7 @@ export const Route = createFileRoute("/volunteer/$uuid")({
 });
 
 function VolunteerProfilePage() {
+  const navigate = useNavigate();
   const { uuid } = Route.useParams();
   const { user } = useAuth();
   const { data: volunteer, isLoading } = useVolunteerQuery(uuid);
@@ -165,12 +166,15 @@ function VolunteerProfilePage() {
 
         {volunteer?.teamInformation && (
           <button
+            type="button"
             onClick={() => {
-              // TODO: Navigate to team profile page
-              console.log(
-                "Navigate to team profile:",
-                volunteer.teamInformation?.teamName,
-              );
+              if (!volunteer.teamInformation) return;
+              navigate({
+                to: "/team/$uuid",
+                params: {
+                  uuid: volunteer.teamInformation.teamUuid,
+                },
+              });
             }}
             className="group mb-6 w-fit rounded-lg border-2 border-border bg-muted/30 p-4 text-left transition-all hover:border-primary hover:bg-muted/50 hover:shadow-md"
           >
@@ -201,7 +205,7 @@ function VolunteerProfilePage() {
           {recentActivities ? (
             <Timeline>
               {recentActivities.map((activity, index) => (
-                <TimelineItem key={index} step={index + 1}>
+                <TimelineItem key={activity.title} step={index + 1}>
                   <TimelineHeader>
                     <TimelineDate>
                       {parseDateFromUtc(activity.time).toLocaleString()}

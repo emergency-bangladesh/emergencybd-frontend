@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { BloodDonationInfo } from "./-info";
-import { BloodDonationIssueStepper } from "./-stepper";
-import type { BloodDonationIssueFormValue } from "@/features/issue-reporting/blood-donation/form/form-schema";
+import { BackButton } from "@/components/back-button";
+import { NextButton } from "@/components/next-button";
 import {
   FieldErrorInfo,
   FormDateAndTimePicker,
@@ -10,11 +9,12 @@ import {
   FormTextInput,
 } from "@/components/ui/form";
 import { SelectItem } from "@/components/ui/select";
-import { useBloodDonationIssueForm } from "@/features/issue-reporting/blood-donation/form/use-blood-donation-issue-form";
-import { BackButton } from "@/components/back-button";
+import type { BloodDonationIssueFormValue } from "@/features/issue-reporting/blood-donation/form/form-schema";
 import { validateBloodDonationBasicInformationStep } from "@/features/issue-reporting/blood-donation/form/form-step-validation";
-import { NextButton } from "@/components/next-button";
+import { useBloodDonationIssueForm } from "@/features/issue-reporting/blood-donation/form/use-blood-donation-issue-form";
 import { useLanguage } from "@/integrations/language/use-language";
+import { BloodDonationInfo } from "./-info";
+import { BloodDonationIssueStepper } from "./-stepper";
 
 export const Route = createFileRoute(
   "/issues/new/blood-donation/add-basic-information",
@@ -104,12 +104,12 @@ function AddBasicInformationSection() {
   return (
     <>
       <BloodDonationIssueStepper currentStep={1} />
-      <div id="title" className="text-center">
+      <div className="text-center">
         <h3>{title[language]}</h3>
         <p>{subtitle[language]}</p>
       </div>
       <BloodDonationInfo />
-      <form id="form-fields" className="flex flex-col gap-6 w-full">
+      <form className="flex flex-col gap-6 w-full">
         <form.Field name="patientName">
           {(field) => (
             <div className="flex flex-col gap-1">
@@ -117,7 +117,6 @@ function AddBasicInformationSection() {
                 field={field}
                 label={patientNameLabel[language]}
                 placeholder={patientNamePlaceholder[language]}
-                id="patientName"
               />
               <FieldErrorInfo field={field} />
             </div>
@@ -131,7 +130,6 @@ function AddBasicInformationSection() {
                   field={field}
                   label={bloodGroupLabel[language]}
                   placeholder={bloodGroupPlaceholder[language]}
-                  id="bloodGroup"
                 >
                   <SelectItem value="A+">A+</SelectItem>
                   <SelectItem value="A-">A-</SelectItem>
@@ -153,7 +151,6 @@ function AddBasicInformationSection() {
                   field={field}
                   label={amountInBagLabel[language]}
                   placeholder={amountInBagPlaceholder[language]}
-                  id="amountInBag"
                 />
                 <FieldErrorInfo field={field} />
               </div>
@@ -166,7 +163,6 @@ function AddBasicInformationSection() {
               <FormDateAndTimePicker
                 field={field}
                 label={exactDateAndTimeLabel[language]}
-                id="exactDateAndTime"
               />
               <FieldErrorInfo field={field} />
             </div>

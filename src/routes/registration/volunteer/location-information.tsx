@@ -1,18 +1,18 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useCallback, useMemo } from "react";
-import { VolunteerRegistrationStepper } from "./-stepper";
 import type { MouseEvent } from "react";
-import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
-import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import { useCallback, useMemo } from "react";
+import { BackButton } from "@/components/back-button";
+import { NextButton } from "@/components/next-button";
 import {
   FieldErrorInfo,
   FormCheckbox,
   FormComboBox,
 } from "@/components/ui/form";
-import { validateFormStepLocationInformation } from "@/features/volunteer-registration/form/form-step-validation";
-import { BackButton } from "@/components/back-button";
 import { DISTRICT_WITH_UPAZILA_OR_THANA } from "@/constants";
-import { NextButton } from "@/components/next-button";
+import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
+import { validateFormStepLocationInformation } from "@/features/volunteer-registration/form/form-step-validation";
+import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import { VolunteerRegistrationStepper } from "./-stepper";
 
 export const Route = createFileRoute(
   "/registration/volunteer/location-information",
@@ -91,13 +91,13 @@ function LocationInformationFormSection() {
   return (
     <>
       <VolunteerRegistrationStepper currentStep={2} />
-      <div id="title" className="text-center">
+      <div className="text-center">
         <h3>Location Information</h3>
         <p>
           We take location information so that we can make better filtration
         </p>
       </div>
-      <form id="form-fields" className="flex flex-col gap-6 w-full">
+      <form className="flex flex-col gap-6 w-full">
         <div className="flex flex-col gap-3">
           <h4>Permanent Address</h4>
           <div className="grid grid-cols-2 gap-3">
@@ -108,7 +108,6 @@ function LocationInformationFormSection() {
                     field={districtField}
                     label="Permanent District"
                     placeholder="Select District"
-                    id="permanentDistrict"
                     options={districtOptions}
                     searchPlaceholder="Search districts..."
                     noResultsMessage="No districts found."
@@ -134,7 +133,6 @@ function LocationInformationFormSection() {
                         field={field}
                         label="Permanent upazila"
                         placeholder="Select upazila"
-                        id="permanentupazila"
                         options={getAllUpazilaOrThana(permanentDistrict)}
                         disabled={!permanentDistrict}
                         searchPlaceholder="Search"
@@ -154,11 +152,7 @@ function LocationInformationFormSection() {
           <volunteerRegistrationForm.Field name="currentSameAsPermanent">
             {(field) => (
               <div className="flex flex-col gap-1">
-                <FormCheckbox
-                  field={field}
-                  label="Same as Permanent Address"
-                  id="currentSameAsPermanent"
-                />
+                <FormCheckbox field={field} label="Same as Permanent Address" />
                 <FieldErrorInfo field={field} />
               </div>
             )}
@@ -175,7 +169,6 @@ function LocationInformationFormSection() {
                         field={field}
                         label="Current District"
                         placeholder="Select District"
-                        id="currentDistrict"
                         options={districtOptions}
                         disabled={currentSameAsPermanent}
                         searchPlaceholder="Search districts"
@@ -205,7 +198,6 @@ function LocationInformationFormSection() {
                         field={field}
                         label="Current upazila"
                         placeholder="Select upazila"
-                        id="currentupazila"
                         options={getAllUpazilaOrThana(
                           state.values.currentDistrict,
                         )}

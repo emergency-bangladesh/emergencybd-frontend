@@ -1,16 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { IconCircleCheck } from "@tabler/icons-react";
-import { VolunteerRegistrationStepper } from "./-stepper";
+import { createFileRoute } from "@tanstack/react-router";
+import { BackButton } from "@/components/back-button";
+import { Button } from "@/components/ui/button";
 import {
   FieldErrorInfo,
   FormAvatarUpload,
   FormCheckbox,
 } from "@/components/ui/form";
-import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
-import { BackButton } from "@/components/back-button";
-import { Button } from "@/components/ui/button";
-import Muted from "@/components/ui/typography/muted";
 import { Loader } from "@/components/ui/loader";
+import Muted from "@/components/ui/typography/muted";
+import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import { VolunteerRegistrationStepper } from "./-stepper";
 
 export const Route = createFileRoute(
   "/registration/volunteer/upload-profile-picture",
@@ -23,7 +23,7 @@ function RouteComponent() {
   return (
     <>
       <VolunteerRegistrationStepper currentStep={6} />
-      <div id="title" className="text-center">
+      <div className="text-center">
         <h3>Upload A Profile Picture</h3>
         <Muted>
           Upload a clear face so that anyone can identify you. This picture will
@@ -33,7 +33,6 @@ function RouteComponent() {
         </Muted>
       </div>
       <form
-        id="form-fields"
         className="flex flex-col gap-6 w-full"
         onSubmit={(e) => {
           e.preventDefault();
@@ -66,7 +65,6 @@ function RouteComponent() {
             <div className="flex flex-col gap-1">
               <FormCheckbox
                 field={field}
-                id="agreeTerms"
                 label="I consent, the information can be used as per terms and conditions"
               />
               <FieldErrorInfo field={field} />

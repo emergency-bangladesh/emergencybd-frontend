@@ -1,20 +1,20 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useCallback } from "react";
-import { LostAndFoundIssueStepper } from "./-stepper";
-import { LostAndFoundInfo } from "./-info";
-import type { LostAndFoundFormValue } from "@/features/issue-reporting/lost-and-found/form/form-schema";
-import { SelectItem } from "@/components/ui/select";
-import { useLostAndFoundForm } from "@/features/issue-reporting/lost-and-found/form/use-lost-and-found-form";
+import { BackButton } from "@/components/back-button";
+import { NextButton } from "@/components/next-button";
 import {
   FieldErrorInfo,
   FormComboBox,
   FormSelect,
   FormTextInput,
 } from "@/components/ui/form";
+import { SelectItem } from "@/components/ui/select";
 import { DISTRICT_WITH_UPAZILA_OR_THANA } from "@/constants";
-import { BackButton } from "@/components/back-button";
+import type { LostAndFoundFormValue } from "@/features/issue-reporting/lost-and-found/form/form-schema";
 import { validateLostAndFoundLocationInformationStep } from "@/features/issue-reporting/lost-and-found/form/form-step-validation";
-import { NextButton } from "@/components/next-button";
+import { useLostAndFoundForm } from "@/features/issue-reporting/lost-and-found/form/use-lost-and-found-form";
+import { LostAndFoundInfo } from "./-info";
+import { LostAndFoundIssueStepper } from "./-stepper";
 
 export const Route = createFileRoute(
   "/issues/new/lost-and-found/add-more-information",
@@ -78,12 +78,12 @@ function AddLocationInformationSection() {
   return (
     <>
       <LostAndFoundIssueStepper currentStep={2} />
-      <div id="title" className="text-center">
+      <div className="text-center">
         <h3>Add Detailed Information</h3>
         <p>Add details so that volunteers can do the job efficiently</p>
       </div>
       <LostAndFoundInfo />
-      <form id="form-fields" className="flex flex-col gap-6 w-full">
+      <form className="flex flex-col gap-6 w-full">
         <form.Field name="lastSeenLocation">
           {(field) => (
             <div className="flex flex-col gap-1">
@@ -91,7 +91,6 @@ function AddLocationInformationSection() {
                 field={field}
                 label="Last Seen Location"
                 placeholder="Be specific. e.g., ‘Near Airport Railway Station’"
-                id="lastSeenLocation"
               />
               <FieldErrorInfo field={field} />
             </div>
@@ -105,7 +104,6 @@ function AddLocationInformationSection() {
                   field={districtField}
                   label="Permanent District"
                   placeholder="Select District"
-                  id="permanentDistrict"
                   options={districtOptions}
                   searchPlaceholder="Search districts..."
                   noResultsMessage="No districts found."
@@ -126,7 +124,6 @@ function AddLocationInformationSection() {
                       field={field}
                       label="Permanent upazila"
                       placeholder="Select upazila"
-                      id="permanentUpazila"
                       options={getAllUpazilaOrThana(district)}
                       disabled={!district}
                       searchPlaceholder="Search"
@@ -148,7 +145,6 @@ function AddLocationInformationSection() {
                   field={field}
                   label="Blood Group (Optional)"
                   placeholder="Select Blood Group"
-                  id="bloodGroup"
                 >
                   <SelectItem value="A+">A+</SelectItem>
                   <SelectItem value="A-">A-</SelectItem>
@@ -170,7 +166,6 @@ function AddLocationInformationSection() {
                   field={field}
                   label="Occupation (Optional)"
                   placeholder="e.g. Student"
-                  id="occupation"
                 />
                 <FieldErrorInfo field={field} />
               </div>

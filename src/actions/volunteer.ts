@@ -1,6 +1,6 @@
-import type { VolunteerData } from "@/types/volunteer";
 import { apiUrl, fetchBackend } from "@/lib/fetch-backend";
 import { parseDateFromUtc } from "@/lib/utils";
+import type { VolunteerData } from "@/types/volunteer";
 
 export function volunteerProfilePicUrl(uuid: string) {
   return `${apiUrl}/image/volunteer/${uuid}/profile-pic`;

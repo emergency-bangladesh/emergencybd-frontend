@@ -1,9 +1,9 @@
+import type { LostAndFoundFormValue } from "./form-schema";
 import {
   detailedInformationSchema,
   locationInformationSchema,
   pictureInformationSchema,
 } from "./form-schema";
-import type { LostAndFoundFormValue } from "./form-schema";
 
 export function validateLostAndFoundBasicInformationStep(
   values: Partial<LostAndFoundFormValue>,

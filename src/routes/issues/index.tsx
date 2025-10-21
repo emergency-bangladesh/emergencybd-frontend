@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import type { Issue } from "@/types/issue";
 import { BloodDonationIssueCard } from "@/components/blood-donation-issue-card";
 import { LostAndFoundIssueCard } from "@/components/lost-and-found-issue-card";
 import { Loader } from "@/components/ui/loader";
-import { fetchBackend } from "@/lib/fetch-backend";
 import { useLanguage } from "@/integrations/language/use-language";
+import { fetchBackend } from "@/lib/fetch-backend";
+import type { Issue } from "@/types/issue";
 
 export const Route = createFileRoute("/issues/")({
   component: RouteComponent,

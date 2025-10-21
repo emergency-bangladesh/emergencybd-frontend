@@ -1,6 +1,6 @@
-import type { User } from "@/types/user";
-import type { LoginPayload } from "@/types/auth";
 import { fetchBackend } from "@/lib/fetch-backend";
+import type { LoginPayload } from "@/types/auth";
+import type { User } from "@/types/user";
 
 export async function getCurrentUser(): Promise<User> {
   const res = await fetchBackend("/auth/me", "GET");

@@ -1,6 +1,6 @@
 import { Root, Thumb } from "@radix-ui/react-switch";
-import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
@@ -88,10 +88,7 @@ function SelectSwitch({
         className={thumbVariants({ variant })}
         aria-label="select-switch-thumb"
       />
-      <div
-        className="relative z-10 flex w-full items-center"
-        aria-label="select-switch-options"
-      >
+      <div className="relative z-10 flex w-full items-center">
         <div className={firstOptionVariants({ variant })}>{options[0]}</div>
         <div className={secondOptionVariants({ variant })}>{options[1]}</div>
       </div>

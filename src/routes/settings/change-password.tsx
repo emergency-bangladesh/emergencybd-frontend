@@ -1,15 +1,16 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useForm } from "@tanstack/react-form";
-import z from "zod";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
+import z from "zod";
+
+import { Button } from "@/components/ui/button";
 import {
   FieldErrorInfo,
   FormPasswordInput,
   FormPasswordInputWithValidationFeedback,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
+import { RequireAuth } from "@/features/auth/components/require-auth";
 import { fetchBackend } from "@/lib/fetch-backend";
-import { RequireAuth } from "@/components/require-auth";
 
 export const Route = createFileRoute("/settings/change-password")({
   component: ChangePasswordComponent,
@@ -66,12 +67,11 @@ function ChangePasswordComponent() {
   return (
     <RequireAuth>
       <div className="flex justify-center items-center max-w-lg md:w-lg w-full flex-col gap-8 mx-auto p-5">
-        <div id="title" className="text-center">
+        <div className="text-center">
           <h3>Change Password</h3>
           <p>Update your password here.</p>
         </div>
         <form
-          id="form-fields"
           className="flex flex-col gap-6 w-full"
           onSubmit={(e) => {
             e.preventDefault();
@@ -82,11 +82,7 @@ function ChangePasswordComponent() {
           <form.Field name="oldPassword">
             {(field) => (
               <div className="flex flex-col gap-1">
-                <FormPasswordInput
-                  field={field}
-                  label="Old Password"
-                  id="oldPassword"
-                />
+                <FormPasswordInput field={field} label="Old Password" />
                 <FieldErrorInfo field={field} />
               </div>
             )}
@@ -97,7 +93,6 @@ function ChangePasswordComponent() {
                 <FormPasswordInputWithValidationFeedback
                   field={field}
                   label="New Password"
-                  id="newPassword"
                 />
                 <FieldErrorInfo field={field} />
               </div>
@@ -106,11 +101,7 @@ function ChangePasswordComponent() {
           <form.Field name="confirmPassword">
             {(field) => (
               <div className="flex flex-col gap-1">
-                <FormPasswordInput
-                  field={field}
-                  label="Confirm New Password"
-                  id="confirmPassword"
-                />
+                <FormPasswordInput field={field} label="Confirm New Password" />
                 <FieldErrorInfo field={field} />
               </div>
             )}

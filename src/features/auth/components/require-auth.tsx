@@ -1,8 +1,8 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useAuth } from "../features/auth/use-auth";
 import type { ReactNode } from "react";
-import type { User } from "@/types/user";
 import { Loader } from "@/components/ui/loader";
+import type { User } from "@/types/user";
+import { useAuth } from "../hooks/use-auth";
 
 interface RequireAuthProps {
   children: ReactNode;

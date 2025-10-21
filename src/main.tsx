@@ -1,12 +1,12 @@
+import { QueryClientProvider } from "@tanstack/react-query";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { QueryClientProvider } from "@tanstack/react-query";
 import "./styles.css";
-import { ThemeProvider } from "./integrations/theme/theme-provider.tsx";
+import { Toaster } from "./components/ui/sonner.tsx";
 import { LanguageProvider } from "./integrations/language/language-provider.tsx";
 import { queryClient } from "./integrations/tanstack-query/query-client.ts";
-import { Toaster } from "./components/ui/sonner.tsx";
+import { ThemeProvider } from "./integrations/theme/theme-provider.tsx";
 
 // Import the generated route tree
 import { routeTree } from "./route-tree.gen";

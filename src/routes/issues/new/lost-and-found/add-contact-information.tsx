@@ -1,8 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { IconCircleCheck } from "@tabler/icons-react";
-import { LostAndFoundIssueStepper } from "./-stepper";
-import { LostAndFoundInfo } from "./-info";
-import { useLostAndFoundForm } from "@/features/issue-reporting/lost-and-found/form/use-lost-and-found-form";
+import { createFileRoute } from "@tanstack/react-router";
+import { BackButton } from "@/components/back-button";
+import { Button } from "@/components/ui/button";
 import {
   FieldErrorInfo,
   FormCheckbox,
@@ -10,11 +9,12 @@ import {
   FormTelInput,
   FormTextInput,
 } from "@/components/ui/form";
-import { BackButton } from "@/components/back-button";
-import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/ui/loader";
-import { useAuth } from "@/features/auth/use-auth";
+import { useAuth } from "@/features/auth/hooks/use-auth";
+import { useLostAndFoundForm } from "@/features/issue-reporting/lost-and-found/form/use-lost-and-found-form";
 import { useLanguage } from "@/integrations/language/use-language";
+import { LostAndFoundInfo } from "./-info";
+import { LostAndFoundIssueStepper } from "./-stepper";
 
 export const Route = createFileRoute(
   "/issues/new/lost-and-found/add-contact-information",
@@ -65,13 +65,12 @@ function RouteComponent() {
   return (
     <>
       <LostAndFoundIssueStepper currentStep={4} />
-      <div id="title" className="text-center">
+      <div className="text-center">
         <h3>{title[language]}</h3>
         <p>{subtitle[language]}</p>
       </div>
       <LostAndFoundInfo />
       <form
-        id="form-fields"
         className="flex flex-col gap-6 w-full"
         onSubmit={(e) => {
           e.preventDefault();
@@ -86,7 +85,6 @@ function RouteComponent() {
                 field={field}
                 label={fullNameLabel[language]}
                 placeholder={fullNamePlaceholder[language]}
-                id="fullName"
                 disabled={!!hasInitialValue}
               />
               <FieldErrorInfo field={field} />
@@ -100,7 +98,6 @@ function RouteComponent() {
                 <FormTelInput
                   field={field}
                   label={phoneNumberLabel[language]}
-                  id="phoneNumber"
                   disabled={!!hasInitialValue}
                 />
                 <FieldErrorInfo field={field} />
@@ -113,7 +110,6 @@ function RouteComponent() {
                 <FormTelInput
                   field={field}
                   label={emergencyContactNumberLabel[language]}
-                  id="emergencyContactNumber"
                 />
                 <FieldErrorInfo field={field} />
               </div>
@@ -127,7 +123,6 @@ function RouteComponent() {
                 field={field}
                 label={emailAddressLabel[language]}
                 placeholder="you@email.com"
-                id="emailAddress"
                 disabled={!!hasInitialValue}
               />
               <FieldErrorInfo field={field} />
@@ -152,11 +147,7 @@ function RouteComponent() {
         >
           {(field) => (
             <div className="flex flex-col gap-1">
-              <FormCheckbox
-                field={field}
-                label={acceptTermsLabel[language]}
-                id="acceptTerms"
-              />
+              <FormCheckbox field={field} label={acceptTermsLabel[language]} />
               <FieldErrorInfo field={field} />
             </div>
           )}

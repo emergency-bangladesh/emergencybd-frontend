@@ -1,5 +1,5 @@
-import { BangladeshTracedMap } from "../components/bd-traced-map";
 import { useLanguage } from "@/integrations/language/use-language";
+import { BangladeshTracedMap } from "../components/bd-traced-map";
 
 const title = {
   en: "The System Is Meant to Cover All Over Bangladesh",

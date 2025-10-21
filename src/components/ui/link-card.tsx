@@ -1,7 +1,7 @@
-import { Link } from "@tanstack/react-router";
-import Muted from "./typography/muted";
-import type { ReactNode } from "react";
 import type { LinkProps } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
+import Muted from "./typography/muted";
 
 type LinkCardProps = {
   to: LinkProps["to"];

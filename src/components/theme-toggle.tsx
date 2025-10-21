@@ -1,7 +1,7 @@
 import { IconMoon, IconSun } from "@tabler/icons-react";
-import { SelectSwitch } from "./ui/select-switch";
 import type { ComponentProps } from "react";
 import { useTheme } from "@/integrations/theme/use-theme";
+import { SelectSwitch } from "./ui/select-switch";
 
 type ThemeSwitchProps = {
   variant?: ComponentProps<typeof SelectSwitch>["variant"];

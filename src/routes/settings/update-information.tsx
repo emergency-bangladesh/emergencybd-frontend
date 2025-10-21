@@ -1,22 +1,22 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useForm } from "@tanstack/react-form";
-import z from "zod";
+import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useMemo } from "react";
 import { toast } from "sonner";
-
+import z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   FieldErrorInfo,
   FormAvatarUpload,
   FormComboBox,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { DISTRICT_WITH_UPAZILA_OR_THANA } from "@/constants";
-import { useVolunteerQuery } from "@/queries/use-volunteer-query";
-import { useAuth } from "@/features/auth/use-auth";
-import { fetchBackend } from "@/lib/fetch-backend";
-import { uploadProfilePic } from "@/features/volunteer-registration/actions/register-volunteer";
 import { Loader } from "@/components/ui/loader";
-import { RequireAuth } from "@/components/require-auth";
+import { DISTRICT_WITH_UPAZILA_OR_THANA } from "@/constants";
+import { RequireAuth } from "@/features/auth/components/require-auth";
+import { useAuth } from "@/features/auth/hooks/use-auth";
+import { uploadProfilePic } from "@/features/volunteer-registration/actions/register-volunteer";
+import { fetchBackend } from "@/lib/fetch-backend";
+import { useVolunteerQuery } from "@/queries/use-volunteer-query";
+import type { User } from "@/types/user";
 
 export const Route = createFileRoute("/settings/update-information")({
   component: UpdateInformationComponent,
@@ -26,7 +26,7 @@ function UpdateInformationComponent() {
   return (
     <RequireAuth allowedUserTypes={["volunteer"]}>
       <div className="flex justify-center items-center max-w-lg w-full md:w-lg flex-col gap-8 mx-auto p-5">
-        <div id="title" className="text-center">
+        <div className="text-center">
           <h3 className="text-2xl font-bold">Update Personal Information</h3>
           <small className="text-muted-foreground">
             We are currently letting <strong>only volunteers</strong> to update
@@ -75,7 +75,19 @@ const volunteerUpdateSchema = z
 
 function VolunteerUpdateForm() {
   const { user } = useAuth();
-  const { data: volunteerData } = useVolunteerQuery(user!.uuid);
+
+  if (!user) {
+    return (
+      <div className="w-full text-center">
+        You are not authorized to view this page
+      </div>
+    );
+  }
+  return <VolunteerUpdateFormInner user={user} />;
+}
+
+function VolunteerUpdateFormInner({ user }: { readonly user: User }) {
+  const { data: volunteerData } = useVolunteerQuery(user.uuid);
 
   console.log({ volunteerData });
 
@@ -95,7 +107,7 @@ function VolunteerUpdateForm() {
           toast.success("Information Updated");
         }
         if (value.profilePicture) {
-          uploadProfilePic(user!.uuid, value.profilePicture);
+          uploadProfilePic(user.uuid, value.profilePicture);
           toast.success("Profile Picture Updated");
         }
       } catch (err) {
@@ -132,7 +144,6 @@ function VolunteerUpdateForm() {
 
   return (
     <form
-      id="form-fields"
       className="flex flex-col justify-start gap-6 w-full"
       onSubmit={(e) => {
         e.preventDefault();
@@ -162,7 +173,6 @@ function VolunteerUpdateForm() {
                 field={districtField}
                 label="Current District"
                 placeholder="Select District"
-                id="currentDistrict"
                 options={districtOptions}
                 searchPlaceholder="Search districts..."
                 noResultsMessage="No districts found."
@@ -183,7 +193,6 @@ function VolunteerUpdateForm() {
                     field={field}
                     label="Current upazila"
                     placeholder="Select upazila"
-                    id="currentUpazila"
                     options={getAllUpazilaOrThana(currentDistrict)}
                     disabled={!currentDistrict}
                     searchPlaceholder="Search"

@@ -1,6 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { format } from "date-fns";
 import {
   IconAlertCircle,
   IconCalendar,
@@ -13,14 +10,17 @@ import {
   IconPhone,
   IconUser,
 } from "@tabler/icons-react";
-import { Loader } from "./ui/loader";
-import type { BloodDonationIssue, Issue } from "@/types/issue";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/features/auth/use-auth";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useAuth } from "@/features/auth/hooks/use-auth";
 import { fetchBackend } from "@/lib/fetch-backend";
 import { parseDateFromUtc } from "@/lib/utils";
+import type { BloodDonationIssue, Issue } from "@/types/issue";
+import { Loader } from "./ui/loader";
 
 interface bloodDonationIssueCardProps {
   issue: Issue;

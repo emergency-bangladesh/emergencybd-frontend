@@ -1,18 +1,19 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import React, { useMemo } from "react";
-import { VolunteerRegistrationStepper } from "./-stepper";
-import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
-import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import type React from "react";
+import { useId, useMemo } from "react";
+import { volunteerExistsWithPhoneNumber } from "@/actions/validate-volunteer";
+import { BackButton } from "@/components/back-button";
+import { NextButton } from "@/components/next-button";
 import {
   FieldErrorInfo,
   FormDatePicker,
   FormTelInput,
   FormTextInput,
 } from "@/components/ui/form";
+import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
 import { validateFormStepIDInformation } from "@/features/volunteer-registration/form/form-step-validation";
-import { BackButton } from "@/components/back-button";
-import { volunteerExistsWithPhoneNumber } from "@/actions/validate-volunteer";
-import { NextButton } from "@/components/next-button";
+import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import { VolunteerRegistrationStepper } from "./-stepper";
 
 export const Route = createFileRoute("/registration/volunteer/brn-information")(
   {
@@ -70,11 +71,11 @@ function BrnInformationFormSection() {
   return (
     <>
       <VolunteerRegistrationStepper currentStep={4} />
-      <div id="title" className="text-center">
+      <div id={useId()} className="text-center">
         <h3>Add BRN Information</h3>
         <p>Add your birth registration number as your identity</p>
       </div>
-      <form id="form-fields" className="flex flex-col gap-6 w-full">
+      <form id={useId()} className="flex flex-col gap-6 w-full">
         <volunteerRegistrationForm.Field name="brnNumber">
           {(field) => (
             <div className="flex flex-col gap-1">
@@ -82,7 +83,6 @@ function BrnInformationFormSection() {
                 field={field}
                 label="Birth Registration Number"
                 placeholder="Your 17 digit BRN"
-                id="brnNumber"
               />
               <FieldErrorInfo field={field} />
             </div>
@@ -93,7 +93,7 @@ function BrnInformationFormSection() {
           validators={{
             onChangeListenTo: ["dateOfBirth"],
             onChange: ({ value, fieldApi }) =>
-              value?.getTime() !=
+              value?.getTime() !==
               fieldApi.form.getFieldValue("dateOfBirth").getTime()
                 ? { message: "Unacceptable Entity" }
                 : undefined,
@@ -104,7 +104,6 @@ function BrnInformationFormSection() {
               <FormDatePicker
                 field={field}
                 label="Add Date of Birth Again (Re-validation)"
-                id="brnDate"
                 placeholder="Format: DD MMMM, YYYY"
               />
               <FieldErrorInfo field={field} />
@@ -115,7 +114,8 @@ function BrnInformationFormSection() {
           name="parentPhoneNumber"
           validators={{
             onChangeAsync: async ({ value }) => {
-              const exists = await volunteerExistsWithPhoneNumber(value!);
+              if (!value) return undefined;
+              const exists = await volunteerExistsWithPhoneNumber(value);
               if (!exists) {
                 return { message: "No accounts Found with this Phone number" };
               }
@@ -129,7 +129,6 @@ function BrnInformationFormSection() {
                 field={field}
                 label="Your Parent's Phone Number"
                 placeholder="01XXX-XXXXXX"
-                id="parentPhoneNumber"
               />
               <FieldErrorInfo field={field} />
             </div>

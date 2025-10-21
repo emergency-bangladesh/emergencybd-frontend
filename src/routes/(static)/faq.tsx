@@ -1,6 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { faqsBn } from "./-faq/faq-bn";
-import { faqsEn } from "./-faq/faq-en";
 import {
   Accordion,
   AccordionContent,
@@ -8,6 +6,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useLanguage } from "@/integrations/language/use-language";
+import { faqsBn } from "./-faq/faq-bn";
+import { faqsEn } from "./-faq/faq-en";
 
 export const Route = createFileRoute("/(static)/faq")({
   component: FaqPage,

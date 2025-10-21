@@ -6,10 +6,10 @@ import {
   IconMail,
 } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
-import Logo from "./logo";
-import { Button } from "./ui/button";
 import { SOCIAL_LINKS } from "@/constants";
 import { useLanguage } from "@/integrations/language/use-language";
+import Logo from "./logo";
+import { Button } from "./ui/button";
 
 const name = {
   en: "Emergency Bangladesh",
@@ -38,17 +38,11 @@ export const Footer = () => {
 
   return (
     <footer className="flex max-lg:p-4 max-lg:flex-col max-lg:gap-4 items-center max-md:justify-center justify-between px-6 py-2 bg-background w-full">
-      <div
-        id="footer-copyright"
-        className="flex items-center justify-center gap-2"
-      >
+      <div className="flex items-center justify-center gap-2">
         <Logo /> {name[language]} &copy; {year[language]}
       </div>
 
-      <div
-        id="footer-redirects"
-        className="flex items-center justify-center gap-2"
-      >
+      <div className="flex items-center justify-center gap-2">
         <Button variant={"outline"} asChild>
           <a
             href={SOCIAL_LINKS.instagram}
@@ -96,10 +90,7 @@ export const Footer = () => {
           </a>
         </Button>
       </div>
-      <div
-        id="footer-links"
-        className="flex items-center justify-center max-md:justify-between gap-2"
-      >
+      <div className="flex items-center justify-center max-md:justify-between gap-2">
         <Button variant={"ghost"} asChild>
           <Link to="/privacy-policy">{privacyPolicyButtonText[language]}</Link>
         </Button>

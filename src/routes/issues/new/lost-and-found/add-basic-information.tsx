@@ -1,8 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { LostAndFoundIssueStepper } from "./-stepper";
-import { LostAndFoundInfo } from "./-info";
-import type { LostAndFoundFormValue } from "@/features/issue-reporting/lost-and-found/form/form-schema";
-import { useLostAndFoundForm } from "@/features/issue-reporting/lost-and-found/form/use-lost-and-found-form";
+import { BackButton } from "@/components/back-button";
+import { NextButton } from "@/components/next-button";
 import {
   FieldErrorInfo,
   FormDateAndTimePicker,
@@ -10,10 +8,12 @@ import {
   FormTextArea,
   FormTextInput,
 } from "@/components/ui/form";
-import { BackButton } from "@/components/back-button";
+import type { LostAndFoundFormValue } from "@/features/issue-reporting/lost-and-found/form/form-schema";
 import { validateLostAndFoundBasicInformationStep } from "@/features/issue-reporting/lost-and-found/form/form-step-validation";
-import { NextButton } from "@/components/next-button";
+import { useLostAndFoundForm } from "@/features/issue-reporting/lost-and-found/form/use-lost-and-found-form";
 import { useLanguage } from "@/integrations/language/use-language";
+import { LostAndFoundInfo } from "./-info";
+import { LostAndFoundIssueStepper } from "./-stepper";
 
 export const Route = createFileRoute(
   "/issues/new/lost-and-found/add-basic-information",
@@ -66,12 +66,12 @@ function AddBasicInformationSection() {
   return (
     <>
       <LostAndFoundIssueStepper currentStep={1} />
-      <div id="title" className="text-center">
+      <div className="text-center">
         <h3>{title[language]}</h3>
         <p>{subtitle[language]}</p>
       </div>
       <LostAndFoundInfo />
-      <form id="form-fields" className="flex flex-col gap-6 w-full">
+      <form className="flex flex-col gap-6 w-full">
         <form.Field name="personsName">
           {(field) => (
             <div className="flex flex-col gap-1">
@@ -79,7 +79,6 @@ function AddBasicInformationSection() {
                 field={field}
                 label="Person’s Name"
                 placeholder="Name of the Person"
-                id="personsName"
               />
               <FieldErrorInfo field={field} />
             </div>
@@ -93,7 +92,6 @@ function AddBasicInformationSection() {
                 field={field}
                 label="Age"
                 placeholder="Age of the lost person"
-                id="age"
               />
               <FieldErrorInfo field={field} />
             </div>
@@ -105,7 +103,6 @@ function AddBasicInformationSection() {
               <FormDateAndTimePicker
                 field={field}
                 label="Date & Time When Lost"
-                id="lostDateTime"
               />
               <FieldErrorInfo field={field} />
             </div>
@@ -118,7 +115,6 @@ function AddBasicInformationSection() {
                 field={field}
                 label="Details (within 10,000 characters)"
                 placeholder="e.g., ‘Has a birth mark on the forehead’ or ‘Was wearing a red shirt’"
-                id="details"
               />
               <FieldErrorInfo field={field} />
             </div>

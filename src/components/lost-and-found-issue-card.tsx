@@ -1,6 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { format } from "date-fns";
 import {
   IconAlertCircle,
   IconBriefcase,
@@ -14,14 +11,17 @@ import {
   IconPhone,
   IconUser,
 } from "@tabler/icons-react";
-import { Loader } from "./ui/loader";
-import type { Issue, LostAndFoundIssue } from "@/types/issue";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useAuth } from "@/features/auth/hooks/use-auth";
 import { apiUrl, fetchBackend } from "@/lib/fetch-backend";
-import { useAuth } from "@/features/auth/use-auth";
 import { parseDateFromUtc } from "@/lib/utils";
+import type { Issue, LostAndFoundIssue } from "@/types/issue";
+import { Loader } from "./ui/loader";
 
 interface LostAndFoundIssueCardProps {
   issue: Issue;
@@ -176,14 +176,14 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
           >
             {validImages.map((url, index) => (
               <div
-                key={index}
+                key={url}
                 className={`relative overflow-hidden rounded-lg ${
-                  validImages.length === 1 ? "aspect-[4/3]" : "aspect-square"
+                  validImages.length === 1 ? "aspect-4/3" : "aspect-square"
                 }`}
               >
                 <img
                   src={`${apiUrl}${url}`}
-                  alt={`${lostAndFoundIssue.nameOfPerson} - Photo ${index + 1}`}
+                  alt={`${lostAndFoundIssue.nameOfPerson} - ${index + 1}`}
                   className="h-full w-full object-cover"
                 />
               </div>

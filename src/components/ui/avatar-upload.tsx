@@ -1,6 +1,6 @@
 import { IconPhotoPlus, IconX } from "@tabler/icons-react";
-import { useFileUpload } from "@/integrations/file-upload/use-file-upload";
 import { Button } from "@/components/ui/button";
+import { useFileUpload } from "@/integrations/file-upload/use-file-upload";
 
 interface AvatarUploadProps {
   maxSize?: number;

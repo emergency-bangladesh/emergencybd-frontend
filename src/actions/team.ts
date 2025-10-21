@@ -1,6 +1,6 @@
-import type { TeamData, TeamPlanData } from "@/types/team";
 import { fetchBackend } from "@/lib/fetch-backend";
 import { parseDateFromUtc } from "@/lib/utils";
+import type { TeamData, TeamPlanData } from "@/types/team";
 
 export async function getTeamDetails(uuid: string): Promise<TeamData> {
   const res = await fetchBackend(`/teams/${uuid}`, "GET");

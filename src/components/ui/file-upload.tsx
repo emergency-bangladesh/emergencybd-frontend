@@ -10,12 +10,11 @@ import {
   IconVideo,
   IconX,
 } from "@tabler/icons-react";
-
+import { Button } from "@/components/ui/button";
 import {
   formatBytes,
   useFileUpload,
 } from "@/integrations/file-upload/use-file-upload";
-import { Button } from "@/components/ui/button";
 
 const getFileIcon = (file: { file: File | { type: string; name: string } }) => {
   const fileType = file.file instanceof File ? file.file.type : file.file.type;
@@ -101,8 +100,8 @@ export function FileUpload({
     <div className="flex flex-col gap-2">
       {/* Drop area */}
       {showDropArea && (
-        <div
-          role="button"
+        <button
+          type="button"
           onClick={openFileDialog}
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
@@ -138,7 +137,7 @@ export function FileUpload({
                     .join(", ")}
             </p>
           </div>
-        </div>
+        </button>
       )}
 
       {errors.length > 0 && (

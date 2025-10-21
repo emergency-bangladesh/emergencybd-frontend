@@ -7,6 +7,8 @@ const Logo = ({ className, ...props }: LogoProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 2000 2000"
+    aria-label="EmergencyBDLogo"
+    role="img"
     className={cn("size-7.5", className)}
     {...props}
   >

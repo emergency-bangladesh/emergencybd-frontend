@@ -6,8 +6,8 @@ import {
   IconTagsOff,
   IconViewportWide,
 } from "@tabler/icons-react";
-import { InfoCard } from "../components/info-card";
 import { useLanguage } from "@/integrations/language/use-language";
+import { InfoCard } from "../components/info-card";
 
 const title = {
   en: "Why Do People Trust Emergency Bangladesh?",

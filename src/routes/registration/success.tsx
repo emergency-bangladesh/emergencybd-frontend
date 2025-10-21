@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { IconCircleCheck, IconMail } from "@tabler/icons-react";
+import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import Muted from "@/components/ui/typography/muted";
 

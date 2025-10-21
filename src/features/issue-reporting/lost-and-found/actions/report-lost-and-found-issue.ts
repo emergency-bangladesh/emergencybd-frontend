@@ -1,6 +1,6 @@
-import type { LostAndFoundFormValue } from "../form/form-schema";
 import { compressProfileImage } from "@/integrations/image-compression/image-compressor";
 import { fetchBackend } from "@/lib/fetch-backend";
+import type { LostAndFoundFormValue } from "../form/form-schema";
 
 type LostAndFoundIssueCreatePayload = {
   full_name: string;

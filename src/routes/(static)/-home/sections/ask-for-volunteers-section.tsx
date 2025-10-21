@@ -1,8 +1,8 @@
 import { IconCircleDashedPlus, IconPlus } from "@tabler/icons-react";
-import { PeoplesImage } from "../components/peoples";
 import { Button } from "@/components/ui/button";
 import { Info } from "@/components/ui/info";
 import { useLanguage } from "@/integrations/language/use-language";
+import { PeoplesImage } from "../components/peoples";
 
 const infoText = {
   en: "Emergency Bangladesh Is Open for Registration",

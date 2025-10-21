@@ -1,14 +1,14 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { IconArrowRight } from "@tabler/icons-react";
-import { LostAndFoundIssueStepper } from "./-stepper";
-import { LostAndFoundInfo } from "./-info";
-import type { LostAndFoundFormValue } from "@/features/issue-reporting/lost-and-found/form/form-schema";
-import { useLostAndFoundForm } from "@/features/issue-reporting/lost-and-found/form/use-lost-and-found-form";
-import { FileUpload } from "@/components/ui/file-upload";
-import { FieldErrorInfo } from "@/components/ui/form";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { BackButton } from "@/components/back-button";
 import { Button } from "@/components/ui/button";
+import { FileUpload } from "@/components/ui/file-upload";
+import { FieldErrorInfo } from "@/components/ui/form";
+import type { LostAndFoundFormValue } from "@/features/issue-reporting/lost-and-found/form/form-schema";
 import { validateLostAndFoundPictureInformationStep } from "@/features/issue-reporting/lost-and-found/form/form-step-validation";
+import { useLostAndFoundForm } from "@/features/issue-reporting/lost-and-found/form/use-lost-and-found-form";
+import { LostAndFoundInfo } from "./-info";
+import { LostAndFoundIssueStepper } from "./-stepper";
 
 export const Route = createFileRoute("/issues/new/lost-and-found/add-images")({
   component: RouteComponent,
@@ -53,12 +53,12 @@ function RouteComponent() {
   return (
     <>
       <LostAndFoundIssueStepper currentStep={3} />
-      <div id="title" className="text-center">
+      <div className="text-center">
         <h3>Add Images of Lost Person</h3>
         <p>Upload max 3 clear images for identifying the person</p>
       </div>
       <LostAndFoundInfo />
-      <form id="form-fields" className="flex flex-col gap-6 w-full">
+      <form className="flex flex-col gap-6 w-full">
         <form.Field name="images">
           {(field) => {
             function setFilesToField(files: Array<File>) {

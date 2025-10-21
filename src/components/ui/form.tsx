@@ -1,19 +1,19 @@
-import * as React from "react";
 import { IconCheck, IconEye, IconEyeOff, IconX } from "@tabler/icons-react";
-import { useMemo, useState } from "react";
-import { Label } from "./label";
-import { Input } from "./input";
-import { Select, SelectContent, SelectTrigger, SelectValue } from "./select";
-import { DatePicker } from "./date-picker";
-import { Checkbox } from "./checkbox";
-import { Textarea } from "./textarea";
-import { Combobox } from "./combo-box";
-import AvatarUpload from "./avatar-upload";
-import { DateAndTimePicker } from "./date-and-time-picker";
-import type { Calendar } from "./calendar";
-import type { ComboboxOption } from "./combo-box";
 import type { AnyFieldApi } from "@tanstack/react-form";
+import * as React from "react";
+import { useMemo, useState } from "react";
 import { useLanguage } from "@/integrations/language/use-language";
+import AvatarUpload from "./avatar-upload";
+import type { Calendar } from "./calendar";
+import { Checkbox } from "./checkbox";
+import type { ComboboxOption } from "./combo-box";
+import { Combobox } from "./combo-box";
+import { DateAndTimePicker } from "./date-and-time-picker";
+import { DatePicker } from "./date-picker";
+import { Input } from "./input";
+import { Label } from "./label";
+import { Select, SelectContent, SelectTrigger, SelectValue } from "./select";
+import { Textarea } from "./textarea";
 
 export function FieldErrorInfo({
   field,
@@ -40,135 +40,141 @@ type GenericFormInputProps = {
   label: string;
 } & Omit<
   React.ComponentProps<typeof Input>,
-  "aria-invalid" | "value" | "onChange" | "onBlur" | "type"
+  "aria-invalid" | "value" | "onChange" | "onBlur" | "type" | "id"
 >;
 
 export const FormTextInput = ({
   field,
-  id,
   label,
   ...props
-}: GenericFormInputProps) => (
-  <div className="flex flex-col gap-2 w-full">
-    <Label className="px-1" htmlFor={id}>
-      {" "}
-      {label}{" "}
-    </Label>
-    <Input
-      id={id}
-      type="text"
-      aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
-      value={field.state.value}
-      onBlur={field.handleBlur}
-      onChange={(e) => field.handleChange(e.target.value)}
-      {...props}
-    />
-  </div>
-);
+}: GenericFormInputProps) => {
+  const id = React.useId();
+  return (
+    <div className="flex flex-col gap-2 w-full">
+      <Label className="px-1" htmlFor={id}>
+        {" "}
+        {label}{" "}
+      </Label>
+      <Input
+        id={id}
+        type="text"
+        aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
+        value={field.state.value}
+        onBlur={field.handleBlur}
+        onChange={(e) => field.handleChange(e.target.value)}
+        {...props}
+      />
+    </div>
+  );
+};
 
 export const FormEmailInput = ({
   field,
-  id,
   label,
   ...props
-}: GenericFormInputProps) => (
-  <div className="flex flex-col gap-2 w-full">
-    <Label className="px-1" htmlFor={id}>
-      {label}
-    </Label>
-    <Input
-      id={id}
-      type="email"
-      aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
-      value={field.state.value}
-      onBlur={field.handleBlur}
-      onChange={(e) => field.handleChange(e.target.value)}
-      {...props}
-    />
-  </div>
-);
+}: GenericFormInputProps) => {
+  const id = React.useId();
+  return (
+    <div className="flex flex-col gap-2 w-full">
+      <Label className="px-1" htmlFor={id}>
+        {label}
+      </Label>
+      <Input
+        id={id}
+        type="email"
+        aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
+        value={field.state.value}
+        onBlur={field.handleBlur}
+        onChange={(e) => field.handleChange(e.target.value)}
+        {...props}
+      />
+    </div>
+  );
+};
 
 export const FormTelInput = ({
   field,
-  id,
   label,
   placeholder,
   ...props
-}: GenericFormInputProps) => (
-  <div className="flex flex-col gap-2 w-full">
-    <Label className="px-1" htmlFor={id}>
-      {label}
-    </Label>
-    <Input
-      id={id}
-      type="tel"
-      aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
-      value={field.state.value}
-      onBlur={field.handleBlur}
-      onChange={(e) => field.handleChange(e.target.value)}
-      placeholder={placeholder ?? "01XXX-XXXXXX"}
-      {...props}
-    />
-  </div>
-);
+}: GenericFormInputProps) => {
+  const id = React.useId();
+  return (
+    <div className="flex flex-col gap-2 w-full">
+      <Label className="px-1" htmlFor={id}>
+        {label}
+      </Label>
+      <Input
+        id={id}
+        type="tel"
+        aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
+        value={field.state.value}
+        onBlur={field.handleBlur}
+        onChange={(e) => field.handleChange(e.target.value)}
+        placeholder={placeholder ?? "01XXX-XXXXXX"}
+        {...props}
+      />
+    </div>
+  );
+};
 
 export const FormNumberInput = ({
   field,
-  id,
   label,
   ...props
-}: GenericFormInputProps) => (
-  <div className="flex flex-col gap-2 w-full">
-    <Label className="px-1" htmlFor={id}>
-      {label}
-    </Label>
-    <Input
-      id={id}
-      type="number"
-      aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
-      value={field.state.value}
-      onBlur={field.handleBlur}
-      onChange={(e) => field.handleChange(Number(e.target.value))}
-      {...props}
-    />
-  </div>
-);
+}: GenericFormInputProps) => {
+  const id = React.useId();
+  return (
+    <div className="flex flex-col gap-2 w-full">
+      <Label className="px-1" htmlFor={id}>
+        {label}
+      </Label>
+      <Input
+        id={id}
+        type="number"
+        aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
+        value={field.state.value}
+        onBlur={field.handleBlur}
+        onChange={(e) => field.handleChange(Number(e.target.value))}
+        {...props}
+      />
+    </div>
+  );
+};
 
 type FormTextAreaProps = {
   field: AnyFieldApi;
   label: string;
 } & Omit<
   React.ComponentProps<typeof Textarea>,
-  "value" | "onChange" | "onBlur"
+  "value" | "onChange" | "onBlur" | "id"
 >;
 
-export const FormTextArea = ({
-  field,
-  id,
-  label,
-  ...props
-}: FormTextAreaProps) => (
-  <div className="flex flex-col gap-2 w-full">
-    <Label className="px-1" htmlFor={id}>
-      {label}
-    </Label>
-    <Textarea
-      id={id}
-      onChange={(e) => field.handleChange(e.target.value)}
-      aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
-      onBlur={field.handleBlur}
-      value={field.state.value}
-      {...props}
-    />
-  </div>
-);
+export const FormTextArea = ({ field, label, ...props }: FormTextAreaProps) => {
+  const id = React.useId();
+  return (
+    <div className="flex flex-col gap-2 w-full">
+      <Label className="px-1" htmlFor={id}>
+        {label}
+      </Label>
+      <Textarea
+        id={id}
+        onChange={(e) => field.handleChange(e.target.value)}
+        aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
+        onBlur={field.handleBlur}
+        value={field.state.value}
+        {...props}
+      />
+    </div>
+  );
+};
 
 export const FormPasswordInput = ({
   field,
-  id,
   label,
   ...props
 }: GenericFormInputProps) => {
+  const id = React.useId();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const toggleVisibility = () => setIsVisible((prevState) => !prevState);
@@ -210,10 +216,10 @@ export const FormPasswordInput = ({
 
 export const FormPasswordInputWithValidationFeedback = ({
   field,
-  id,
   label,
   ...props
 }: GenericFormInputProps) => {
+  const id = React.useId();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const toggleVisibility = () => setIsVisible((prevState) => !prevState);
@@ -296,8 +302,11 @@ export const FormPasswordInputWithValidationFeedback = ({
 
       {/* Password requirements list */}
       <ul className="space-y-1.5 m-0! p-0!" aria-label="Password requirements">
-        {strength.map((req, index) => (
-          <li key={index} className="flex items-center gap-2">
+        {strength.map((req) => (
+          <li
+            key={`req-${req.text}-${req.met}`}
+            className="flex items-center gap-2"
+          >
             {req.met ? (
               <IconCheck
                 size={16}
@@ -329,60 +338,60 @@ export const FormPasswordInputWithValidationFeedback = ({
 type FormSelectProps = {
   field: AnyFieldApi;
   label: string;
-  id: string;
   children: React.ReactNode;
   placeholder?: string;
 } & Omit<React.ComponentProps<typeof Select>, "value" | "onValueChange">;
 
 export const FormSelect = ({
   field,
-  id,
   children,
   placeholder,
   label,
   ...props
-}: FormSelectProps) => (
-  <div className="flex flex-col gap-2 w-full">
-    <Label className="px-1" htmlFor={id}>
-      {label}
-    </Label>
-    <Select
-      value={field.state.value}
-      onValueChange={(value) => field.handleChange(value)}
-      {...props}
-    >
-      <SelectTrigger
-        className="w-full"
-        id={id}
-        onBlur={field.handleBlur}
-        aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
+}: FormSelectProps) => {
+  const id = React.useId();
+  return (
+    <div className="flex flex-col gap-2 w-full">
+      <Label className="px-1" htmlFor={id}>
+        {label}
+      </Label>
+      <Select
+        value={field.state.value}
+        onValueChange={(value) => field.handleChange(value)}
+        {...props}
       >
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
-      <SelectContent>{children}</SelectContent>
-    </Select>
-  </div>
-);
+        <SelectTrigger
+          className="w-full"
+          id={id}
+          onBlur={field.handleBlur}
+          aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
+        >
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent>{children}</SelectContent>
+      </Select>
+    </div>
+  );
+};
 
 type FormComboboxProps = {
   field: AnyFieldApi;
-  id: string;
   label: string;
   options: Array<ComboboxOption>;
   onChangeExtra?: (value?: string) => void;
 } & Omit<
   React.ComponentProps<typeof Combobox>,
-  "value" | "onChange" | "options"
+  "value" | "onChange" | "options" | "id"
 >;
 
 export const FormComboBox = ({
   field,
-  id,
   label,
   options,
   onChangeExtra,
   ...props
 }: FormComboboxProps) => {
+  const id = React.useId();
   return (
     <div className="flex flex-col gap-2 w-full">
       <Label className="px-1" htmlFor={id}>
@@ -405,21 +414,26 @@ export const FormComboBox = ({
 
 type FormDatePickerProps = {
   field: AnyFieldApi;
-  id: string;
   label: string;
   placeholder?: string;
 } & Omit<
   React.ComponentProps<typeof Calendar>,
-  "mode" | "selected" | "onSelect" | "captionLayout" | "month" | "onMonthChange"
+  | "mode"
+  | "selected"
+  | "onSelect"
+  | "captionLayout"
+  | "month"
+  | "onMonthChange"
+  | "id"
 >;
 
 export const FormDatePicker = ({
   field,
-  id,
   label,
   placeholder,
   ...props
 }: FormDatePickerProps) => {
+  const id = React.useId();
   return (
     <div className="flex flex-col gap-2 w-full">
       <Label className="px-1" htmlFor={id}>
@@ -444,16 +458,16 @@ type FormDateAndTimePickerProps = {
   label: string;
 } & Omit<
   React.ComponentProps<typeof DateAndTimePicker>,
-  "mode" | "selected" | "onSelect" | "onChange" | "placeholder"
+  "mode" | "selected" | "onSelect" | "onChange" | "placeholder" | "id"
 >;
 
 export const FormDateAndTimePicker = ({
   field,
-  id,
   label,
 
   ...props
 }: FormDateAndTimePickerProps) => {
+  const id = React.useId();
   const initialValue = field.state.value as Date | undefined;
   const { language } = useLanguage();
 
@@ -477,37 +491,38 @@ export const FormDateAndTimePicker = ({
 type FormCheckboxProps = {
   field: AnyFieldApi;
   label: string;
-  id?: string;
   description?: string;
 } & Omit<
   React.ComponentProps<typeof Checkbox>,
-  "checked" | "onCheckedChange" | "onBlur"
+  "checked" | "onCheckedChange" | "onBlur" | "id"
 >;
 
 export const FormCheckbox = ({
   field,
-  id,
   label,
   description,
   ...props
-}: FormCheckboxProps) => (
-  <div className="flex items-start space-x-2 w-full">
-    <Checkbox
-      id={id}
-      checked={field.state.value}
-      onCheckedChange={(checked) => field.handleChange(Boolean(checked))}
-      onBlur={field.handleBlur}
-      aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
-      {...props}
-    />
-    <div className="grid gap-1.5 leading-none">
-      <Label htmlFor={id}>{label}</Label>
-      {description && (
-        <p className="text-sm text-muted-foreground">{description}</p>
-      )}
+}: FormCheckboxProps) => {
+  const id = React.useId();
+  return (
+    <div className="flex items-start space-x-2 w-full">
+      <Checkbox
+        id={id}
+        checked={field.state.value}
+        onCheckedChange={(checked) => field.handleChange(Boolean(checked))}
+        onBlur={field.handleBlur}
+        aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
+        {...props}
+      />
+      <div className="grid gap-1.5 leading-none">
+        <Label htmlFor={id}>{label}</Label>
+        {description && (
+          <p className="text-sm text-muted-foreground">{description}</p>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 type FormAvatarUploadProps = { field: AnyFieldApi } & Omit<
   React.ComponentProps<typeof AvatarUpload>,

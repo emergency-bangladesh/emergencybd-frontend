@@ -1,10 +1,10 @@
-import { Link } from "@tanstack/react-router";
 import { IconArrowLeft } from "@tabler/icons-react";
-import { Button } from "./ui/button";
 import type { LinkProps } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import type { ComponentProps } from "react";
-import { cn } from "@/lib/utils";
 import { useLanguage } from "@/integrations/language/use-language";
+import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
 
 export const BackButton = ({
   to,
