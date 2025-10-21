@@ -21,7 +21,7 @@ export const Route = createFileRoute(
 });
 
 function LocationInformationFormSection() {
-  const volunteerRegistrationForm = useVolunteerRegistrationForm();
+  const form = useVolunteerRegistrationForm();
   const navigate = useNavigate();
 
   const districtOptions = useMemo(
@@ -59,12 +59,12 @@ function LocationInformationFormSection() {
     e.preventDefault();
     e.stopPropagation();
 
-    const values = volunteerRegistrationForm.state.values;
+    const values = form.state.values;
     const isValid = validateFormStepLocationInformation(values);
 
     if (!isValid) {
       fieldNames.forEach((fieldName) => {
-        volunteerRegistrationForm.setFieldMeta(
+        form.setFieldMeta(
           fieldName as keyof VolunteerRegistrationFormValue,
           (prev) => ({
             ...prev,
@@ -75,7 +75,7 @@ function LocationInformationFormSection() {
 
       await Promise.all(
         fieldNames.map((fieldName) =>
-          volunteerRegistrationForm.validateField(
+          form.validateField(
             fieldName as keyof VolunteerRegistrationFormValue,
             "submit",
           ),
@@ -101,7 +101,7 @@ function LocationInformationFormSection() {
         <div className="flex flex-col gap-3">
           <h4>Permanent Address</h4>
           <div className="grid grid-cols-2 gap-3">
-            <volunteerRegistrationForm.Field name="permanentDistrict">
+            <form.Field name="permanentDistrict">
               {(districtField) => (
                 <div className="flex flex-col gap-1">
                   <FormComboBox
@@ -112,21 +112,18 @@ function LocationInformationFormSection() {
                     searchPlaceholder="Search districts..."
                     noResultsMessage="No districts found."
                     onChangeExtra={() =>
-                      volunteerRegistrationForm.setFieldValue(
-                        "permanentUpazila",
-                        undefined!,
-                      )
+                      form.setFieldValue("permanentUpazila", "")
                     }
                   />
                   <FieldErrorInfo field={districtField} />
                 </div>
               )}
-            </volunteerRegistrationForm.Field>
-            <volunteerRegistrationForm.Subscribe
+            </form.Field>
+            <form.Subscribe
               selector={(state) => state.values.permanentDistrict}
             >
               {(permanentDistrict) => (
-                <volunteerRegistrationForm.Field name="permanentUpazila">
+                <form.Field name="permanentUpazila">
                   {(field) => (
                     <div className="flex flex-col gap-1">
                       <FormComboBox
@@ -141,28 +138,28 @@ function LocationInformationFormSection() {
                       <FieldErrorInfo field={field} />
                     </div>
                   )}
-                </volunteerRegistrationForm.Field>
+                </form.Field>
               )}
-            </volunteerRegistrationForm.Subscribe>
+            </form.Subscribe>
           </div>
         </div>
 
         <div className="flex flex-col gap-3">
           <h4>Current Address</h4>
-          <volunteerRegistrationForm.Field name="currentSameAsPermanent">
+          <form.Field name="currentSameAsPermanent">
             {(field) => (
               <div className="flex flex-col gap-1">
                 <FormCheckbox field={field} label="Same as Permanent Address" />
                 <FieldErrorInfo field={field} />
               </div>
             )}
-          </volunteerRegistrationForm.Field>
+          </form.Field>
           <div className="grid grid-cols-2 gap-3">
-            <volunteerRegistrationForm.Subscribe
+            <form.Subscribe
               selector={(state) => state.values.currentSameAsPermanent}
             >
               {(currentSameAsPermanent) => (
-                <volunteerRegistrationForm.Field name="currentDistrict">
+                <form.Field name="currentDistrict">
                   {(field) => (
                     <div className="flex flex-col gap-1">
                       <FormComboBox
@@ -174,10 +171,7 @@ function LocationInformationFormSection() {
                         searchPlaceholder="Search districts"
                         noResultsMessage="No districts found."
                         onChangeExtra={() =>
-                          volunteerRegistrationForm.setFieldValue(
-                            "currentUpazila",
-                            undefined,
-                          )
+                          form.setFieldValue("currentUpazila", "")
                         }
                       />
                       <FieldErrorInfo
@@ -186,12 +180,12 @@ function LocationInformationFormSection() {
                       />
                     </div>
                   )}
-                </volunteerRegistrationForm.Field>
+                </form.Field>
               )}
-            </volunteerRegistrationForm.Subscribe>
-            <volunteerRegistrationForm.Subscribe>
+            </form.Subscribe>
+            <form.Subscribe>
               {(state) => (
-                <volunteerRegistrationForm.Field name="currentUpazila">
+                <form.Field name="currentUpazila">
                   {(field) => (
                     <div className="flex flex-col gap-1">
                       <FormComboBox
@@ -210,9 +204,9 @@ function LocationInformationFormSection() {
                       <FieldErrorInfo field={field} />
                     </div>
                   )}
-                </volunteerRegistrationForm.Field>
+                </form.Field>
               )}
-            </volunteerRegistrationForm.Subscribe>
+            </form.Subscribe>
           </div>
         </div>
 

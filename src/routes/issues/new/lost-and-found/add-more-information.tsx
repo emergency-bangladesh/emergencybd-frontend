@@ -107,9 +107,7 @@ function AddLocationInformationSection() {
                   options={districtOptions}
                   searchPlaceholder="Search districts..."
                   noResultsMessage="No districts found."
-                  onChangeExtra={() =>
-                    form.setFieldValue("upazila", undefined!)
-                  }
+                  onChangeExtra={() => form.setFieldValue("upazila", "")}
                 />
                 <FieldErrorInfo field={districtField} />
               </div>
