@@ -21,6 +21,11 @@ export const Route = createFileRoute("/issues/")({
   },
 });
 
+const message = {
+  en: "No issues found",
+  bn: "দেখানোর মত কিছুই নাই",
+};
+
 function RouteComponent() {
   const { language } = useLanguage();
   const { data, isLoading } = useQuery({
@@ -35,12 +40,7 @@ function RouteComponent() {
   if (isLoading) return <Loader />;
 
   if (!data || data.issues.length === 0) {
-    return (
-      <div className="text-center">
-        {language === "en" && "No issues found"}
-        {language === "bn" && "দেখানোর মত কিছুই নাই"}
-      </div>
-    );
+    return <div className="text-center">{message[language]}</div>;
   }
 
   return (

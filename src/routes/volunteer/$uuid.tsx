@@ -202,7 +202,7 @@ function VolunteerProfilePage() {
         {/* Recent Activities Timeline */}
         <div className="pb-8">
           <h2 className="mb-6 text-xl font-bold">Recent Activities</h2>
-          {recentActivities ? (
+          {recentActivities && recentActivities.length > 1 ? (
             <Timeline>
               {recentActivities.map((activity, index) => (
                 <TimelineItem key={activity.title} step={index + 1}>

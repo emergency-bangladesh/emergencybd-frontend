@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import type React from "react";
-import { useMemo } from "react";
 import {
   volunteerExistsWithEmailAddress,
   volunteerExistsWithPhoneNumber,
@@ -27,21 +26,18 @@ export const Route = createFileRoute(
   component: PersonalInformationFormSection,
 });
 
+const fieldNames = [
+  "name",
+  "email",
+  "phoneNumber",
+  "bloodGroup",
+  "dateOfBirth",
+  "gender",
+];
+
 function PersonalInformationFormSection() {
   const volunteerRegistrationForm = useVolunteerRegistrationForm();
   const navigate = useNavigate();
-
-  const fieldNames = useMemo(
-    () => [
-      "name",
-      "email",
-      "phoneNumber",
-      "bloodGroup",
-      "dateOfBirth",
-      "gender",
-    ],
-    [],
-  );
 
   async function handleNextButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -103,7 +99,7 @@ function PersonalInformationFormSection() {
               onChangeAsync: async ({ value }) => {
                 const exists = await volunteerExistsWithPhoneNumber(value);
                 if (exists) {
-                  return "This phone number already exists";
+                  return { message: "This phone number already exists" };
                 }
                 return undefined;
               },
