@@ -2,7 +2,6 @@ import { useForm } from "@tanstack/react-form";
 import { useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
-import { useAuth } from "@/features/auth/hooks/use-auth";
 import { reportBloodDonationIssue } from "../actions/report-blood-donation-issue";
 import { BloodDonationIssueFormContext } from "./form-context";
 import type { BloodDonationIssueFormValue } from "./form-schema";
@@ -10,7 +9,6 @@ import { bloodDonationIssueSchema } from "./form-schema";
 
 function useInitBloodDonationIssueForm() {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const defaultValues: BloodDonationIssueFormValue = {
     acceptTerms: false,
     amountInBag: undefined!,
@@ -21,10 +19,10 @@ function useInitBloodDonationIssueForm() {
     patientName: undefined!,
     specialInstruction: undefined,
     upazila: undefined!,
-    emailAddress: user ? user.email : undefined!,
-    fullName: user ? user.name : undefined!,
-    phoneNumber: user ? user.phoneNumber : undefined!,
-    emergencyContactNumber: user ? user.phoneNumber : undefined!,
+    emailAddress: undefined!,
+    fullName: undefined!,
+    phoneNumber: undefined!,
+    emergencyContactNumber: undefined!,
   };
   const form = useForm({
     defaultValues,

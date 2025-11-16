@@ -11,7 +11,7 @@ export const Route = createFileRoute("/(static)/contact-us")({
 function ContactUs() {
   const { language } = useLanguage();
   return (
-    <div className="w-full max-w-lg shadow-lg rounded-2xl">
+    <div className="w-full max-w-lg rounded-2xl">
       <div>
         <h1 className="text-center text-2xl font-bold">
           {language === "en"
@@ -33,7 +33,7 @@ function ContactUs() {
           className="w-full flex items-center gap-3"
           asChild
         >
-          <a href="mailto:project.emergencybd@gmail.com">
+          <a href="mailto:info@emergencybd.com">
             <IconMail className="w-5 h-5" />
             {language === "en" ? "Send an Email" : "আমাদের ইমেইল পাঠান"}
           </a>

@@ -18,19 +18,14 @@ const name = {
 
 const year = { en: "2025", bn: "২০২৫" };
 
-const privacyPolicyButtonText = {
-  en: "Privacy Policy",
-  bn: "গোপনীয়তা নিতি",
-};
-
 const aboutUsButtonText = {
   en: "About Us",
   bn: "আমাদের সম্পর্কে জানুন",
 };
 
-const termsAndConditionsButtonText = {
-  en: "Terms & Conditions",
-  bn: "শর্তাবলী এবং নিয়মাবলী",
+const legalDocsButtonText = {
+  en: "Legal Docs",
+  bn: "আইনি নথি",
 };
 
 export const Footer = () => {
@@ -81,26 +76,21 @@ export const Footer = () => {
         </Button>
         <Button variant={"outline"} asChild>
           <a
-            href="mailto:project.emergencybd@gmail.com"
+            href="mailto:info@emergencybd.com"
             target="_blank"
             rel="noopener noreferrer"
           >
             <IconMail />
-            <span className="max-md:hidden">project.emergencybd@gmail.com</span>
+            <span className="max-md:hidden">info@emergencybd.com</span>
           </a>
         </Button>
       </div>
       <div className="flex items-center justify-center max-md:justify-between gap-2">
         <Button variant={"ghost"} asChild>
-          <Link to="/privacy-policy">{privacyPolicyButtonText[language]}</Link>
-        </Button>
-        <Button variant={"ghost"} asChild>
           <Link to="/about-us">{aboutUsButtonText[language]}</Link>
         </Button>
         <Button variant={"ghost"} asChild>
-          <Link to="/terms-and-conditions">
-            {termsAndConditionsButtonText[language]}
-          </Link>
+          <Link to="/legal">{legalDocsButtonText[language]}</Link>
         </Button>
       </div>
     </footer>

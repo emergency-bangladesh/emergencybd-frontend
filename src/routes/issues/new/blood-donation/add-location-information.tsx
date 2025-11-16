@@ -173,7 +173,7 @@ function AddLocationInformationSection() {
                       }
                       noResultsMessage={
                         language === "en"
-                          ? "No upazila found."
+                          ? "No upazila/Thana found."
                           : "এমন কোনো উপজেলা নেই"
                       }
                     />

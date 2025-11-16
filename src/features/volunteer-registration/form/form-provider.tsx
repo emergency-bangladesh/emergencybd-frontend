@@ -42,7 +42,7 @@ function useInitVolunteerRegistrationForm() {
       onChange: volunteerRegistrationFormSchema,
       onChangeAsyncDebounceMs: 500,
     },
-    onSubmit: async ({ value }) => {
+    onSubmit: async ({ value, formApi }) => {
       const state = await registerVolunteer(value);
       if (!state.success) {
         toast.error("Something went wrong", {
@@ -53,6 +53,7 @@ function useInitVolunteerRegistrationForm() {
           description:
             "Wait until an admin validates your application and approves you",
         });
+        formApi.reset();
         navigate({ to: "/registration/success", replace: true });
       }
     },

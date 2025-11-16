@@ -191,12 +191,12 @@ function VolunteerUpdateFormInner({ user }: { readonly user: User }) {
                 <div className="flex flex-col gap-1">
                   <FormComboBox
                     field={field}
-                    label="Current upazila"
-                    placeholder="Select upazila"
+                    label="Current Upazila/Thana"
+                    placeholder="Select Upazila/Thana"
                     options={getAllUpazilaOrThana(currentDistrict)}
                     disabled={!currentDistrict}
                     searchPlaceholder="Search"
-                    noResultsMessage="No upazila found."
+                    noResultsMessage="No Upazila/Thana found."
                   />
                   <FieldErrorInfo field={field} />
                 </div>

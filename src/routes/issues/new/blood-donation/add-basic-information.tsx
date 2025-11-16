@@ -35,7 +35,7 @@ const subtitle = {
   bn: "আমাদের স্বেচ্ছাসেবকদের দক্ষতার সাথে প্রতিক্রিয়া জানাতে বিস্তারিত যোগ করুন।",
 };
 const patientNameLabel = {
-  en: "Patient Name",
+  en: "Patient's Name",
   bn: "রোগীর নাম",
 };
 const patientNamePlaceholder = {
@@ -51,7 +51,7 @@ const bloodGroupPlaceholder = {
   bn: "রক্তের গ্রুপ নির্বাচন করুন",
 };
 const amountInBagLabel = {
-  en: "Amount (numeric input) (in bag)",
+  en: "Quantity (numeric input) (in bag)",
   bn: "পরিমাণ (ব্যাগে) (ইংরেজি নিউমেরিকে)",
 };
 const amountInBagPlaceholder = {

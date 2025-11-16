@@ -18,7 +18,7 @@ const loginFormSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-export const Route = createFileRoute("/(static)/login")({
+export const Route = createFileRoute("/login/")({
   component: LoginForm,
   validateSearch: z.object({
     next: z.string().optional(),

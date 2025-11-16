@@ -464,7 +464,6 @@ type FormDateAndTimePickerProps = {
 export const FormDateAndTimePicker = ({
   field,
   label,
-
   ...props
 }: FormDateAndTimePickerProps) => {
   const id = React.useId();

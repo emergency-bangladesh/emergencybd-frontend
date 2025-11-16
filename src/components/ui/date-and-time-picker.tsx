@@ -36,7 +36,7 @@ export function DateAndTimePicker({
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(initialDateTime);
   const [time, setTime] = React.useState<string | null>(() => {
-    return format(initialDateTime || new Date(), "HH:mm");
+    return initialDateTime ? format(initialDateTime, "HH:mm") : null;
   });
 
   React.useEffect(() => {

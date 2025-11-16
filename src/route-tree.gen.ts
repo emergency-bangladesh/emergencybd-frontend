@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RegistrationIndexRouteImport } from './routes/registration/index'
+import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as IssuesIndexRouteImport } from './routes/issues/index'
 import { Route as staticIndexRouteImport } from './routes/(static)/index'
 import { Route as VolunteerUuidRouteImport } from './routes/volunteer/$uuid'
@@ -19,14 +20,12 @@ import { Route as SettingsUpdateInformationRouteImport } from './routes/settings
 import { Route as SettingsChangePasswordRouteImport } from './routes/settings/change-password'
 import { Route as RegistrationSuccessRouteImport } from './routes/registration/success'
 import { Route as IssuesUuidRouteImport } from './routes/issues/$uuid'
-import { Route as staticTermsAndConditionsRouteImport } from './routes/(static)/terms-and-conditions'
-import { Route as staticPrivacyPolicyRouteImport } from './routes/(static)/privacy-policy'
-import { Route as staticLoginRouteImport } from './routes/(static)/login'
 import { Route as staticFaqRouteImport } from './routes/(static)/faq'
 import { Route as staticContactUsRouteImport } from './routes/(static)/contact-us'
 import { Route as staticAboutUsRouteImport } from './routes/(static)/about-us'
 import { Route as RegistrationVolunteerLayoutRouteImport } from './routes/registration/volunteer/_layout'
 import { Route as IssuesNewIndexRouteImport } from './routes/issues/new/index'
+import { Route as staticLegalIndexRouteImport } from './routes/(static)/legal/index'
 import { Route as RegistrationVolunteerUploadProfilePictureRouteImport } from './routes/registration/volunteer/upload-profile-picture'
 import { Route as RegistrationVolunteerSetPasswordRouteImport } from './routes/registration/volunteer/set-password'
 import { Route as RegistrationVolunteerSelectIdTypeRouteImport } from './routes/registration/volunteer/select-id-type'
@@ -34,6 +33,9 @@ import { Route as RegistrationVolunteerPersonalInformationRouteImport } from './
 import { Route as RegistrationVolunteerNidInformationRouteImport } from './routes/registration/volunteer/nid-information'
 import { Route as RegistrationVolunteerLocationInformationRouteImport } from './routes/registration/volunteer/location-information'
 import { Route as RegistrationVolunteerBrnInformationRouteImport } from './routes/registration/volunteer/brn-information'
+import { Route as staticLegalWhyWeRequireIdDocumentsRouteImport } from './routes/(static)/legal/why-we-require-id-documents'
+import { Route as staticLegalTermsAndConditionsRouteImport } from './routes/(static)/legal/terms-and-conditions'
+import { Route as staticLegalPrivacyPolicyRouteImport } from './routes/(static)/legal/privacy-policy'
 import { Route as IssuesNewLostAndFoundLayoutRouteImport } from './routes/issues/new/lost-and-found/_layout'
 import { Route as IssuesNewBloodDonationLayoutRouteImport } from './routes/issues/new/blood-donation/_layout'
 import { Route as IssuesNewLostAndFoundAddMoreInformationRouteImport } from './routes/issues/new/lost-and-found/add-more-information'
@@ -47,6 +49,11 @@ import { Route as IssuesNewBloodDonationAddBasicInformationRouteImport } from '.
 const RegistrationIndexRoute = RegistrationIndexRouteImport.update({
   id: '/registration/',
   path: '/registration/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginIndexRoute = LoginIndexRouteImport.update({
+  id: '/login/',
+  path: '/login/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IssuesIndexRoute = IssuesIndexRouteImport.update({
@@ -95,22 +102,6 @@ const IssuesUuidRoute = IssuesUuidRouteImport.update({
   path: '/issues/$uuid',
   getParentRoute: () => rootRouteImport,
 } as any)
-const staticTermsAndConditionsRoute =
-  staticTermsAndConditionsRouteImport.update({
-    id: '/(static)/terms-and-conditions',
-    path: '/terms-and-conditions',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const staticPrivacyPolicyRoute = staticPrivacyPolicyRouteImport.update({
-  id: '/(static)/privacy-policy',
-  path: '/privacy-policy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const staticLoginRoute = staticLoginRouteImport.update({
-  id: '/(static)/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const staticFaqRoute = staticFaqRouteImport.update({
   id: '/(static)/faq',
   path: '/faq',
@@ -135,6 +126,11 @@ const RegistrationVolunteerLayoutRoute =
 const IssuesNewIndexRoute = IssuesNewIndexRouteImport.update({
   id: '/issues/new/',
   path: '/issues/new/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const staticLegalIndexRoute = staticLegalIndexRouteImport.update({
+  id: '/(static)/legal/',
+  path: '/legal/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegistrationVolunteerUploadProfilePictureRoute =
@@ -178,6 +174,24 @@ const RegistrationVolunteerBrnInformationRoute =
     id: '/brn-information',
     path: '/brn-information',
     getParentRoute: () => RegistrationVolunteerLayoutRoute,
+  } as any)
+const staticLegalWhyWeRequireIdDocumentsRoute =
+  staticLegalWhyWeRequireIdDocumentsRouteImport.update({
+    id: '/(static)/legal/why-we-require-id-documents',
+    path: '/legal/why-we-require-id-documents',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const staticLegalTermsAndConditionsRoute =
+  staticLegalTermsAndConditionsRouteImport.update({
+    id: '/(static)/legal/terms-and-conditions',
+    path: '/legal/terms-and-conditions',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const staticLegalPrivacyPolicyRoute =
+  staticLegalPrivacyPolicyRouteImport.update({
+    id: '/(static)/legal/privacy-policy',
+    path: '/legal/privacy-policy',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const IssuesNewLostAndFoundLayoutRoute =
   IssuesNewLostAndFoundLayoutRouteImport.update({
@@ -239,9 +253,6 @@ export interface FileRoutesByFullPath {
   '/about-us': typeof staticAboutUsRoute
   '/contact-us': typeof staticContactUsRoute
   '/faq': typeof staticFaqRoute
-  '/login': typeof staticLoginRoute
-  '/privacy-policy': typeof staticPrivacyPolicyRoute
-  '/terms-and-conditions': typeof staticTermsAndConditionsRoute
   '/issues/$uuid': typeof IssuesUuidRoute
   '/registration/success': typeof RegistrationSuccessRoute
   '/settings/change-password': typeof SettingsChangePasswordRoute
@@ -251,9 +262,13 @@ export interface FileRoutesByFullPath {
   '/volunteer/$uuid': typeof VolunteerUuidRoute
   '/': typeof staticIndexRoute
   '/issues': typeof IssuesIndexRoute
+  '/login': typeof LoginIndexRoute
   '/registration': typeof RegistrationIndexRoute
   '/issues/new/blood-donation': typeof IssuesNewBloodDonationLayoutRouteWithChildren
   '/issues/new/lost-and-found': typeof IssuesNewLostAndFoundLayoutRouteWithChildren
+  '/legal/privacy-policy': typeof staticLegalPrivacyPolicyRoute
+  '/legal/terms-and-conditions': typeof staticLegalTermsAndConditionsRoute
+  '/legal/why-we-require-id-documents': typeof staticLegalWhyWeRequireIdDocumentsRoute
   '/registration/volunteer/brn-information': typeof RegistrationVolunteerBrnInformationRoute
   '/registration/volunteer/location-information': typeof RegistrationVolunteerLocationInformationRoute
   '/registration/volunteer/nid-information': typeof RegistrationVolunteerNidInformationRoute
@@ -261,6 +276,7 @@ export interface FileRoutesByFullPath {
   '/registration/volunteer/select-id-type': typeof RegistrationVolunteerSelectIdTypeRoute
   '/registration/volunteer/set-password': typeof RegistrationVolunteerSetPasswordRoute
   '/registration/volunteer/upload-profile-picture': typeof RegistrationVolunteerUploadProfilePictureRoute
+  '/legal': typeof staticLegalIndexRoute
   '/issues/new': typeof IssuesNewIndexRoute
   '/issues/new/blood-donation/add-basic-information': typeof IssuesNewBloodDonationAddBasicInformationRoute
   '/issues/new/blood-donation/add-contact-information': typeof IssuesNewBloodDonationAddContactInformationRoute
@@ -275,9 +291,6 @@ export interface FileRoutesByTo {
   '/about-us': typeof staticAboutUsRoute
   '/contact-us': typeof staticContactUsRoute
   '/faq': typeof staticFaqRoute
-  '/login': typeof staticLoginRoute
-  '/privacy-policy': typeof staticPrivacyPolicyRoute
-  '/terms-and-conditions': typeof staticTermsAndConditionsRoute
   '/issues/$uuid': typeof IssuesUuidRoute
   '/registration/success': typeof RegistrationSuccessRoute
   '/settings/change-password': typeof SettingsChangePasswordRoute
@@ -287,9 +300,13 @@ export interface FileRoutesByTo {
   '/volunteer/$uuid': typeof VolunteerUuidRoute
   '/': typeof staticIndexRoute
   '/issues': typeof IssuesIndexRoute
+  '/login': typeof LoginIndexRoute
   '/registration': typeof RegistrationIndexRoute
   '/issues/new/blood-donation': typeof IssuesNewBloodDonationLayoutRouteWithChildren
   '/issues/new/lost-and-found': typeof IssuesNewLostAndFoundLayoutRouteWithChildren
+  '/legal/privacy-policy': typeof staticLegalPrivacyPolicyRoute
+  '/legal/terms-and-conditions': typeof staticLegalTermsAndConditionsRoute
+  '/legal/why-we-require-id-documents': typeof staticLegalWhyWeRequireIdDocumentsRoute
   '/registration/volunteer/brn-information': typeof RegistrationVolunteerBrnInformationRoute
   '/registration/volunteer/location-information': typeof RegistrationVolunteerLocationInformationRoute
   '/registration/volunteer/nid-information': typeof RegistrationVolunteerNidInformationRoute
@@ -297,6 +314,7 @@ export interface FileRoutesByTo {
   '/registration/volunteer/select-id-type': typeof RegistrationVolunteerSelectIdTypeRoute
   '/registration/volunteer/set-password': typeof RegistrationVolunteerSetPasswordRoute
   '/registration/volunteer/upload-profile-picture': typeof RegistrationVolunteerUploadProfilePictureRoute
+  '/legal': typeof staticLegalIndexRoute
   '/issues/new': typeof IssuesNewIndexRoute
   '/issues/new/blood-donation/add-basic-information': typeof IssuesNewBloodDonationAddBasicInformationRoute
   '/issues/new/blood-donation/add-contact-information': typeof IssuesNewBloodDonationAddContactInformationRoute
@@ -312,9 +330,6 @@ export interface FileRoutesById {
   '/(static)/about-us': typeof staticAboutUsRoute
   '/(static)/contact-us': typeof staticContactUsRoute
   '/(static)/faq': typeof staticFaqRoute
-  '/(static)/login': typeof staticLoginRoute
-  '/(static)/privacy-policy': typeof staticPrivacyPolicyRoute
-  '/(static)/terms-and-conditions': typeof staticTermsAndConditionsRoute
   '/issues/$uuid': typeof IssuesUuidRoute
   '/registration/success': typeof RegistrationSuccessRoute
   '/settings/change-password': typeof SettingsChangePasswordRoute
@@ -324,9 +339,13 @@ export interface FileRoutesById {
   '/volunteer/$uuid': typeof VolunteerUuidRoute
   '/(static)/': typeof staticIndexRoute
   '/issues/': typeof IssuesIndexRoute
+  '/login/': typeof LoginIndexRoute
   '/registration/': typeof RegistrationIndexRoute
   '/issues/new/blood-donation': typeof IssuesNewBloodDonationLayoutRouteWithChildren
   '/issues/new/lost-and-found': typeof IssuesNewLostAndFoundLayoutRouteWithChildren
+  '/(static)/legal/privacy-policy': typeof staticLegalPrivacyPolicyRoute
+  '/(static)/legal/terms-and-conditions': typeof staticLegalTermsAndConditionsRoute
+  '/(static)/legal/why-we-require-id-documents': typeof staticLegalWhyWeRequireIdDocumentsRoute
   '/registration/volunteer/brn-information': typeof RegistrationVolunteerBrnInformationRoute
   '/registration/volunteer/location-information': typeof RegistrationVolunteerLocationInformationRoute
   '/registration/volunteer/nid-information': typeof RegistrationVolunteerNidInformationRoute
@@ -334,6 +353,7 @@ export interface FileRoutesById {
   '/registration/volunteer/select-id-type': typeof RegistrationVolunteerSelectIdTypeRoute
   '/registration/volunteer/set-password': typeof RegistrationVolunteerSetPasswordRoute
   '/registration/volunteer/upload-profile-picture': typeof RegistrationVolunteerUploadProfilePictureRoute
+  '/(static)/legal/': typeof staticLegalIndexRoute
   '/issues/new/': typeof IssuesNewIndexRoute
   '/issues/new/blood-donation/add-basic-information': typeof IssuesNewBloodDonationAddBasicInformationRoute
   '/issues/new/blood-donation/add-contact-information': typeof IssuesNewBloodDonationAddContactInformationRoute
@@ -350,9 +370,6 @@ export interface FileRouteTypes {
     | '/about-us'
     | '/contact-us'
     | '/faq'
-    | '/login'
-    | '/privacy-policy'
-    | '/terms-and-conditions'
     | '/issues/$uuid'
     | '/registration/success'
     | '/settings/change-password'
@@ -362,9 +379,13 @@ export interface FileRouteTypes {
     | '/volunteer/$uuid'
     | '/'
     | '/issues'
+    | '/login'
     | '/registration'
     | '/issues/new/blood-donation'
     | '/issues/new/lost-and-found'
+    | '/legal/privacy-policy'
+    | '/legal/terms-and-conditions'
+    | '/legal/why-we-require-id-documents'
     | '/registration/volunteer/brn-information'
     | '/registration/volunteer/location-information'
     | '/registration/volunteer/nid-information'
@@ -372,6 +393,7 @@ export interface FileRouteTypes {
     | '/registration/volunteer/select-id-type'
     | '/registration/volunteer/set-password'
     | '/registration/volunteer/upload-profile-picture'
+    | '/legal'
     | '/issues/new'
     | '/issues/new/blood-donation/add-basic-information'
     | '/issues/new/blood-donation/add-contact-information'
@@ -386,9 +408,6 @@ export interface FileRouteTypes {
     | '/about-us'
     | '/contact-us'
     | '/faq'
-    | '/login'
-    | '/privacy-policy'
-    | '/terms-and-conditions'
     | '/issues/$uuid'
     | '/registration/success'
     | '/settings/change-password'
@@ -398,9 +417,13 @@ export interface FileRouteTypes {
     | '/volunteer/$uuid'
     | '/'
     | '/issues'
+    | '/login'
     | '/registration'
     | '/issues/new/blood-donation'
     | '/issues/new/lost-and-found'
+    | '/legal/privacy-policy'
+    | '/legal/terms-and-conditions'
+    | '/legal/why-we-require-id-documents'
     | '/registration/volunteer/brn-information'
     | '/registration/volunteer/location-information'
     | '/registration/volunteer/nid-information'
@@ -408,6 +431,7 @@ export interface FileRouteTypes {
     | '/registration/volunteer/select-id-type'
     | '/registration/volunteer/set-password'
     | '/registration/volunteer/upload-profile-picture'
+    | '/legal'
     | '/issues/new'
     | '/issues/new/blood-donation/add-basic-information'
     | '/issues/new/blood-donation/add-contact-information'
@@ -422,9 +446,6 @@ export interface FileRouteTypes {
     | '/(static)/about-us'
     | '/(static)/contact-us'
     | '/(static)/faq'
-    | '/(static)/login'
-    | '/(static)/privacy-policy'
-    | '/(static)/terms-and-conditions'
     | '/issues/$uuid'
     | '/registration/success'
     | '/settings/change-password'
@@ -434,9 +455,13 @@ export interface FileRouteTypes {
     | '/volunteer/$uuid'
     | '/(static)/'
     | '/issues/'
+    | '/login/'
     | '/registration/'
     | '/issues/new/blood-donation'
     | '/issues/new/lost-and-found'
+    | '/(static)/legal/privacy-policy'
+    | '/(static)/legal/terms-and-conditions'
+    | '/(static)/legal/why-we-require-id-documents'
     | '/registration/volunteer/brn-information'
     | '/registration/volunteer/location-information'
     | '/registration/volunteer/nid-information'
@@ -444,6 +469,7 @@ export interface FileRouteTypes {
     | '/registration/volunteer/select-id-type'
     | '/registration/volunteer/set-password'
     | '/registration/volunteer/upload-profile-picture'
+    | '/(static)/legal/'
     | '/issues/new/'
     | '/issues/new/blood-donation/add-basic-information'
     | '/issues/new/blood-donation/add-contact-information'
@@ -459,9 +485,6 @@ export interface RootRouteChildren {
   staticAboutUsRoute: typeof staticAboutUsRoute
   staticContactUsRoute: typeof staticContactUsRoute
   staticFaqRoute: typeof staticFaqRoute
-  staticLoginRoute: typeof staticLoginRoute
-  staticPrivacyPolicyRoute: typeof staticPrivacyPolicyRoute
-  staticTermsAndConditionsRoute: typeof staticTermsAndConditionsRoute
   IssuesUuidRoute: typeof IssuesUuidRoute
   RegistrationSuccessRoute: typeof RegistrationSuccessRoute
   SettingsChangePasswordRoute: typeof SettingsChangePasswordRoute
@@ -471,9 +494,14 @@ export interface RootRouteChildren {
   VolunteerUuidRoute: typeof VolunteerUuidRoute
   staticIndexRoute: typeof staticIndexRoute
   IssuesIndexRoute: typeof IssuesIndexRoute
+  LoginIndexRoute: typeof LoginIndexRoute
   RegistrationIndexRoute: typeof RegistrationIndexRoute
   IssuesNewBloodDonationLayoutRoute: typeof IssuesNewBloodDonationLayoutRouteWithChildren
   IssuesNewLostAndFoundLayoutRoute: typeof IssuesNewLostAndFoundLayoutRouteWithChildren
+  staticLegalPrivacyPolicyRoute: typeof staticLegalPrivacyPolicyRoute
+  staticLegalTermsAndConditionsRoute: typeof staticLegalTermsAndConditionsRoute
+  staticLegalWhyWeRequireIdDocumentsRoute: typeof staticLegalWhyWeRequireIdDocumentsRoute
+  staticLegalIndexRoute: typeof staticLegalIndexRoute
   IssuesNewIndexRoute: typeof IssuesNewIndexRoute
 }
 
@@ -484,6 +512,13 @@ declare module '@tanstack/react-router' {
       path: '/registration'
       fullPath: '/registration'
       preLoaderRoute: typeof RegistrationIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login/': {
+      id: '/login/'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/issues/': {
@@ -549,27 +584,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IssuesUuidRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(static)/terms-and-conditions': {
-      id: '/(static)/terms-and-conditions'
-      path: '/terms-and-conditions'
-      fullPath: '/terms-and-conditions'
-      preLoaderRoute: typeof staticTermsAndConditionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(static)/privacy-policy': {
-      id: '/(static)/privacy-policy'
-      path: '/privacy-policy'
-      fullPath: '/privacy-policy'
-      preLoaderRoute: typeof staticPrivacyPolicyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(static)/login': {
-      id: '/(static)/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof staticLoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/(static)/faq': {
       id: '/(static)/faq'
       path: '/faq'
@@ -603,6 +617,13 @@ declare module '@tanstack/react-router' {
       path: '/issues/new'
       fullPath: '/issues/new'
       preLoaderRoute: typeof IssuesNewIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(static)/legal/': {
+      id: '/(static)/legal/'
+      path: '/legal'
+      fullPath: '/legal'
+      preLoaderRoute: typeof staticLegalIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/registration/volunteer/upload-profile-picture': {
@@ -653,6 +674,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/registration/volunteer/brn-information'
       preLoaderRoute: typeof RegistrationVolunteerBrnInformationRouteImport
       parentRoute: typeof RegistrationVolunteerLayoutRoute
+    }
+    '/(static)/legal/why-we-require-id-documents': {
+      id: '/(static)/legal/why-we-require-id-documents'
+      path: '/legal/why-we-require-id-documents'
+      fullPath: '/legal/why-we-require-id-documents'
+      preLoaderRoute: typeof staticLegalWhyWeRequireIdDocumentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(static)/legal/terms-and-conditions': {
+      id: '/(static)/legal/terms-and-conditions'
+      path: '/legal/terms-and-conditions'
+      fullPath: '/legal/terms-and-conditions'
+      preLoaderRoute: typeof staticLegalTermsAndConditionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(static)/legal/privacy-policy': {
+      id: '/(static)/legal/privacy-policy'
+      path: '/legal/privacy-policy'
+      fullPath: '/legal/privacy-policy'
+      preLoaderRoute: typeof staticLegalPrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/issues/new/lost-and-found': {
       id: '/issues/new/lost-and-found'
@@ -803,9 +845,6 @@ const rootRouteChildren: RootRouteChildren = {
   staticAboutUsRoute: staticAboutUsRoute,
   staticContactUsRoute: staticContactUsRoute,
   staticFaqRoute: staticFaqRoute,
-  staticLoginRoute: staticLoginRoute,
-  staticPrivacyPolicyRoute: staticPrivacyPolicyRoute,
-  staticTermsAndConditionsRoute: staticTermsAndConditionsRoute,
   IssuesUuidRoute: IssuesUuidRoute,
   RegistrationSuccessRoute: RegistrationSuccessRoute,
   SettingsChangePasswordRoute: SettingsChangePasswordRoute,
@@ -815,11 +854,17 @@ const rootRouteChildren: RootRouteChildren = {
   VolunteerUuidRoute: VolunteerUuidRoute,
   staticIndexRoute: staticIndexRoute,
   IssuesIndexRoute: IssuesIndexRoute,
+  LoginIndexRoute: LoginIndexRoute,
   RegistrationIndexRoute: RegistrationIndexRoute,
   IssuesNewBloodDonationLayoutRoute:
     IssuesNewBloodDonationLayoutRouteWithChildren,
   IssuesNewLostAndFoundLayoutRoute:
     IssuesNewLostAndFoundLayoutRouteWithChildren,
+  staticLegalPrivacyPolicyRoute: staticLegalPrivacyPolicyRoute,
+  staticLegalTermsAndConditionsRoute: staticLegalTermsAndConditionsRoute,
+  staticLegalWhyWeRequireIdDocumentsRoute:
+    staticLegalWhyWeRequireIdDocumentsRoute,
+  staticLegalIndexRoute: staticLegalIndexRoute,
   IssuesNewIndexRoute: IssuesNewIndexRoute,
 }
 export const routeTree = rootRouteImport

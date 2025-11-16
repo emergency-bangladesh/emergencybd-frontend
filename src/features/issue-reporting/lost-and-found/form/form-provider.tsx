@@ -2,7 +2,6 @@ import { useForm } from "@tanstack/react-form";
 import { useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
-import { useAuth } from "@/features/auth/hooks/use-auth";
 import { reportLostAndFoundIssue } from "../actions/report-lost-and-found-issue";
 import { LostAndFoundFormContext } from "./form-context";
 import type { LostAndFoundFormValue } from "./form-schema";
@@ -10,7 +9,6 @@ import { lostAndFoundSchema } from "./form-schema";
 
 function useInitLostAndFoundForm() {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const defaultValues: LostAndFoundFormValue = {
     personsName: undefined!,
     age: undefined!,
@@ -23,10 +21,10 @@ function useInitLostAndFoundForm() {
     occupation: undefined,
     images: [],
     acceptTerms: false,
-    emailAddress: user?.email || undefined!,
-    fullName: user?.name || undefined!,
-    phoneNumber: user?.phoneNumber || undefined!,
-    emergencyContactNumber: user?.phoneNumber || undefined!,
+    emailAddress: undefined!,
+    fullName: undefined!,
+    phoneNumber: undefined!,
+    emergencyContactNumber: undefined!,
   };
 
   const form = useForm({

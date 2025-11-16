@@ -79,15 +79,6 @@ function VolunteerProfilePage() {
     <div className="mx-auto max-w-4xl w-full p-4">
       {/* Profile Section */}
       <div className="relative">
-        {/* Edit Button - Top Right */}
-        {user && (
-          <div className="absolute right-0 top-0">
-            <Button variant="outline" size="sm" asChild>
-              <Link to="/settings/update-information">Edit Information</Link>
-            </Button>
-          </div>
-        )}
-
         {/* Profile Picture and Name */}
         <div className="flex flex-col items-center gap-4 pb-4 md:items-start">
           {/* Profile Picture */}
@@ -127,6 +118,16 @@ function VolunteerProfilePage() {
                 {volunteer?.currentUpazila}, {volunteer?.currentDistrict}
               </span>
             </div>
+            {/* Edit Button - Top Right */}
+            {user && user.uuid === volunteer?.volunteer_uuid && (
+              <div className="mt-4">
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/settings/update-information">
+                    Edit Information
+                  </Link>
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 

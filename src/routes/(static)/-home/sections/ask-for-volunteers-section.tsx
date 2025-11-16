@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Info } from "@/components/ui/info";
 import { useLanguage } from "@/integrations/language/use-language";
 import { PeoplesImage } from "../components/peoples";
+import { Link } from "@tanstack/react-router";
 
 const infoText = {
   en: "Emergency Bangladesh Is Open for Registration",
@@ -25,8 +26,8 @@ const volunteerButtonText = {
 };
 
 const whyDocumentBButtonText = {
-  en: "Learn Why We Require ID Documents",
-  bn: "জানুন কেন আমাদের পরিচয়পত্রের ডকুমেন্ট প্রয়োজন",
+  en: "Why We Require ID Documents?",
+  bn: "কেন আমাদের পরিচয়পত্র প্রয়োজন?",
 };
 
 export const AskForVolunteersSection = () => {
@@ -52,13 +53,9 @@ export const AskForVolunteersSection = () => {
             </a>
           </Button>
           <Button variant={"outline"} asChild>
-            <a
-              href="http://docs.emergencybd.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link to="/legal/why-we-require-id-documents">
               {whyDocumentBButtonText[language]}
-            </a>
+            </Link>
           </Button>
         </div>
       </div>

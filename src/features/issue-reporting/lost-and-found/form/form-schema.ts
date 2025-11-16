@@ -4,12 +4,12 @@ import { contactInformationSchema } from "../../shared-form-schema";
 // Step 1: Detailed Information
 export const detailedInformationSchema = z.object({
   personsName: z
-    .string("Name is required")
+    .string("This is a required field")
     .min(3, "Name must be at least 3 characters long"),
-  age: z.number("Age must be provided"),
-  dateTimeLost: z.date("The time when lost is required"),
+  age: z.number("This is a required field"),
+  dateTimeLost: z.date("This is a required field"),
   details: z
-    .string("Details is required")
+    .string("This is a required field")
     .min(10, "Please provide at least 10 characters of details")
     .max(10000, "Details cannot exceed 10,000 characters"),
 });
@@ -17,13 +17,13 @@ export const detailedInformationSchema = z.object({
 // Step 2: Location Information
 export const locationInformationSchema = z.object({
   lastSeenLocation: z
-    .string("Last seen location is required")
+    .string("This is a required field")
     .min(1, "Last seen location is required")
     .max(200, "Location cannot exceed 200 characters"),
   district: z.string("District is required").min(1, "District is required"),
   upazila: z
-    .string("Upazila/Thana is required")
-    .min(1, "Upazila/Thana is required"),
+    .string("This is a required field")
+    .min(1, "This is a required field"),
   bloodGroup: z
     .enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
     .optional(),

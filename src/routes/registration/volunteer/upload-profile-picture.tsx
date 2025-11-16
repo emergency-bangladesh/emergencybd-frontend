@@ -19,7 +19,7 @@ export const Route = createFileRoute(
 });
 
 function RouteComponent() {
-  const volunteerRegistrationForm = useVolunteerRegistrationForm();
+  const form = useVolunteerRegistrationForm();
   return (
     <>
       <VolunteerRegistrationStepper currentStep={6} />
@@ -38,10 +38,10 @@ function RouteComponent() {
           e.preventDefault();
           e.stopPropagation();
 
-          volunteerRegistrationForm.handleSubmit();
+          form.handleSubmit();
         }}
       >
-        <volunteerRegistrationForm.Field name="profilePicture">
+        <form.Field name="profilePicture">
           {(field) => (
             <div className="flex flex-col gap-1">
               <FormAvatarUpload
@@ -51,8 +51,8 @@ function RouteComponent() {
               <FieldErrorInfo field={field} />
             </div>
           )}
-        </volunteerRegistrationForm.Field>
-        <volunteerRegistrationForm.Field
+        </form.Field>
+        <form.Field
           name="agreeTerms"
           validators={{
             onSubmit: ({ value }) =>
@@ -70,10 +70,10 @@ function RouteComponent() {
               <FieldErrorInfo field={field} />
             </div>
           )}
-        </volunteerRegistrationForm.Field>
+        </form.Field>
         <div className="grid grid-cols-2 items-center w-full max-w-lg justify-center gap-3">
           <BackButton to="/registration/volunteer/set-password" />
-          <volunteerRegistrationForm.Subscribe
+          <form.Subscribe
             selector={(state) => {
               return {
                 canSubmit: state.canSubmit,
@@ -87,7 +87,7 @@ function RouteComponent() {
                 Submit
               </Button>
             )}
-          </volunteerRegistrationForm.Subscribe>
+          </form.Subscribe>
         </div>
       </form>
     </>

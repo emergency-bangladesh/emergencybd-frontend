@@ -37,18 +37,20 @@ export const personalInformationSchema = z.object({
       (date) => date < birthDateThreshold,
       "You must be at least 12 years old to register",
     ),
-  gender: z.enum(["male", "female", "intersex"], { error: "Invalid Gender" }),
+  gender: z.enum(["male", "female", "intersex"], {
+    error: "Unacceptable entity",
+  }),
 });
 
 // step 2
 export const locationInformationSchema = z
   .object({
     permanentDistrict: z
-      .string("Permanent District must be provided")
-      .min(1, "Permanent District must be provided"),
+      .string("This field is required")
+      .min(1, "This field is required"),
     permanentUpazila: z
-      .string("Permanent upazila must be provided")
-      .min(1, "Permanent upazila must be provided"),
+      .string("This field is required")
+      .min(1, "This field is required"),
     currentSameAsPermanent: z.boolean(),
     currentDistrict: z.string().optional(),
     currentUpazila: z.string().optional(),
@@ -62,7 +64,7 @@ export const locationInformationSchema = z
       ctx.addIssue({
         code: "custom",
         path: ["currentDistrict"],
-        message: "Current District is required",
+        message: "This field is required",
       });
     }
 
@@ -70,7 +72,7 @@ export const locationInformationSchema = z
       ctx.addIssue({
         code: "custom",
         path: ["currentUpazila"],
-        message: "Current upazila is required",
+        message: "This field is required",
       });
     }
   });
@@ -92,7 +94,7 @@ export const IDInformationSchema = z
       .string()
       .trim()
       .regex(/^01[3-9]\d{2}-?\d{6}$/, {
-        message: "Invalid Bangladesh phone number",
+        message: "Invalid Bangladeshi phone number",
       })
       .optional(),
   })
@@ -102,7 +104,7 @@ export const IDInformationSchema = z
       if (!data.nidNumber || data.nidNumber.length === 0) {
         ctx.addIssue({
           code: "custom",
-          message: "NID Number is required",
+          message: "This field is required",
           path: ["nidNumber"],
         });
       } else if (!/^\d+$/.test(data.nidNumber)) {
@@ -135,7 +137,7 @@ export const IDInformationSchema = z
       if (!data.brnNumber || data.brnNumber.length === 0) {
         ctx.addIssue({
           code: "custom",
-          message: "BRN Number is required",
+          message: "This field is required",
           path: ["brnNumber"],
         });
       }
@@ -149,7 +151,7 @@ export const IDInformationSchema = z
       if (!data.parentPhoneNumber || data.parentPhoneNumber.length === 0) {
         ctx.addIssue({
           code: "custom",
-          message: "Parent Phone Number is required",
+          message: "This field is required",
           path: ["parentPhoneNumber"],
         });
       }
@@ -170,7 +172,7 @@ export const passwordSchema = z
         /[^A-Za-z0-9]/,
         "Password must contain at least one special character",
       ),
-    confirmPassword: z.string("Field cannot be empty").trim().min(8).max(32),
+    confirmPassword: z.string("This field is required").trim().min(8).max(32),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",

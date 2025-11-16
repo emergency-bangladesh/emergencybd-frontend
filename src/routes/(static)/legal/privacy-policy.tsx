@@ -3,7 +3,7 @@ import { useLanguage } from "@/integrations/language/use-language";
 import { PrivacyPolicyBn } from "./-privacy-policy/privacy-policy-bn";
 import { PrivacyPolicyEn } from "./-privacy-policy/privacy-policy-en";
 
-export const Route = createFileRoute("/(static)/privacy-policy")({
+export const Route = createFileRoute("/(static)/legal/privacy-policy")({
   component: PrivacyPolicyPage,
 });
 

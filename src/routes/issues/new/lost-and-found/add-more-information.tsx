@@ -120,12 +120,12 @@ function AddLocationInformationSection() {
                   <div className="flex flex-col gap-1">
                     <FormComboBox
                       field={field}
-                      label="Permanent upazila"
-                      placeholder="Select upazila"
+                      label="Permanent Upazila/Thana"
+                      placeholder="Select Upazila/Thana"
                       options={getAllUpazilaOrThana(district)}
                       disabled={!district}
                       searchPlaceholder="Search"
-                      noResultsMessage="No upazila found."
+                      noResultsMessage="No Upazila/Thana found."
                     />
                     <FieldErrorInfo field={field} />
                   </div>

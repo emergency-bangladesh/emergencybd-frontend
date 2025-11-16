@@ -23,7 +23,7 @@ function RegistrationSuccessComponent() {
         </Muted>
         <Button className="mt-6 w-full" asChild>
           <a
-            href="mailto:project.emergencybd@gmail.com"
+            href="mailto:info@emergencybd.com"
             target="_blank"
             rel="noopener noreferrer"
           >

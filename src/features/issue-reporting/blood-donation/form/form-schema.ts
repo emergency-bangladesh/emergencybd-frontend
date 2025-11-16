@@ -8,10 +8,10 @@ export const basicInformationSchema = z.object({
     .min(3, "Patient's Name must be at least 3 characters long"),
   bloodGroup: z.enum(
     ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
-    "Invalid Birth Group",
+    "This is a required field",
   ),
-  amountInBag: z.number("It should be a numeric"),
-  exactDateAndTime: z.date("Must be a date input"),
+  amountInBag: z.number("This is a required field"),
+  exactDateAndTime: z.date("Date and time are required"),
 });
 
 // second step
@@ -20,8 +20,8 @@ export const locationInformationSchema = z.object({
     .string("Hospital name is required")
     .trim()
     .min(3, "Hospital name must be at least 3 characters long"),
-  district: z.string("District is required"),
-  upazila: z.string("Upazila is required"),
+  district: z.string("This is a required field"),
+  upazila: z.string("This is a required field"),
   specialInstruction: z.string().optional(),
 });
 

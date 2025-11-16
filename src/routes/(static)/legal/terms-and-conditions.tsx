@@ -3,7 +3,7 @@ import { useLanguage } from "@/integrations/language/use-language";
 import { TermsAndConditionsBn } from "./-terms-and-conditions/terms-and-conditions-bn";
 import { TermsAndConditionsEn } from "./-terms-and-conditions/terms-and-conditions-en";
 
-export const Route = createFileRoute("/(static)/terms-and-conditions")({
+export const Route = createFileRoute("/(static)/legal/terms-and-conditions")({
   component: TermsAndConditionsPage,
 });
 

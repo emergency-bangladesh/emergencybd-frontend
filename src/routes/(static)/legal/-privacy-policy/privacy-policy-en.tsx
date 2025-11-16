@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 export function PrivacyPolicyEn() {
   return (
     <div className="max-w-4xl mx-auto">
-      <Card className="shadow-lg border-none bg-background">
+      <Card className="border-none bg-background! shadow-none">
         <CardHeader className="p-0!">
           <CardTitle className="text-2xl md:text-3xl font-bold">
             Privacy Policy for Emergency BD
@@ -183,10 +183,10 @@ export function PrivacyPolicyEn() {
             <p>
               If you have questions about this Privacy Policy, contact us at{" "}
               <a
-                href="mailto:project.emergencybd@gmail.com"
+                href="mailto:info@emergencybd.com"
                 className="text-destructive hover:underline"
               >
-                project.emergencybd@gmail.com
+                info@emergencybd.com
               </a>{" "}
               or through our social media handles.
             </p>

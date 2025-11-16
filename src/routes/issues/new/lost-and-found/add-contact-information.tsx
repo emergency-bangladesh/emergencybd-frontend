@@ -31,7 +31,7 @@ const subtitle = {
   bn: "ভলান্টিয়ারদের যোগাযোগ করা সহজ করার জন্য যোগাযোগের তথ্য যোগ করুন।",
 };
 const fullNameLabel = {
-  en: "Full Name (this name will be used as 'Contact Person'",
+  en: "Full Name (this name will be used as 'Contact Person')",
   bn: "সম্পূর্ণ নাম (এই নামটি 'কন্টাক্ট পারসন' হিসেবে যোগ করা হবে)",
 };
 const fullNamePlaceholder = {
@@ -104,7 +104,18 @@ function RouteComponent() {
               </div>
             )}
           </form.Field>
-          <form.Field name="emergencyContactNumber">
+          <form.Field
+            name="emergencyContactNumber"
+            validators={{
+              onChange: ({ value, fieldApi }) => {
+                if (value === fieldApi.form.getFieldValue("phoneNumber"))
+                  return {
+                    message:
+                      "Emergency Contact must be different from Primary Contact",
+                  };
+              },
+            }}
+          >
             {(field) => (
               <div className="flex flex-col gap-1">
                 <FormTelInput

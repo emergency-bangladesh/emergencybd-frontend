@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 export function PrivacyPolicyBn() {
   return (
     <div className="max-w-4xl mx-auto">
-      <Card className="shadow-lg border-none bg-background">
+      <Card className="border-none bg-background! shadow-none">
         <CardHeader className="p-0!">
           <CardTitle className="text-2xl md:text-3xl font-bold">
             ইমারজেন্সি বাংলাদেশ এর গোপনীয়তা নীতি
@@ -171,10 +171,10 @@ export function PrivacyPolicyBn() {
               এই প্রাইভেসি পলিসি সম্পর্কে আপনার যদি কোনো প্রশ্ন থাকে, তাহলে আমাদের সঙ্গে
               যোগাযোগ করুন:{" "}
               <a
-                href="mailto:project.emergencybd@gmail.com"
+                href="mailto:info@emergencybd.com"
                 className="text-destructive hover:underline"
               >
-                project.emergencybd@gmail.com
+                info@emergencybd.com
               </a>{" "}
               অথবা আমাদের সামাজিক যোগাযোগ মাধ্যমের মাধ্যমে।
             </p>

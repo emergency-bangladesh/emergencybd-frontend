@@ -6,7 +6,7 @@ export function TermsAndConditionsBn() {
   return (
     <div className="min-h-screen bg-background text-primary">
       <div className="max-w-4xl mx-auto">
-        <Card className="shadow-lg border-none bg-background">
+        <Card className="border-none bg-background! shadow-none">
           <CardHeader className="p-0!">
             <CardTitle className="text-2xl md:text-3xl font-bold">
               ইমারজেন্সি বাংলাদেশ এর শর্তাবলী এবং নিয়মাবলী
@@ -94,7 +94,10 @@ export function TermsAndConditionsBn() {
               </h2>
               <p>
                 অ্যাপ ব্যবহার করার মাধ্যমে আপনি আমাদের{" "}
-                <Link to="/privacy-policy" className="text-primary font-medium">
+                <Link
+                  to="/legal/privacy-policy"
+                  className="text-primary font-medium"
+                >
                   গোপনীয়তা নীতিমালার
                 </Link>{" "}
                 সাথে সম্মত হচ্ছেন। করার দায়িত্ব আপনার নিজের।
@@ -215,10 +218,10 @@ export function TermsAndConditionsBn() {
               <p>
                 কোনো প্রশ্ন বা উদ্বেগ থাকলে আমাদের সাথে যোগাযোগ করুন:{" "}
                 <a
-                  href="mailto:project.emergencybd@gmail.com"
+                  href="mailto:info@emergencybd.com"
                   className="text-destructive hover:underline"
                 >
-                  project.emergencybd@gmail.com
+                  info@emergencybd.com
                 </a>{" "}
                 অথবা আমাদের সামাজিক যোগাযোগ মাধ্যমে।
               </p>

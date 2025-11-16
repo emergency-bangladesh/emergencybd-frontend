@@ -10,7 +10,6 @@ import {
   FormTextInput,
 } from "@/components/ui/form";
 import { Loader } from "@/components/ui/loader";
-import { useAuth } from "@/features/auth/hooks/use-auth";
 import { useBloodDonationIssueForm } from "@/features/issue-reporting/blood-donation/form/use-blood-donation-issue-form";
 import { useLanguage } from "@/integrations/language/use-language";
 import { BloodDonationInfo } from "./-info";
@@ -31,7 +30,7 @@ const subtitle = {
   bn: "ভলান্টিয়ারদের যোগাযোগ করা সহজ করার জন্য যোগাযোগের তথ্য যোগ করুন।",
 };
 const fullNameLabel = {
-  en: "Full Name (this name will be used as 'Contact Person'",
+  en: "Full Name (this name will be used as 'Contact Person')",
   bn: "সম্পূর্ণ নাম (এই নামটি 'কন্টাক্ট পারসন' হিসেবে যোগ করা হবে)",
 };
 const fullNamePlaceholder = {
@@ -57,10 +56,7 @@ const acceptTermsLabel = {
 
 function AddContactInformationSection() {
   const form = useBloodDonationIssueForm();
-  const { user } = useAuth();
   const { language } = useLanguage();
-
-  const hasInitialValue = !!user;
 
   return (
     <>
@@ -85,7 +81,6 @@ function AddContactInformationSection() {
                 field={field}
                 label={fullNameLabel[language]}
                 placeholder={fullNamePlaceholder[language]}
-                disabled={!!hasInitialValue}
               />
               <FieldErrorInfo field={field} />
             </div>
@@ -98,13 +93,23 @@ function AddContactInformationSection() {
                 <FormTelInput
                   field={field}
                   label={phoneNumberLabel[language]}
-                  disabled={!!hasInitialValue}
                 />
                 <FieldErrorInfo field={field} />
               </div>
             )}
           </form.Field>
-          <form.Field name="emergencyContactNumber">
+          <form.Field
+            name="emergencyContactNumber"
+            validators={{
+              onChange: ({ value, fieldApi }) => {
+                if (value === fieldApi.form.getFieldValue("phoneNumber"))
+                  return {
+                    message:
+                      "Emergency Contact must be different from Primary Contact",
+                  };
+              },
+            }}
+          >
             {(field) => (
               <div className="flex flex-col gap-1">
                 <FormTelInput
@@ -123,7 +128,6 @@ function AddContactInformationSection() {
                 field={field}
                 label={emailAddressLabel[language]}
                 placeholder="you@email.com"
-                disabled={!!hasInitialValue}
               />
               <FieldErrorInfo field={field} />
             </div>
