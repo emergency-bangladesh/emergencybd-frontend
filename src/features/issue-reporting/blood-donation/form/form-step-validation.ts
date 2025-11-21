@@ -1,3 +1,4 @@
+import * as v from "valibot";
 import type { BloodDonationIssueFormValue } from "./form-schema";
 import {
   basicInformationSchema,
@@ -7,10 +8,10 @@ import {
 export function validateBloodDonationBasicInformationStep(
   values: Partial<BloodDonationIssueFormValue>,
 ) {
-  return basicInformationSchema.safeParse(values).success;
+  return v.safeParse(basicInformationSchema, values).success;
 }
 export function validateBloodDonationLocationInformationStep(
   values: Partial<BloodDonationIssueFormValue>,
 ) {
-  return locationInformationSchema.safeParse(values).success;
+  return v.safeParse(locationInformationSchema, values).success;
 }

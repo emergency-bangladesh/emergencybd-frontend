@@ -2,7 +2,7 @@ import { useForm } from "@tanstack/react-form";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useMemo } from "react";
 import { toast } from "sonner";
-import z from "zod";
+import * as v from "valibot";
 import { Button } from "@/components/ui/button";
 import {
   FieldErrorInfo,
@@ -42,36 +42,37 @@ function UpdateInformationComponent() {
   );
 }
 
-const volunteerUpdateSchema = z
-  .object({
-    currentDistrict: z.string().min(1, "District is required").optional(),
-    currentUpazila: z.string().min(1, "Upazila is required").optional(),
-    profilePicture: z.instanceof(File).optional(),
-  })
-  .refine(
-    (data) => {
-      if (data.currentDistrict) {
-        return !!data.currentUpazila;
-      }
-      return true;
-    },
-    {
-      message: "Upazila is required if district is selected",
-      path: ["currentUpazila"],
-    },
-  )
-  .refine(
-    (data) => {
-      if (data.currentUpazila) {
-        return !!data.currentDistrict;
-      }
-      return true;
-    },
-    {
-      message: "District is required if upazila is selected",
-      path: ["currentDistrict"],
-    },
-  );
+const volunteerUpdateSchema = v.pipe(
+  v.object({
+    currentDistrict: v.optional(v.pipe(v.string(), v.minLength(1, "District is required"))),
+    currentUpazila: v.optional(v.pipe(v.string(), v.minLength(1, "Upazila is required"))),
+    profilePicture: v.optional(v.instance(File)),
+  }),
+  v.forward(
+    v.check(
+      (data) => {
+        if (data.currentDistrict) {
+          return !!data.currentUpazila;
+        }
+        return true;
+      },
+      "Upazila is required if district is selected",
+    ),
+    ["currentUpazila"],
+  ),
+  v.forward(
+    v.check(
+      (data) => {
+        if (data.currentUpazila) {
+          return !!data.currentDistrict;
+        }
+        return true;
+      },
+      "District is required if upazila is selected",
+    ),
+    ["currentDistrict"],
+  ),
+);
 
 function VolunteerUpdateForm() {
   const { user } = useAuth();
@@ -96,7 +97,7 @@ function VolunteerUpdateFormInner({ user }: { readonly user: User }) {
       currentDistrict: volunteerData?.currentDistrict,
       currentUpazila: volunteerData?.currentUpazila,
       profilePicture: undefined,
-    } as z.infer<typeof volunteerUpdateSchema>,
+    } as v.InferOutput<typeof volunteerUpdateSchema>,
     onSubmit: async ({ value }) => {
       try {
         if (value.currentDistrict && value.currentUpazila) {

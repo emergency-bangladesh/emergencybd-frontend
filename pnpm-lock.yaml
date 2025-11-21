@@ -98,12 +98,12 @@ importers:
       tailwindcss:
         specifier: ^4.1.15
         version: 4.1.15
-      zod:
-        specifier: ^4.1.12
-        version: 4.1.12
+      valibot:
+        specifier: ^1.1.0
+        version: 1.1.0(typescript@5.9.3)
     devDependencies:
       '@biomejs/biome':
-        specifier: 2.2.6
+        specifier: ^2.2.6
         version: 2.2.6
       '@tanstack/devtools-vite':
         specifier: ^0.3.8
@@ -2480,6 +2480,14 @@ packages:
   uzip@0.20201231.0:
     resolution: {integrity: sha512-OZeJfZP+R0z9D6TmBgLq2LHzSSptGMGDGigGiEe0pr8UBe/7fdflgHlHBNDASTXB5jnFuxHpNaJywSg8YFeGng==}
 
+  valibot@1.1.0:
+    resolution: {integrity: sha512-Nk8lX30Qhu+9txPYTwM0cFlWLdPFsFr6LblzqIySfbZph9+BFsAHsNvHOymEviUepeIW6KFHzpX8TKhbptBXXw==}
+    peerDependencies:
+      typescript: '>=5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   vite-node@3.2.4:
     resolution: {integrity: sha512-EbKSKh+bh1E1IFxeO0pg1n4dvoOTt0UDiXMd/qn++r98+jPO1xtJilvXldeuQ8giIB5IkpjCgMleHMNEsGH6pg==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
@@ -2605,9 +2613,6 @@ packages:
 
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
-
-  zod@4.1.12:
-    resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
 
 snapshots:
 
@@ -4989,6 +4994,10 @@ snapshots:
 
   uzip@0.20201231.0: {}
 
+  valibot@1.1.0(typescript@5.9.3):
+    optionalDependencies:
+      typescript: 5.9.3
+
   vite-node@3.2.4(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6):
     dependencies:
       cac: 6.7.14
@@ -5100,5 +5109,3 @@ snapshots:
   yallist@3.1.1: {}
 
   zod@3.25.76: {}
-
-  zod@4.1.12: {}

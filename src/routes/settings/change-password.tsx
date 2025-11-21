@@ -1,7 +1,7 @@
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import z from "zod";
+import * as v from "valibot";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,26 +16,28 @@ export const Route = createFileRoute("/settings/change-password")({
   component: ChangePasswordComponent,
 });
 
-const changePasswordSchema = z
-  .object({
-    oldPassword: z.string().min(1, "Old password is required"),
-    newPassword: z
-      .string()
-      .min(8, "Password must be at least 8 characters long")
-      .max(32, "Password must be at most 32 characters long")
-      .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-      .regex(/[0-9]/, "Password must contain at least one number")
-      .regex(
+const changePasswordSchema = v.pipe(
+  v.object({
+    oldPassword: v.pipe(v.string(), v.minLength(1, "Old password is required")),
+    newPassword: v.pipe(
+      v.string(),
+      v.minLength(8, "Password must be at least 8 characters long"),
+      v.maxLength(32, "Password must be at most 32 characters long"),
+      v.regex(/[A-Z]/, "Password must contain at least one uppercase letter"),
+      v.regex(/[a-z]/, "Password must contain at least one lowercase letter"),
+      v.regex(/[0-9]/, "Password must contain at least one number"),
+      v.regex(
         /[^A-Za-z0-9]/,
         "Password must contain at least one special character",
       ),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
+    ),
+    confirmPassword: v.string(),
+  }),
+  v.forward(
+    v.check((data) => data.newPassword === data.confirmPassword, "Passwords don't match"),
+    ["confirmPassword"],
+  ),
+);
 
 function ChangePasswordComponent() {
   const navigate = useNavigate();

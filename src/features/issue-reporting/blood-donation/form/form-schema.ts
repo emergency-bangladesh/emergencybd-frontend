@@ -1,34 +1,38 @@
-import z from "zod";
+import * as v from "valibot";
 import { contactInformationSchema } from "../../shared-form-schema";
 
 // first step
-export const basicInformationSchema = z.object({
-  patientName: z
-    .string("Patient's Name must be provided")
-    .min(3, "Patient's Name must be at least 3 characters long"),
-  bloodGroup: z.enum(
+export const basicInformationSchema = v.object({
+  patientName: v.pipe(
+    v.string("Patient's Name must be provided"),
+    v.minLength(3, "Patient's Name must be at least 3 characters long"),
+  ),
+  bloodGroup: v.picklist(
     ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
     "This is a required field",
   ),
-  amountInBag: z.number("This is a required field"),
-  exactDateAndTime: z.date("Date and time are required"),
+  amountInBag: v.number("This is a required field"),
+  exactDateAndTime: v.date("Date and time are required"),
 });
 
 // second step
-export const locationInformationSchema = z.object({
-  hospitalName: z
-    .string("Hospital name is required")
-    .trim()
-    .min(3, "Hospital name must be at least 3 characters long"),
-  district: z.string("This is a required field"),
-  upazila: z.string("This is a required field"),
-  specialInstruction: z.string().optional(),
+export const locationInformationSchema = v.object({
+  hospitalName: v.pipe(
+    v.string("Hospital name is required"),
+    v.trim(),
+    v.minLength(3, "Hospital name must be at least 3 characters long"),
+  ),
+  district: v.string("This is a required field"),
+  upazila: v.string("This is a required field"),
+  specialInstruction: v.optional(v.string()),
 });
 
-export const bloodDonationIssueSchema = basicInformationSchema
-  .and(locationInformationSchema)
-  .and(contactInformationSchema);
+export const bloodDonationIssueSchema = v.object({
+  ...basicInformationSchema.entries,
+  ...locationInformationSchema.entries,
+  ...contactInformationSchema.entries,
+});
 
-export type BloodDonationIssueFormValue = z.infer<
+export type BloodDonationIssueFormValue = v.InferOutput<
   typeof bloodDonationIssueSchema
 >;

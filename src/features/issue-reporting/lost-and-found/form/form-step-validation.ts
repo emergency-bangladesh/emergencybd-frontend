@@ -1,3 +1,4 @@
+import * as v from "valibot";
 import type { LostAndFoundFormValue } from "./form-schema";
 import {
   detailedInformationSchema,
@@ -8,17 +9,17 @@ import {
 export function validateLostAndFoundBasicInformationStep(
   values: Partial<LostAndFoundFormValue>,
 ): boolean {
-  return detailedInformationSchema.safeParse(values).success;
+  return v.safeParse(detailedInformationSchema, values).success;
 }
 
 export function validateLostAndFoundLocationInformationStep(
   values: Partial<LostAndFoundFormValue>,
 ): boolean {
-  return locationInformationSchema.safeParse(values).success;
+  return v.safeParse(locationInformationSchema, values).success;
 }
 
 export function validateLostAndFoundPictureInformationStep(
   values: Partial<LostAndFoundFormValue>,
 ): boolean {
-  return pictureInformationSchema.safeParse(values).success;
+  return v.safeParse(pictureInformationSchema, values).success;
 }

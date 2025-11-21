@@ -2,7 +2,7 @@ import { IconAlertTriangle, IconLogin2 } from "@tabler/icons-react";
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { z } from "zod";
+import * as v from "valibot";
 import { Button } from "@/components/ui/button";
 import {
   FieldErrorInfo,
@@ -13,15 +13,15 @@ import Muted from "@/components/ui/typography/muted";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { ApiError } from "@/lib/errors";
 
-const loginFormSchema = z.object({
-  email: z.email("Invalid email address"),
-  password: z.string().min(1, "Password is required"),
+const loginFormSchema = v.object({
+  email: v.pipe(v.string(), v.email("Invalid email address")),
+  password: v.pipe(v.string(), v.minLength(1, "Password is required")),
 });
 
 export const Route = createFileRoute("/login/")({
   component: LoginForm,
-  validateSearch: z.object({
-    next: z.string().optional(),
+  validateSearch: v.object({
+    next: v.optional(v.string()),
   }),
 });
 

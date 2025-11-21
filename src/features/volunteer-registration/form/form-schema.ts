@@ -1,4 +1,4 @@
-import z from "zod";
+import * as v from "valibot";
 
 const today = new Date();
 const birthDateThreshold = new Date(
@@ -6,191 +6,212 @@ const birthDateThreshold = new Date(
   today.getMonth(),
   today.getDate(),
 );
-const imageFileSchema = z
-  .instanceof(File, { error: "Upload a image file" })
-  .refine((file) => file.type.startsWith("image/"), {
-    message: "Invalid image file",
-  });
+const imageFileSchema = v.pipe(
+  v.instance(File, "Upload a image file"),
+  v.check((file) => file.type.startsWith("image/"), "Invalid image file"),
+);
 
 // step 1
-export const personalInformationSchema = z.object({
-  name: z
-    .string("Name is required")
-    .trim()
-    .min(3, "Name must be at least 3 characters long"),
-  email: z
-    .email("Email must be provided")
-    .min(6, "Email must be at least 3 characters long"),
-  phoneNumber: z
-    .string("Phone number is required")
-    .trim()
-    .regex(/^01[3-9]\d{2}-?\d{6}$/, {
-      message: "Invalid Bangladesh phone number",
-    }),
-  bloodGroup: z.enum(
+export const personalInformationSchema = v.object({
+  name: v.pipe(
+    v.string("Name is required"),
+    v.trim(),
+    v.minLength(3, "Name must be at least 3 characters long"),
+  ),
+  email: v.pipe(
+    v.string("Email must be provided"),
+    v.email("Email must be provided"),
+    v.minLength(6, "Email must be at least 3 characters long"),
+  ),
+  phoneNumber: v.pipe(
+    v.string("Phone number is required"),
+    v.trim(),
+    v.regex(/^01[3-9]\d{2}-?\d{6}$/, "Invalid Bangladesh phone number"),
+  ),
+  bloodGroup: v.picklist(
     ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
     "Invalid Birth Group",
   ),
-  dateOfBirth: z
-    .date("Invalid Date of Birth")
-    .refine(
+  dateOfBirth: v.pipe(
+    v.date("Invalid Date of Birth"),
+    v.check(
       (date) => date < birthDateThreshold,
       "You must be at least 12 years old to register",
     ),
-  gender: z.enum(["male", "female", "intersex"], {
-    error: "Unacceptable entity",
-  }),
+  ),
+  gender: v.picklist(["male", "female", "intersex"], "Unacceptable entity"),
 });
 
 // step 2
-export const locationInformationSchema = z
-  .object({
-    permanentDistrict: z
-      .string("This field is required")
-      .min(1, "This field is required"),
-    permanentUpazila: z
-      .string("This field is required")
-      .min(1, "This field is required"),
-    currentSameAsPermanent: z.boolean(),
-    currentDistrict: z.string().optional(),
-    currentUpazila: z.string().optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.currentSameAsPermanent) {
-      return;
-    }
-
-    if (!data.currentDistrict) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["currentDistrict"],
-        message: "This field is required",
-      });
-    }
-
-    if (!data.currentUpazila) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["currentUpazila"],
-        message: "This field is required",
-      });
-    }
-  });
+export const locationInformationSchema = v.pipe(
+  v.object({
+    permanentDistrict: v.pipe(
+      v.string("This field is required"),
+      v.minLength(1, "This field is required"),
+    ),
+    permanentUpazila: v.pipe(
+      v.string("This field is required"),
+      v.minLength(1, "This field is required"),
+    ),
+    currentSameAsPermanent: v.boolean(),
+    currentDistrict: v.optional(v.string()),
+    currentUpazila: v.optional(v.string()),
+  }),
+  v.forward(
+    v.check((data) => {
+      if (data.currentSameAsPermanent) return true;
+      return !!data.currentDistrict;
+    }, "This field is required"),
+    ["currentDistrict"],
+  ),
+  v.forward(
+    v.check((data) => {
+      if (data.currentSameAsPermanent) return true;
+      return !!data.currentUpazila;
+    }, "This field is required"),
+    ["currentUpazila"],
+  ),
+);
 
 // step 3 (either brn or nid)
-export const IDInformationSchema = z
-  .object({
-    idType: z.enum(["NID", "BRN"]),
-    nidNumber: z.string().trim().optional(),
-    nidImage1: imageFileSchema.optional(),
-    nidImage2: imageFileSchema.optional(),
-    brnNumber: z
-      .string()
-      .trim()
-      .length(17, "Birth Registration Number must be 17 digits")
-      .optional(),
-    brnDate: z.date().optional(),
-    parentPhoneNumber: z
-      .string()
-      .trim()
-      .regex(/^01[3-9]\d{2}-?\d{6}$/, {
-        message: "Invalid Bangladeshi phone number",
-      })
-      .optional(),
-  })
-  .superRefine((data, ctx) => {
-    // Conditional validation for NID
-    if (data.idType === "NID") {
-      if (!data.nidNumber || data.nidNumber.length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          message: "This field is required",
-          path: ["nidNumber"],
-        });
-      } else if (!/^\d+$/.test(data.nidNumber)) {
-        ctx.addIssue({
-          code: "custom",
-          message: "NID must be digits",
-          path: ["nidNumber"],
-        });
-      } else if (data.nidNumber.length !== 10 && data.nidNumber.length !== 17) {
-        ctx.addIssue({
-          code: "custom",
-          message: "NID must be 10 or 17 digits long",
-          path: ["nidNumber"],
-        });
+export const IDInformationSchema = v.pipe(
+  v.object({
+    idType: v.picklist(["NID", "BRN"]),
+    nidNumber: v.optional(v.pipe(v.string(), v.trim())),
+    nidImage1: v.optional(imageFileSchema),
+    nidImage2: v.optional(imageFileSchema),
+    brnNumber: v.optional(
+      v.pipe(
+        v.string(),
+        v.trim(),
+        v.length(17, "Birth Registration Number must be 17 digits"),
+      ),
+    ),
+    brnDate: v.optional(v.date()),
+    parentPhoneNumber: v.optional(
+      v.pipe(
+        v.string(),
+        v.trim(),
+        v.regex(/^01[3-9]\d{2}-?\d{6}$/, "Invalid Bangladeshi phone number"),
+      ),
+    ),
+  }),
+  v.forward(
+    v.check((data) => {
+      if (data.idType === "NID") {
+        return !!data.nidNumber && data.nidNumber.length > 0;
       }
-      if (!data.nidImage1) {
-        ctx.addIssue({
-          code: "custom",
-          message: "NID Images are required",
-          path: ["nidImage1"],
-        });
-      } else if (!data.nidImage2) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Back of NID is required",
-          path: ["nidImage2"],
-        });
+      return true;
+    }, "This field is required"),
+    ["nidNumber"],
+  ),
+  v.forward(
+    v.check((data) => {
+      if (data.idType === "NID" && data.nidNumber) {
+        return /^\d+$/.test(data.nidNumber);
       }
-    } else {
-      if (!data.brnNumber || data.brnNumber.length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          message: "This field is required",
-          path: ["brnNumber"],
-        });
+      return true;
+    }, "NID must be digits"),
+    ["nidNumber"],
+  ),
+  v.forward(
+    v.check((data) => {
+      if (data.idType === "NID" && data.nidNumber) {
+        return data.nidNumber.length === 10 || data.nidNumber.length === 17;
       }
-      if (!data.brnDate) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Invalid Input",
-          path: ["brnDate"],
-        });
+      return true;
+    }, "NID must be 10 or 17 digits long"),
+    ["nidNumber"],
+  ),
+  v.forward(
+    v.check((data) => {
+      if (data.idType === "NID") {
+        return !!data.nidImage1;
       }
-      if (!data.parentPhoneNumber || data.parentPhoneNumber.length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          message: "This field is required",
-          path: ["parentPhoneNumber"],
-        });
+      return true;
+    }, "NID Images are required"),
+    ["nidImage1"],
+  ),
+  v.forward(
+    v.check((data) => {
+      if (data.idType === "NID") {
+        return !!data.nidImage2;
       }
-    }
-  });
+      return true;
+    }, "Back of NID is required"),
+    ["nidImage2"],
+  ),
+  v.forward(
+    v.check((data) => {
+      if (data.idType !== "NID") {
+        return !!data.brnNumber && data.brnNumber.length > 0;
+      }
+      return true;
+    }, "This field is required"),
+    ["brnNumber"],
+  ),
+  v.forward(
+    v.check((data) => {
+      if (data.idType !== "NID") {
+        return !!data.brnDate;
+      }
+      return true;
+    }, "Invalid Input"),
+    ["brnDate"],
+  ),
+  v.forward(
+    v.check((data) => {
+      if (data.idType !== "NID") {
+        return !!data.parentPhoneNumber && data.parentPhoneNumber.length > 0;
+      }
+      return true;
+    }, "This field is required"),
+    ["parentPhoneNumber"],
+  ),
+);
 
 // step 4
-export const passwordSchema = z
-  .object({
-    password: z
-      .string("A strong password is required")
-      .min(8, "Password must be at least 8 characters long")
-      .max(32, "Password must be at most 32 characters long")
-      .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-      .regex(/[0-9]/, "Password must contain at least one number")
-      .regex(
+export const passwordSchema = v.pipe(
+  v.object({
+    password: v.pipe(
+      v.string("A strong password is required"),
+      v.minLength(8, "Password must be at least 8 characters long"),
+      v.maxLength(32, "Password must be at most 32 characters long"),
+      v.regex(/[A-Z]/, "Password must contain at least one uppercase letter"),
+      v.regex(/[a-z]/, "Password must contain at least one lowercase letter"),
+      v.regex(/[0-9]/, "Password must contain at least one number"),
+      v.regex(
         /[^A-Za-z0-9]/,
         "Password must contain at least one special character",
       ),
-    confirmPassword: z.string("This field is required").trim().min(8).max(32),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
+    ),
+    confirmPassword: v.pipe(
+      v.string("This field is required"),
+      v.trim(),
+      v.minLength(8),
+      v.maxLength(32),
+    ),
+  }),
+  v.forward(
+    v.check((data) => data.password === data.confirmPassword, "Passwords don't match"),
+    ["confirmPassword"],
+  ),
+);
 
 // step 5
-export const profilePictureSchema = z.object({
+export const profilePictureSchema = v.object({
   profilePicture: imageFileSchema,
-  agreeTerms: z.boolean(),
+  agreeTerms: v.boolean(),
 });
 
-export const volunteerRegistrationFormSchema = personalInformationSchema
-  .and(locationInformationSchema)
-  .and(IDInformationSchema)
-  .and(passwordSchema)
-  .and(profilePictureSchema);
+export const volunteerRegistrationFormSchema = v.intersect([
+  personalInformationSchema,
+  locationInformationSchema,
+  IDInformationSchema,
+  passwordSchema,
+  profilePictureSchema,
+]);
 
-export type VolunteerRegistrationFormValue = z.infer<
+export type VolunteerRegistrationFormValue = v.InferOutput<
   typeof volunteerRegistrationFormSchema
 >;
