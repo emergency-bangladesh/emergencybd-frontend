@@ -119,7 +119,7 @@ function VolunteerProfilePage() {
               </span>
             </div>
             {/* Edit Button - Top Right */}
-            {user && user.uuid === volunteer?.volunteer_uuid && (
+            {user && user.uuid === volunteer?.volunteerUuid && (
               <div className="mt-4">
                 <Button variant="outline" size="sm" asChild>
                   <Link to="/settings/update-information">

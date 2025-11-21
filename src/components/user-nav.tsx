@@ -1,6 +1,5 @@
-"use client";
 import { Link } from "@tanstack/react-router";
-import { volunteerProfilePicUrl } from "@/actions/volunteer";
+import { volunteerProfilePicUrl } from "@/schemas/volunteer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -73,7 +72,7 @@ export function UserNav() {
 
   const initials = user.name
     .split(" ")
-    .map((n) => n[0])
+    .map((n: string) => n[0])
     .join("")
     .toUpperCase();
 

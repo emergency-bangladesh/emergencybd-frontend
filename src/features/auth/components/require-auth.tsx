@@ -1,7 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Loader } from "@/components/ui/loader";
-import type { User } from "@/types/user";
+import type { User } from "@/schemas/user";
 import { useAuth } from "../hooks/use-auth";
 
 interface RequireAuthProps {

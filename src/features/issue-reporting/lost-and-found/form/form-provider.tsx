@@ -3,6 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
 import { reportLostAndFoundIssue } from "../actions/report-lost-and-found-issue";
+import { parseResult } from "@/lib/result";
 import { LostAndFoundFormContext } from "./form-context";
 import type { LostAndFoundFormValue } from "./form-schema";
 import { lostAndFoundSchema } from "./form-schema";
@@ -33,15 +34,17 @@ function useInitLostAndFoundForm() {
       onChange: lostAndFoundSchema,
     },
     onSubmit: async ({ value }) => {
-      try {
-        const { issue_uuid: uuid } = await reportLostAndFoundIssue(value);
-        toast.success("Issue Reported successfully");
-        navigate({ to: "/issues/$uuid", params: { uuid: uuid } });
-      } catch (err) {
+      const [res, error] = await parseResult(() =>
+        reportLostAndFoundIssue(value),
+      );
+      if (error) {
         toast.error("Something went wrong", {
-          description: (err as Error).message,
+          description: error.message,
         });
+        return;
       }
+      toast.success("Issue Reported successfully");
+      navigate({ to: "/issues/$uuid", params: { uuid: res.issue_uuid } });
     },
   });
   return form;

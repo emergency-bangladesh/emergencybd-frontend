@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import { createState } from "@/integrations/state/create-state";
-import type { LoginPayload } from "@/types/auth";
-import type { User } from "@/types/user";
+import type { LoginPayload } from "@/schemas/auth";
+import type { User } from "@/schemas/user";
 import {
   getCurrentUser,
   login as loginService,

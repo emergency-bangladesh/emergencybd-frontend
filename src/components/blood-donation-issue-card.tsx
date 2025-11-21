@@ -13,13 +13,14 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import { getIssue } from "@/actions/issue";
+import type { Issue, IssueDetail } from "@/schemas/issue";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { fetchBackend } from "@/lib/fetch-backend";
-import { parseDateFromUtc } from "@/lib/utils";
-import type { BloodDonationIssue, Issue } from "@/types/issue";
+import { parseResult } from "@/lib/result";
 import { Loader } from "./ui/loader";
 
 interface bloodDonationIssueCardProps {
@@ -47,29 +48,38 @@ const statusConfig = {
 
 export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
   const onRespond = async () => {
-    try {
-      await fetchBackend(`/issues/${issue.uuid}/respond`, "POST");
-    } catch (error) {
+    const [_, error] = await parseResult(() =>
+      fetchBackend(`/issues/${issue.issueUuid}/respond`, "POST"),
+    );
+    if (error) {
       toast.error("Something went wrong", {
-        description: (error as Error).message,
+        description: error.message,
       });
     }
   };
   const onMarkResolved = async () => {
-    try {
-      await fetchBackend(`/issues/${issue.uuid}/update/status/solved`, "POST");
-    } catch (error) {
+    const [_, error] = await parseResult(() =>
+      fetchBackend(
+        `/issues/${issue.issueUuid}/update/status/solved`,
+        "POST",
+      ),
+    );
+    if (error) {
       toast.error("Something went wrong", {
-        description: (error as Error).message,
+        description: error.message,
       });
     }
   };
   const onMarkInvalid = async () => {
-    try {
-      await fetchBackend(`/issues/${issue.uuid}/update/status/invalid`, "POST");
-    } catch (error) {
+    const [_, error] = await parseResult(() =>
+      fetchBackend(
+        `/issues/${issue.issueUuid}/update/status/invalid`,
+        "POST",
+      ),
+    );
+    if (error) {
       toast.error("Something went wrong", {
-        description: (error as Error).message,
+        description: error.message,
       });
     }
   };
@@ -81,40 +91,22 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
   const formatDate = (date: Date) => date.toLocaleDateString();
   const formatTime = (date: Date) => format(date, "hh:mm a");
 
+  // Fetch full details if we only have summary, or use the passed issue if it's already detailed
+  // Actually, since we have getIssue which returns IssueDetail, we can just use that.
+  // But if the passed issue IS IssueDetail, we might want to skip fetching?
+  // For simplicity and consistency (and live updates), let's use useQuery with getIssue.
+  // But we need to handle the case where getIssue returns a different category (though unlikely here).
+
   const { data: bloodDonationIssue, isLoading } = useQuery({
-    queryKey: ["issue", "blood_donation", issue.uuid],
-    queryFn: async (): Promise<BloodDonationIssue> => {
-      const res = await fetchBackend(
-        `/issues/blood_donation/${issue.uuid}`,
-        "GET",
-      );
-      const json = await res.json();
-      const data = json.data;
-      return {
-        accountUuid: data.account_uuid,
-        amountBag: data.amount_bag,
-        bloodGroup: data.blood_group,
-        contactPersonName: data.contact_person_name,
-        createdAt: parseDateFromUtc(data.created_at),
-        district: data.district,
-        emailAddress: data.email_address,
-        emergencyPhoneNumber: data.emergency_phone_number,
-        hospitalName: data.hospital_name,
-        instructions: data.instructions,
-        lastUpdated: parseDateFromUtc(data.last_updated),
-        patientName: data.patient_name,
-        phoneNumber: data.phone_number,
-        status: data.status,
-        upazila: data.upazila,
-        category: data.category,
-        issueUuid: issue.uuid,
-      };
-    },
+    queryKey: ["issue", issue.issueUuid],
+    queryFn: () => getIssue(issue.issueUuid),
+    initialData:
+      "patientName" in issue ? (issue as IssueDetail) : undefined,
   });
 
   if (isLoading) return <Loader />;
 
-  if (!bloodDonationIssue) {
+  if (!bloodDonationIssue || bloodDonationIssue.category !== "blood_donation") {
     return null;
   }
 

@@ -3,6 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
 import { reportBloodDonationIssue } from "../actions/report-blood-donation-issue";
+import { parseResult } from "@/lib/result";
 import { BloodDonationIssueFormContext } from "./form-context";
 import type { BloodDonationIssueFormValue } from "./form-schema";
 import { bloodDonationIssueSchema } from "./form-schema";
@@ -30,15 +31,17 @@ function useInitBloodDonationIssueForm() {
       onChange: bloodDonationIssueSchema,
     },
     onSubmit: async ({ value }) => {
-      try {
-        const { issue_uuid: uuid } = await reportBloodDonationIssue(value);
-        toast.success("Issue Reported successfully");
-        navigate({ to: "/issues/$uuid", params: { uuid } });
-      } catch (err) {
+      const [res, error] = await parseResult(() =>
+        reportBloodDonationIssue(value),
+      );
+      if (error) {
         toast.error("Something went wrong", {
-          description: (err as Error).message,
+          description: error.message,
         });
+        return;
       }
+      toast.success("Issue Reported successfully");
+      navigate({ to: "/issues/$uuid", params: { uuid: res.issue_uuid } });
     },
   });
   return form;

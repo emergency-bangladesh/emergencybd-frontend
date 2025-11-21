@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 import { RequireAuth } from "@/features/auth/components/require-auth";
 import { fetchBackend } from "@/lib/fetch-backend";
+import { parseResult } from "@/lib/result";
 
 export const Route = createFileRoute("/settings/change-password")({
   component: ChangePasswordComponent,
@@ -51,18 +52,20 @@ function ChangePasswordComponent() {
       onChange: changePasswordSchema,
     },
     onSubmit: async ({ value }) => {
-      try {
-        await fetchBackend("/auth/update-password", "PATCH", {
+      const [_, error] = await parseResult(() =>
+        fetchBackend("/auth/update-password", "PATCH", {
           current_password: value.oldPassword,
           new_password: value.newPassword,
-        });
-        toast.success("Password updated");
-        navigate({ to: "/" });
-      } catch (err) {
+        }),
+      );
+      if (error) {
         toast.error("Something went wrong", {
-          description: (err as Error).message,
+          description: error.message,
         });
+        return;
       }
+      toast.success("Password updated");
+      navigate({ to: "/" });
     },
   });
 

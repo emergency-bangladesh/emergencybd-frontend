@@ -12,6 +12,7 @@ import {
 import Muted from "@/components/ui/typography/muted";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { ApiError } from "@/lib/errors";
+import { parseResult } from "@/lib/result";
 
 const loginFormSchema = v.object({
   email: v.pipe(v.string(), v.email("Invalid email address")),
@@ -40,18 +41,12 @@ function LoginForm() {
       onChange: loginFormSchema,
     },
     onSubmit: async ({ value }) => {
-      try {
-        setGeneralError(null);
-        console.log("Logging in...");
-        const user = await login(value);
-        console.log("Logged in!");
-        console.log({ user });
-        if (next) {
-          navigate({ to: next });
-        } else {
-          navigate({ to: "/" });
-        }
-      } catch (error) {
+      setGeneralError(null);
+      console.log("Logging in...");
+      const [user, error] = await parseResult(() => login(value));
+
+      if (error) {
+        console.error("Login error:", error);
         if (error instanceof ApiError) {
           if (error.status === 404) {
             loginForm.setErrorMap({
@@ -70,8 +65,18 @@ function LoginForm() {
           } else {
             setGeneralError("An unexpected error occurred. Please try again.");
           }
+        } else {
+          setGeneralError("An unexpected error occurred. Please try again.");
         }
-        console.error("Login error:", error);
+        return;
+      }
+
+      console.log("Logged in!");
+      console.log({ user });
+      if (next) {
+        navigate({ to: next });
+      } else {
+        navigate({ to: "/" });
       }
     },
   });

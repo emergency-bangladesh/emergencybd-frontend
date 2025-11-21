@@ -14,13 +14,14 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import { getIssue } from "@/actions/issue";
+import type { Issue, IssueDetail } from "@/schemas/issue";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { apiUrl, fetchBackend } from "@/lib/fetch-backend";
-import { parseDateFromUtc } from "@/lib/utils";
-import type { Issue, LostAndFoundIssue } from "@/types/issue";
+import { parseResult } from "@/lib/result";
 import { Loader } from "./ui/loader";
 
 interface LostAndFoundIssueCardProps {
@@ -47,30 +48,39 @@ const statusConfig = {
 };
 
 export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
-  const onRespond = () => {
-    try {
-      fetchBackend(`/issues/${issue.uuid}/respond`, "POST");
-    } catch (error) {
+  const onRespond = async () => {
+    const [_, error] = await parseResult(() =>
+      fetchBackend(`/issues/${issue.issueUuid}/respond`, "POST"),
+    );
+    if (error) {
       toast.error("Something went wrong", {
-        description: (error as Error).message,
+        description: error.message,
       });
     }
   };
-  const onMarkResolved = () => {
-    try {
-      fetchBackend(`/issues/${issue.uuid}/update/status/solved`, "PATCH");
-    } catch (error) {
+  const onMarkResolved = async () => {
+    const [_, error] = await parseResult(() =>
+      fetchBackend(
+        `/issues/${issue.issueUuid}/update/status/solved`,
+        "PATCH",
+      ),
+    );
+    if (error) {
       toast.error("Something went wrong", {
-        description: (error as Error).message,
+        description: error.message,
       });
     }
   };
-  const onMarkInvalid = () => {
-    try {
-      fetchBackend(`/issues/${issue.uuid}/update/status/invalid`, "PATCH");
-    } catch (error) {
+  const onMarkInvalid = async () => {
+    const [_, error] = await parseResult(() =>
+      fetchBackend(
+        `/issues/${issue.issueUuid}/update/status/invalid`,
+        "PATCH",
+      ),
+    );
+    if (error) {
       toast.error("Something went wrong", {
-        description: (error as Error).message,
+        description: error.message,
       });
     }
   };
@@ -83,42 +93,17 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
   const formatTime = (date: Date) => format(date, "hh:mm a");
 
   const { data: lostAndFoundIssue, isLoading: isIssueLoading } = useQuery({
-    queryKey: ["issue", "lost_and_found", issue.uuid],
-    queryFn: async (): Promise<LostAndFoundIssue> => {
-      const res = await fetchBackend(
-        `/issues/lost_and_found/${issue.uuid}`,
-        "GET",
-      );
-      const json = await res.json();
-      const data = json.data;
-      return {
-        accountUuid: data.account_uuid,
-        age: data.age_of_person,
-        bloodGroup: data.blood_group,
-        contactPersonName: data.contact_person_name,
-        createdAt: parseDateFromUtc(data.created_at),
-        district: data.district,
-        emailAddress: data.email_address,
-        details: data.details,
-        lastSeenLocation: data.last_seen_location,
-        lastUpdated: parseDateFromUtc(data.last_updated),
-        nameOfPerson: data.name_of_person,
-        occupation: data.occupation,
-        phoneNumber: data.phone_number,
-        status: data.status,
-        upazila: data.upazila,
-        category: data.category,
-        issueUuid: issue.uuid,
-        emergencyPhoneNumber: data.emergency_phone_number,
-      };
-    },
+    queryKey: ["issue", issue.issueUuid],
+    queryFn: () => getIssue(issue.issueUuid),
+    initialData:
+      "nameOfPerson" in issue ? (issue as IssueDetail) : undefined,
   });
 
   const { data: image_urls, isLoading: areImagesLoading } = useQuery({
-    queryKey: ["issue", "lost_and_found", issue.uuid, "images"],
+    queryKey: ["issue", "lost_and_found", issue.issueUuid, "images"],
     queryFn: async () => {
       const res = await fetchBackend(
-        `/image/issue/lost-and-found/${issue.uuid}/images`,
+        `/image/issue/lost-and-found/${issue.issueUuid}/images`,
         "GET",
       );
       const data = await res.json();
@@ -128,7 +113,11 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
 
   if (isIssueLoading || areImagesLoading) return <Loader />;
 
-  if (!lostAndFoundIssue || !image_urls) {
+  if (
+    !lostAndFoundIssue ||
+    !image_urls ||
+    lostAndFoundIssue.category !== "lost_and_found"
+  ) {
     return null;
   }
 

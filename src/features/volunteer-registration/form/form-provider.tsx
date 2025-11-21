@@ -1,7 +1,12 @@
 import { useForm } from "@tanstack/react-form";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { registerVolunteer } from "../actions/register-volunteer";
+import { parseResult } from "@/lib/result";
+import {
+  createVolunteerOnServer,
+  uploadNidImages,
+  uploadProfilePic,
+} from "../actions/register-volunteer";
 import { VolunteerRegistrationFormContext } from "./form-context";
 import type { VolunteerRegistrationFormValue } from "./form-schema";
 import { volunteerRegistrationFormSchema } from "./form-schema";
@@ -43,19 +48,68 @@ function useInitVolunteerRegistrationForm() {
       onChangeAsyncDebounceMs: 500,
     },
     onSubmit: async ({ value, formApi }) => {
-      const state = await registerVolunteer(value);
-      if (!state.success) {
-        toast.error("Something went wrong", {
-          description: state.errorMessage,
+      const [data, error] = await parseResult(() =>
+        createVolunteerOnServer({
+          full_name: value.name,
+          phone_number: value.phoneNumber,
+          email_address: value.email,
+          permanent_upazila: value.permanentUpazila,
+          permanent_district: value.permanentDistrict,
+          current_upazila: value.currentSameAsPermanent
+            ? value.permanentUpazila
+            : value.currentUpazila!,
+          current_district: value.currentSameAsPermanent
+            ? value.permanentDistrict
+            : value.currentDistrict!,
+          blood_group: value.bloodGroup,
+          identifier_type: value.idType === "NID" ? "nid" : "brn",
+          identifier_value: (value.nidNumber || value.brnNumber)!,
+          birth_date: value.dateOfBirth.toISOString(),
+          password: value.password,
+          gender: value.gender,
+        }),
+      );
+
+      if (error) {
+        toast.error("Failed to create volunteer account", {
+          description: error.message,
         });
-      } else {
-        toast.success("Sent application to backend", {
-          description:
-            "Wait until an admin validates your application and approves you",
-        });
-        formApi.reset();
-        navigate({ to: "/registration/success", replace: true });
+        return;
       }
+
+      if (value.idType === "NID") {
+        const [_, nidError] = await parseResult(() =>
+          uploadNidImages(
+            data.volunteer_uuid,
+            value.nidImage1!,
+            value.nidImage2!,
+          ),
+        );
+
+        if (nidError) {
+          toast.error("Failed to upload NID images", {
+            description: nidError.message,
+          });
+          // It's now the admin's responsibility to mark as missing media and send the re-upload link.
+        }
+      }
+
+      const [__, profilePicError] = await parseResult(() =>
+        uploadProfilePic(data.volunteer_uuid, value.profilePicture),
+      );
+
+      if (profilePicError) {
+        toast.error("Failed to upload profile picture", {
+          description: profilePicError.message,
+        });
+      }
+
+      toast.success("Sent application to backend", {
+        description:
+          "Wait until an admin validates your application and approves you",
+      });
+      formApi.reset();
+      navigate({ to: "/registration/success", replace: true });
     },
   });
   return form;

@@ -2,6 +2,7 @@ import { useForm } from "@tanstack/react-form";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { createTeam } from "../actions/create-team";
+import { parseResult } from "@/lib/result";
 import { TeamCreationFormContext } from "./form-context";
 import type { TeamCreationFormValue } from "./form-schema";
 import { teamCreationFormSchema } from "./form-schema";
@@ -19,16 +20,16 @@ function useInitTeamCreationForm() {
       onChange: teamCreationFormSchema,
     },
     onSubmit: async ({ value }) => {
-      try {
-        await createTeam(value);
-        toast.success("Team created");
-        // TODO: Update to
-        navigate({ to: "/" });
-      } catch (err) {
+      const [_, error] = await parseResult(() => createTeam(value));
+      if (error) {
         toast.error("Something went wrong", {
-          description: (err as Error).message,
+          description: error.message,
         });
+        return;
       }
+      toast.success("Team created");
+      // TODO: Update to
+      navigate({ to: "/" });
     },
   });
   return form;

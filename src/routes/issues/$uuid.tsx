@@ -1,21 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { getIssue } from "@/actions/issue";
 import { BloodDonationIssueCard } from "@/components/blood-donation-issue-card";
 import { LostAndFoundIssueCard } from "@/components/lost-and-found-issue-card";
 import { Loader } from "@/components/ui/loader";
-import { fetchBackend } from "@/lib/fetch-backend";
-import type { Issue } from "@/types/issue";
 
 export const Route = createFileRoute("/issues/$uuid")({
   component: RouteComponent,
   loader: ({ params, context: { queryClient } }) => {
     queryClient.ensureQueryData({
       queryKey: ["issue", params.uuid],
-      queryFn: async () => {
-        const res = await fetchBackend(`/issues/${params.uuid}`, "GET");
-        const data = await res.json();
-        return data.data;
-      },
+      queryFn: () => getIssue(params.uuid),
     });
   },
 });
@@ -24,11 +19,7 @@ function RouteComponent() {
   const { uuid } = Route.useParams();
   const { data: issue, isLoading } = useQuery({
     queryKey: ["issue", uuid],
-    queryFn: async () => {
-      const res = await fetchBackend(`/issues/${uuid}`, "GET");
-      const data = await res.json();
-      return data.data as Issue;
-    },
+    queryFn: () => getIssue(uuid),
   });
   if (isLoading) {
     return <Loader />;

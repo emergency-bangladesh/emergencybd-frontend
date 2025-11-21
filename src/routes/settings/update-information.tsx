@@ -16,7 +16,8 @@ import { useAuth } from "@/features/auth/hooks/use-auth";
 import { uploadProfilePic } from "@/features/volunteer-registration/actions/register-volunteer";
 import { fetchBackend } from "@/lib/fetch-backend";
 import { useVolunteerQuery } from "@/queries/use-volunteer-query";
-import type { User } from "@/types/user";
+import { parseResult } from "@/lib/result";
+import type { User } from "@/schemas/user";
 
 export const Route = createFileRoute("/settings/update-information")({
   component: UpdateInformationComponent,
@@ -99,23 +100,34 @@ function VolunteerUpdateFormInner({ user }: { readonly user: User }) {
       profilePicture: undefined,
     } as v.InferOutput<typeof volunteerUpdateSchema>,
     onSubmit: async ({ value }) => {
-      try {
-        if (value.currentDistrict && value.currentUpazila) {
-          await fetchBackend(`/volunteers/update`, "PATCH", {
+      if (value.currentDistrict && value.currentUpazila) {
+        const [_, error] = await parseResult(() =>
+          fetchBackend(`/volunteers/update`, "PATCH", {
             current_district: value.currentDistrict,
             current_upazila: value.currentUpazila,
+          }),
+        );
+        if (error) {
+          toast.error("Something went wrong", {
+            description: error.message,
           });
-          toast.success("Information Updated");
+          console.error(error);
+          return;
         }
-        if (value.profilePicture) {
-          uploadProfilePic(user.uuid, value.profilePicture);
-          toast.success("Profile Picture Updated");
+        toast.success("Information Updated");
+      }
+      if (value.profilePicture) {
+        const [_, error] = await parseResult(() =>
+          uploadProfilePic(user.uuid, value.profilePicture!),
+        );
+        if (error) {
+          toast.error("Something went wrong", {
+            description: error.message,
+          });
+          console.error(error);
+          return;
         }
-      } catch (err) {
-        toast.error("Something went wrong", {
-          description: (err as Error).message,
-        });
-        console.error(err);
+        toast.success("Profile Picture Updated");
       }
     },
     validators: {

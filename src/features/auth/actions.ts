@@ -1,22 +1,17 @@
+import * as v from "valibot";
 import { fetchBackend } from "@/lib/fetch-backend";
-import type { LoginPayload } from "@/types/auth";
-import type { User } from "@/types/user";
+import { type LoginPayload, loginSchema } from "@/schemas/auth";
+import { type User, userSchema } from "@/schemas/user";
 
 export async function getCurrentUser(): Promise<User> {
   const res = await fetchBackend("/auth/me", "GET");
   const data = await res.json();
-  const userData = data.data;
-
-  return {
-    name: userData.name,
-    email: userData.email,
-    phoneNumber: userData.phone_number,
-    uuid: userData.uuid,
-    type: userData.account_type,
-  };
+  return v.parse(userSchema, data.data);
 }
 
-export const login = async (payload: LoginPayload) =>
-  await fetchBackend("/auth/login", "POST", payload);
+export const login = async (payload: LoginPayload) => {
+  const safePayload = v.parse(loginSchema, payload);
+  return await fetchBackend("/auth/login", "POST", safePayload);
+};
 
 export const logout = async () => await fetchBackend("/auth/logout", "POST");
