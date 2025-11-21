@@ -7,7 +7,7 @@ import {
 } from "@tabler/icons-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { format } from "date-fns";
-import { volunteerProfilePicUrl } from "@/actions/volunteer";
+import { volunteerProfilePicUrl } from "@/actions/get-volunteer-details";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Loader } from "@/components/ui/loader";
 import {
