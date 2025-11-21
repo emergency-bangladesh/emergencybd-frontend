@@ -17,7 +17,13 @@ export const volunteerSchema = v.pipe(
     current_upazila: v.string(),
     current_district: v.string(),
     blood_group: v.string(),
-    status: v.picklist(["pending", "verified"]),
+    status: v.picklist([
+      "pending",
+      "verified",
+      "rejected",
+      "terminated",
+      "missing-media",
+    ]),
     issue_responses: v.number(),
     created_at: v.string(),
     current_team_information: v.optional(
