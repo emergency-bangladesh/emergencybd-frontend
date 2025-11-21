@@ -55,9 +55,9 @@ function UploadMissingMediaComponent() {
   const form = useForm({
     defaultValues: {
       nidNumber: "",
-      nidImage1: undefined!,
-      nidImage2: undefined!,
-      profilePicture: undefined!,
+      nidImage1: null!,
+      nidImage2: null!,
+      profilePicture: null!,
     } as UploadMediaFormValue,
     validators: {
       onChange: uploadMediaSchema,
@@ -159,8 +159,8 @@ function UploadMissingMediaComponent() {
             <form.Field name="nidImage2">
               {(nidImage2Field) => {
                 function setFilesToFields(files: Array<File>) {
-                  nidImage1Field.handleChange(files[0]);
-                  nidImage2Field.handleChange(files[1]);
+                  nidImage1Field.handleChange(files[0] ?? null);
+                  nidImage2Field.handleChange(files[1] ?? null);
                 }
                 return (
                   <div className="flex flex-col gap-1">

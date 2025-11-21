@@ -26,9 +26,9 @@ function BrnInformationFormSection() {
   const navigate = useNavigate();
 
   volunteerRegistrationForm.setFieldValue("idType", "BRN");
-  volunteerRegistrationForm.setFieldValue("nidNumber", undefined);
-  volunteerRegistrationForm.setFieldValue("nidImage1", undefined);
-  volunteerRegistrationForm.setFieldValue("nidImage2", undefined);
+  volunteerRegistrationForm.setFieldValue("nidNumber", null);
+  volunteerRegistrationForm.setFieldValue("nidImage1", null);
+  volunteerRegistrationForm.setFieldValue("nidImage2", null);
 
   const fieldNames = useMemo(
     () => ["brnNumber", "brnDate", "parentPhoneNumber"],

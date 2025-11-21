@@ -77,18 +77,18 @@ export const locationInformationSchema = v.pipe(
 export const IDInformationSchema = v.pipe(
   v.object({
     idType: v.picklist(["NID", "BRN"]),
-    nidNumber: v.optional(v.pipe(v.string(), v.trim())),
-    nidImage1: v.optional(imageFileSchema),
-    nidImage2: v.optional(imageFileSchema),
-    brnNumber: v.optional(
+    nidNumber: v.nullable(v.pipe(v.string(), v.trim())),
+    nidImage1: v.nullable(imageFileSchema),
+    nidImage2: v.nullable(imageFileSchema),
+    brnNumber: v.nullable(
       v.pipe(
         v.string(),
         v.trim(),
         v.length(17, "Birth Registration Number must be 17 digits"),
       ),
     ),
-    brnDate: v.optional(v.date()),
-    parentPhoneNumber: v.optional(
+    brnDate: v.nullable(v.date()),
+    parentPhoneNumber: v.nullable(
       v.pipe(
         v.string(),
         v.trim(),

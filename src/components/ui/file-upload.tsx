@@ -15,6 +15,7 @@ import {
   formatBytes,
   useFileUpload,
 } from "@/integrations/file-upload/use-file-upload";
+import { useMemo } from "react";
 
 const getFileIcon = (file: { file: File | { type: string; name: string } }) => {
   const fileType = file.file instanceof File ? file.file.type : file.file.type;
@@ -94,6 +95,16 @@ export function FileUpload({
     initialFiles,
   });
 
+  const acceptedTypesDisplay = useMemo(() => {
+    if (acceptedTypes.length > 0 && acceptedTypes[0] === "*") {
+      return "All";
+    }
+    return acceptedTypes
+      .map((t) => t.split("/")[1].toUpperCase())
+      .map((t) => (t.includes("+") ? t.split("+")[0] : t))
+      .join(", ");
+  }, [acceptedTypes]);
+
   const showDropArea = !maxFiles || files.length < maxFiles;
 
   return (
@@ -128,13 +139,7 @@ export function FileUpload({
               {description}
             </p>
             <p className="leading-normal mt-0! pt-0! text-muted-foreground/70 text-xs">
-              Accepted File Types:{" "}
-              {acceptedTypes.length > 0 && acceptedTypes[0] === "*"
-                ? "All"
-                : acceptedTypes
-                    .map((t) => t.split("/")[1].toUpperCase())
-                    .map((t) => (t.includes("+") ? t.split("+")[0] : t))
-                    .join(", ")}
+              Accepted File Types: {acceptedTypesDisplay}
             </p>
           </div>
         </button>

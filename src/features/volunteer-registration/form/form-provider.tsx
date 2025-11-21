@@ -17,9 +17,9 @@ function useInitVolunteerRegistrationForm() {
     name: "",
     email: "",
     phoneNumber: "",
-    bloodGroup: undefined!,
-    dateOfBirth: undefined!,
-    gender: undefined!,
+    bloodGroup: null!,
+    dateOfBirth: null!,
+    gender: null!,
 
     permanentDistrict: "",
     permanentUpazila: "",
@@ -27,18 +27,18 @@ function useInitVolunteerRegistrationForm() {
     currentDistrict: "",
     currentUpazila: "",
 
-    idType: undefined!,
-    nidNumber: undefined,
-    nidImage1: undefined,
-    nidImage2: undefined,
-    brnNumber: undefined,
-    brnDate: undefined,
-    parentPhoneNumber: undefined,
+    idType: null!,
+    nidNumber: null,
+    nidImage1: null,
+    nidImage2: null,
+    brnNumber: null,
+    brnDate: null,
+    parentPhoneNumber: null,
 
     password: "",
     confirmPassword: "",
 
-    profilePicture: undefined!,
+    profilePicture: null!,
     agreeTerms: false,
   };
   const form = useForm({
