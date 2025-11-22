@@ -18,7 +18,7 @@ export const Route = createFileRoute("/issues/")({
 
 const message = {
   en: "No issues found",
-  bn: "দেখানোর মত কিছুই নাই",
+  bn: "দখনর মত কছই নই",
 };
 
 function RouteComponent() {
@@ -37,9 +37,11 @@ function RouteComponent() {
   return (
     <div className="flex flex-col gap-8">
       {data.issues.map((issue) => {
-        if (issue.category === "blood_donation")
+        console.log(issue);
+        if (issue.category === "blood_donation") {
           return <BloodDonationIssueCard key={issue.issueUuid} issue={issue} />;
-        else return <LostAndFoundIssueCard key={issue.issueUuid} issue={issue} />;
+        } else
+          return <LostAndFoundIssueCard key={issue.issueUuid} issue={issue} />;
       })}
     </div>
   );

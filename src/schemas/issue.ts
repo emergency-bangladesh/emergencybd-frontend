@@ -1,32 +1,29 @@
 import * as v from "valibot";
+import { parseDateFromUtc } from "@/lib/utils";
 
 // Base schema for summary (list view)
 export const issueSummarySchema = v.pipe(
   v.object({
-    issue_uuid: v.string(),
-    status: v.picklist(["open", "working", "solved", "invalid"]),
+    uuid: v.string(),
+    status: v.picklist(["open", "working", "solved", "invalid", "idle"]),
     created_at: v.string(),
     last_updated: v.string(),
     account_uuid: v.string(),
-    phone_number: v.string(),
     emergency_phone_number: v.string(),
-    email_address: v.string(),
     category: v.picklist(["blood_donation", "lost_and_found"]),
   }),
   v.transform((input) => ({
-    issueUuid: input.issue_uuid,
+    issueUuid: input.uuid,
     status: input.status,
-    createdAt: new Date(input.created_at),
-    lastUpdated: new Date(input.last_updated),
+    createdAt: parseDateFromUtc(input.created_at),
+    lastUpdated: parseDateFromUtc(input.last_updated),
     accountUuid: input.account_uuid,
-    phoneNumber: input.phone_number,
     emergencyPhoneNumber: input.emergency_phone_number,
-    emailAddress: input.email_address,
     category: input.category,
   })),
 );
 
-export type IssueSummary = v.InferOutput<typeof issueSummarySchema>;
+export type Issue = v.InferOutput<typeof issueSummarySchema>;
 
 // Detailed schemas
 const baseDetailSchema = v.object({
@@ -40,7 +37,7 @@ const baseDetailSchema = v.object({
   email_address: v.string(),
 });
 
-const bloodDonationIssueSchema = v.pipe(
+export const bloodDonationIssueSchema = v.pipe(
   v.object({
     ...baseDetailSchema.entries,
     category: v.literal("blood_donation"),
@@ -74,7 +71,7 @@ const bloodDonationIssueSchema = v.pipe(
   })),
 );
 
-const lostAndFoundIssueSchema = v.pipe(
+export const lostAndFoundIssueSchema = v.pipe(
   v.object({
     ...baseDetailSchema.entries,
     category: v.literal("lost_and_found"),
@@ -109,12 +106,3 @@ const lostAndFoundIssueSchema = v.pipe(
     contactPersonName: input.contact_person_name,
   })),
 );
-
-export const issueDetailSchema = v.variant("category", [
-  bloodDonationIssueSchema,
-  lostAndFoundIssueSchema,
-]);
-
-export type IssueDetail = v.InferOutput<typeof issueDetailSchema>;
-// Union type for use in components that might handle either
-export type Issue = IssueSummary | IssueDetail;

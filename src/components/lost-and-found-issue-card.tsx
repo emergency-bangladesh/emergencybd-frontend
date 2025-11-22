@@ -14,14 +14,14 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { toast } from "sonner";
-import { getIssue } from "@/actions/issue";
-import type { Issue, IssueDetail } from "@/schemas/issue";
+import { getLostAndFoundIssueDetails } from "@/actions/issue";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { apiUrl, fetchBackend } from "@/lib/fetch-backend";
 import { parseResult } from "@/lib/result";
+import type { Issue } from "@/schemas/issue";
 import { Loader } from "./ui/loader";
 
 interface LostAndFoundIssueCardProps {
@@ -60,10 +60,7 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
   };
   const onMarkResolved = async () => {
     const [_, error] = await parseResult(() =>
-      fetchBackend(
-        `/issues/${issue.issueUuid}/update/status/solved`,
-        "PATCH",
-      ),
+      fetchBackend(`/issues/${issue.issueUuid}/update/status/solved`, "PATCH"),
     );
     if (error) {
       toast.error("Something went wrong", {
@@ -73,10 +70,7 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
   };
   const onMarkInvalid = async () => {
     const [_, error] = await parseResult(() =>
-      fetchBackend(
-        `/issues/${issue.issueUuid}/update/status/invalid`,
-        "PATCH",
-      ),
+      fetchBackend(`/issues/${issue.issueUuid}/update/status/invalid`, "PATCH"),
     );
     if (error) {
       toast.error("Something went wrong", {
@@ -94,9 +88,7 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
 
   const { data: lostAndFoundIssue, isLoading: isIssueLoading } = useQuery({
     queryKey: ["issue", issue.issueUuid],
-    queryFn: () => getIssue(issue.issueUuid),
-    initialData:
-      "nameOfPerson" in issue ? (issue as IssueDetail) : undefined,
+    queryFn: () => getLostAndFoundIssueDetails(issue.issueUuid),
   });
 
   const { data: image_urls, isLoading: areImagesLoading } = useQuery({

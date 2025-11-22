@@ -13,8 +13,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { toast } from "sonner";
-import { getIssue } from "@/actions/issue";
-import type { Issue, IssueDetail } from "@/schemas/issue";
+import type { Issue } from "@/schemas/issue";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -22,6 +21,7 @@ import { useAuth } from "@/features/auth/hooks/use-auth";
 import { fetchBackend } from "@/lib/fetch-backend";
 import { parseResult } from "@/lib/result";
 import { Loader } from "./ui/loader";
+import { getBloodDonationIssueDetails } from "@/actions/issue";
 
 interface bloodDonationIssueCardProps {
   issue: Issue;
@@ -44,9 +44,14 @@ const statusConfig = {
     label: "Invalid",
     className: "bg-muted text-muted-foreground hover:bg-muted/90",
   },
+  idle: {
+    label: "Idle",
+    className: "bg-muted text-muted-foreground hover:bg-muted/90",
+  },
 };
 
 export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
+  toast.info(`trying to display${issue.issueUuid}`);
   const onRespond = async () => {
     const [_, error] = await parseResult(() =>
       fetchBackend(`/issues/${issue.issueUuid}/respond`, "POST"),
@@ -59,10 +64,7 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
   };
   const onMarkResolved = async () => {
     const [_, error] = await parseResult(() =>
-      fetchBackend(
-        `/issues/${issue.issueUuid}/update/status/solved`,
-        "POST",
-      ),
+      fetchBackend(`/issues/${issue.issueUuid}/update/status/solved`, "POST"),
     );
     if (error) {
       toast.error("Something went wrong", {
@@ -72,10 +74,7 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
   };
   const onMarkInvalid = async () => {
     const [_, error] = await parseResult(() =>
-      fetchBackend(
-        `/issues/${issue.issueUuid}/update/status/invalid`,
-        "POST",
-      ),
+      fetchBackend(`/issues/${issue.issueUuid}/update/status/invalid`, "POST"),
     );
     if (error) {
       toast.error("Something went wrong", {
@@ -91,26 +90,22 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
   const formatDate = (date: Date) => date.toLocaleDateString();
   const formatTime = (date: Date) => format(date, "hh:mm a");
 
-  // Fetch full details if we only have summary, or use the passed issue if it's already detailed
-  // Actually, since we have getIssue which returns IssueDetail, we can just use that.
-  // But if the passed issue IS IssueDetail, we might want to skip fetching?
-  // For simplicity and consistency (and live updates), let's use useQuery with getIssue.
-  // But we need to handle the case where getIssue returns a different category (though unlikely here).
-
+  // HACK: I really can figure out the good design pattern. I tried many things,
+  // but all seems like unscalable! Need to figure out a pattern for the codebase soon!
+  // WARN: did the same at @./lost-and-found-issue-card.tsx file tho.
   const { data: bloodDonationIssue, isLoading } = useQuery({
     queryKey: ["issue", issue.issueUuid],
-    queryFn: () => getIssue(issue.issueUuid),
-    initialData:
-      "patientName" in issue ? (issue as IssueDetail) : undefined,
+    queryFn: () => getBloodDonationIssueDetails(issue.issueUuid),
   });
 
   if (isLoading) return <Loader />;
 
   if (!bloodDonationIssue || bloodDonationIssue.category !== "blood_donation") {
+    console.log({ bloodDonationIssue }, "aborting");
     return null;
   }
 
-  const statusInfo = statusConfig[bloodDonationIssue.status];
+  const statusInfo = statusConfig[issue.status];
   const isOwner = currentUserUuid === bloodDonationIssue.accountUuid;
   const isVolunteerResponding =
     isVolunteer && currentUserUuid !== bloodDonationIssue.accountUuid;

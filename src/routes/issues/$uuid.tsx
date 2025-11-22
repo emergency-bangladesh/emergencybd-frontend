@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { getIssue } from "@/actions/issue";
+import { getIssueDetail as getIssue } from "@/actions/issue";
 import { BloodDonationIssueCard } from "@/components/blood-donation-issue-card";
 import { LostAndFoundIssueCard } from "@/components/lost-and-found-issue-card";
 import { Loader } from "@/components/ui/loader";
