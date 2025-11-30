@@ -26,7 +26,7 @@ import { Route as staticAboutUsRouteImport } from './routes/(static)/about-us'
 import { Route as RegistrationVolunteerLayoutRouteImport } from './routes/registration/volunteer/_layout'
 import { Route as IssuesNewIndexRouteImport } from './routes/issues/new/index'
 import { Route as staticLegalIndexRouteImport } from './routes/(static)/legal/index'
-import { Route as VolunteerUuidUploadMediaRouteImport } from './routes/volunteer/$uuid.upload-media'
+import { Route as VolunteerUploadMissingMediaUuidRouteImport } from './routes/volunteer/upload-missing-media.$uuid'
 import { Route as RegistrationVolunteerUploadProfilePictureRouteImport } from './routes/registration/volunteer/upload-profile-picture'
 import { Route as RegistrationVolunteerSetPasswordRouteImport } from './routes/registration/volunteer/set-password'
 import { Route as RegistrationVolunteerSelectIdTypeRouteImport } from './routes/registration/volunteer/select-id-type'
@@ -134,11 +134,11 @@ const staticLegalIndexRoute = staticLegalIndexRouteImport.update({
   path: '/legal/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const VolunteerUuidUploadMediaRoute =
-  VolunteerUuidUploadMediaRouteImport.update({
-    id: '/upload-media',
-    path: '/upload-media',
-    getParentRoute: () => VolunteerUuidRoute,
+const VolunteerUploadMissingMediaUuidRoute =
+  VolunteerUploadMissingMediaUuidRouteImport.update({
+    id: '/volunteer/upload-missing-media/$uuid',
+    path: '/volunteer/upload-missing-media/$uuid',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const RegistrationVolunteerUploadProfilePictureRoute =
   RegistrationVolunteerUploadProfilePictureRouteImport.update({
@@ -266,7 +266,7 @@ export interface FileRoutesByFullPath {
   '/settings/update-information': typeof SettingsUpdateInformationRoute
   '/team/$uuid': typeof TeamUuidRoute
   '/team/create': typeof TeamCreateRoute
-  '/volunteer/$uuid': typeof VolunteerUuidRouteWithChildren
+  '/volunteer/$uuid': typeof VolunteerUuidRoute
   '/': typeof staticIndexRoute
   '/issues': typeof IssuesIndexRoute
   '/login': typeof LoginIndexRoute
@@ -283,7 +283,7 @@ export interface FileRoutesByFullPath {
   '/registration/volunteer/select-id-type': typeof RegistrationVolunteerSelectIdTypeRoute
   '/registration/volunteer/set-password': typeof RegistrationVolunteerSetPasswordRoute
   '/registration/volunteer/upload-profile-picture': typeof RegistrationVolunteerUploadProfilePictureRoute
-  '/volunteer/$uuid/upload-media': typeof VolunteerUuidUploadMediaRoute
+  '/volunteer/upload-missing-media/$uuid': typeof VolunteerUploadMissingMediaUuidRoute
   '/legal': typeof staticLegalIndexRoute
   '/issues/new': typeof IssuesNewIndexRoute
   '/issues/new/blood-donation/add-basic-information': typeof IssuesNewBloodDonationAddBasicInformationRoute
@@ -305,7 +305,7 @@ export interface FileRoutesByTo {
   '/settings/update-information': typeof SettingsUpdateInformationRoute
   '/team/$uuid': typeof TeamUuidRoute
   '/team/create': typeof TeamCreateRoute
-  '/volunteer/$uuid': typeof VolunteerUuidRouteWithChildren
+  '/volunteer/$uuid': typeof VolunteerUuidRoute
   '/': typeof staticIndexRoute
   '/issues': typeof IssuesIndexRoute
   '/login': typeof LoginIndexRoute
@@ -322,7 +322,7 @@ export interface FileRoutesByTo {
   '/registration/volunteer/select-id-type': typeof RegistrationVolunteerSelectIdTypeRoute
   '/registration/volunteer/set-password': typeof RegistrationVolunteerSetPasswordRoute
   '/registration/volunteer/upload-profile-picture': typeof RegistrationVolunteerUploadProfilePictureRoute
-  '/volunteer/$uuid/upload-media': typeof VolunteerUuidUploadMediaRoute
+  '/volunteer/upload-missing-media/$uuid': typeof VolunteerUploadMissingMediaUuidRoute
   '/legal': typeof staticLegalIndexRoute
   '/issues/new': typeof IssuesNewIndexRoute
   '/issues/new/blood-donation/add-basic-information': typeof IssuesNewBloodDonationAddBasicInformationRoute
@@ -345,7 +345,7 @@ export interface FileRoutesById {
   '/settings/update-information': typeof SettingsUpdateInformationRoute
   '/team/$uuid': typeof TeamUuidRoute
   '/team/create': typeof TeamCreateRoute
-  '/volunteer/$uuid': typeof VolunteerUuidRouteWithChildren
+  '/volunteer/$uuid': typeof VolunteerUuidRoute
   '/(static)/': typeof staticIndexRoute
   '/issues/': typeof IssuesIndexRoute
   '/login/': typeof LoginIndexRoute
@@ -362,7 +362,7 @@ export interface FileRoutesById {
   '/registration/volunteer/select-id-type': typeof RegistrationVolunteerSelectIdTypeRoute
   '/registration/volunteer/set-password': typeof RegistrationVolunteerSetPasswordRoute
   '/registration/volunteer/upload-profile-picture': typeof RegistrationVolunteerUploadProfilePictureRoute
-  '/volunteer/$uuid/upload-media': typeof VolunteerUuidUploadMediaRoute
+  '/volunteer/upload-missing-media/$uuid': typeof VolunteerUploadMissingMediaUuidRoute
   '/(static)/legal/': typeof staticLegalIndexRoute
   '/issues/new/': typeof IssuesNewIndexRoute
   '/issues/new/blood-donation/add-basic-information': typeof IssuesNewBloodDonationAddBasicInformationRoute
@@ -403,7 +403,7 @@ export interface FileRouteTypes {
     | '/registration/volunteer/select-id-type'
     | '/registration/volunteer/set-password'
     | '/registration/volunteer/upload-profile-picture'
-    | '/volunteer/$uuid/upload-media'
+    | '/volunteer/upload-missing-media/$uuid'
     | '/legal'
     | '/issues/new'
     | '/issues/new/blood-donation/add-basic-information'
@@ -442,7 +442,7 @@ export interface FileRouteTypes {
     | '/registration/volunteer/select-id-type'
     | '/registration/volunteer/set-password'
     | '/registration/volunteer/upload-profile-picture'
-    | '/volunteer/$uuid/upload-media'
+    | '/volunteer/upload-missing-media/$uuid'
     | '/legal'
     | '/issues/new'
     | '/issues/new/blood-donation/add-basic-information'
@@ -481,7 +481,7 @@ export interface FileRouteTypes {
     | '/registration/volunteer/select-id-type'
     | '/registration/volunteer/set-password'
     | '/registration/volunteer/upload-profile-picture'
-    | '/volunteer/$uuid/upload-media'
+    | '/volunteer/upload-missing-media/$uuid'
     | '/(static)/legal/'
     | '/issues/new/'
     | '/issues/new/blood-donation/add-basic-information'
@@ -504,7 +504,7 @@ export interface RootRouteChildren {
   SettingsUpdateInformationRoute: typeof SettingsUpdateInformationRoute
   TeamUuidRoute: typeof TeamUuidRoute
   TeamCreateRoute: typeof TeamCreateRoute
-  VolunteerUuidRoute: typeof VolunteerUuidRouteWithChildren
+  VolunteerUuidRoute: typeof VolunteerUuidRoute
   staticIndexRoute: typeof staticIndexRoute
   IssuesIndexRoute: typeof IssuesIndexRoute
   LoginIndexRoute: typeof LoginIndexRoute
@@ -514,6 +514,7 @@ export interface RootRouteChildren {
   staticLegalPrivacyPolicyRoute: typeof staticLegalPrivacyPolicyRoute
   staticLegalTermsAndConditionsRoute: typeof staticLegalTermsAndConditionsRoute
   staticLegalWhyWeRequireIdDocumentsRoute: typeof staticLegalWhyWeRequireIdDocumentsRoute
+  VolunteerUploadMissingMediaUuidRoute: typeof VolunteerUploadMissingMediaUuidRoute
   staticLegalIndexRoute: typeof staticLegalIndexRoute
   IssuesNewIndexRoute: typeof IssuesNewIndexRoute
 }
@@ -639,12 +640,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof staticLegalIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/volunteer/$uuid/upload-media': {
-      id: '/volunteer/$uuid/upload-media'
-      path: '/upload-media'
-      fullPath: '/volunteer/$uuid/upload-media'
-      preLoaderRoute: typeof VolunteerUuidUploadMediaRouteImport
-      parentRoute: typeof VolunteerUuidRoute
+    '/volunteer/upload-missing-media/$uuid': {
+      id: '/volunteer/upload-missing-media/$uuid'
+      path: '/volunteer/upload-missing-media/$uuid'
+      fullPath: '/volunteer/upload-missing-media/$uuid'
+      preLoaderRoute: typeof VolunteerUploadMissingMediaUuidRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/registration/volunteer/upload-profile-picture': {
       id: '/registration/volunteer/upload-profile-picture'
@@ -815,18 +816,6 @@ const RegistrationVolunteerLayoutRouteWithChildren =
     RegistrationVolunteerLayoutRouteChildren,
   )
 
-interface VolunteerUuidRouteChildren {
-  VolunteerUuidUploadMediaRoute: typeof VolunteerUuidUploadMediaRoute
-}
-
-const VolunteerUuidRouteChildren: VolunteerUuidRouteChildren = {
-  VolunteerUuidUploadMediaRoute: VolunteerUuidUploadMediaRoute,
-}
-
-const VolunteerUuidRouteWithChildren = VolunteerUuidRoute._addFileChildren(
-  VolunteerUuidRouteChildren,
-)
-
 interface IssuesNewBloodDonationLayoutRouteChildren {
   IssuesNewBloodDonationAddBasicInformationRoute: typeof IssuesNewBloodDonationAddBasicInformationRoute
   IssuesNewBloodDonationAddContactInformationRoute: typeof IssuesNewBloodDonationAddContactInformationRoute
@@ -883,7 +872,7 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsUpdateInformationRoute: SettingsUpdateInformationRoute,
   TeamUuidRoute: TeamUuidRoute,
   TeamCreateRoute: TeamCreateRoute,
-  VolunteerUuidRoute: VolunteerUuidRouteWithChildren,
+  VolunteerUuidRoute: VolunteerUuidRoute,
   staticIndexRoute: staticIndexRoute,
   IssuesIndexRoute: IssuesIndexRoute,
   LoginIndexRoute: LoginIndexRoute,
@@ -896,6 +885,7 @@ const rootRouteChildren: RootRouteChildren = {
   staticLegalTermsAndConditionsRoute: staticLegalTermsAndConditionsRoute,
   staticLegalWhyWeRequireIdDocumentsRoute:
     staticLegalWhyWeRequireIdDocumentsRoute,
+  VolunteerUploadMissingMediaUuidRoute: VolunteerUploadMissingMediaUuidRoute,
   staticLegalIndexRoute: staticLegalIndexRoute,
   IssuesNewIndexRoute: IssuesNewIndexRoute,
 }

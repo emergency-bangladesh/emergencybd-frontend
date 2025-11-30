@@ -37,7 +37,7 @@ function FaqPage() {
       <div className="mt-12">
         <Accordion type="single" collapsible className="w-full">
           {faqs[language].map((faq, index) => (
-            <AccordionItem value={`item-${index}`} key={index}>
+            <AccordionItem value={`item-${index}`} key={faq.question}>
               <AccordionTrigger className="text-[1rem]">
                 {faq.question}
               </AccordionTrigger>

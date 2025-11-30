@@ -13,15 +13,15 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { toast } from "sonner";
-import type { Issue } from "@/schemas/issue";
+import { getBloodDonationIssueDetails } from "@/actions/issue";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { fetchBackend } from "@/lib/fetch-backend";
 import { parseResult } from "@/lib/result";
+import type { Issue } from "@/schemas/issue";
 import { Loader } from "./ui/loader";
-import { getBloodDonationIssueDetails } from "@/actions/issue";
 
 interface bloodDonationIssueCardProps {
   issue: Issue;
@@ -51,6 +51,7 @@ const statusConfig = {
 };
 
 export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
+  // TODO: remove toast
   toast.info(`trying to display${issue.issueUuid}`);
   const onRespond = async () => {
     const [_, error] = await parseResult(() =>

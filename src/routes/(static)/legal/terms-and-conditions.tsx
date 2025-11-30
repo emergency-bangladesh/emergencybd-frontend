@@ -7,12 +7,12 @@ export const Route = createFileRoute("/(static)/legal/terms-and-conditions")({
   component: TermsAndConditionsPage,
 });
 
-const termsAndConditionsNodes = {
+const termsAndConditions = {
   en: <TermsAndConditionsEn />,
   bn: <TermsAndConditionsBn />,
 };
 
 function TermsAndConditionsPage() {
   const { language } = useLanguage();
-  return termsAndConditionsNodes[language];
+  return termsAndConditions[language];
 }

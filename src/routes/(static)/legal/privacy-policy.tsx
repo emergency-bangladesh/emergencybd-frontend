@@ -7,12 +7,12 @@ export const Route = createFileRoute("/(static)/legal/privacy-policy")({
   component: PrivacyPolicyPage,
 });
 
-const privacyPolicyNodes = {
+const privacyPolicy = {
   en: <PrivacyPolicyEn />,
   bn: <PrivacyPolicyBn />,
 };
 
 function PrivacyPolicyPage() {
   const { language } = useLanguage();
-  return privacyPolicyNodes[language];
+  return privacyPolicy[language];
 }

@@ -52,10 +52,7 @@ function RouteComponent() {
 
   return (
     <div className="mx-auto max-w-4xl w-full p-4 h-full flex flex-col items-center gap-12">
-      <div
-        id="team-header"
-        className="flex flex-col gap-2 items-center justify-center"
-      >
+      <div className="flex flex-col gap-2 items-center justify-center">
         <h1>{team.name}</h1>
         <small className="text-muted-foreground">
           Expires on: {format(team.expirationDate, "dd MMMM, yyyy")}
@@ -92,7 +89,7 @@ function RouteComponent() {
           </p>
         </div>
       </div>
-      <div id="team-plans" className="w-full">
+      <div className="w-full">
         <h3>Team Plans</h3>
         <div className="border-t w-full mt-2" />
         {isTeamPlanLoading ? (
@@ -103,7 +100,7 @@ function RouteComponent() {
           <Timeline className="mt-4">
             {teamPlans.map((item, index) => (
               <TimelineItem
-                key={index}
+                key={item.planUuid}
                 step={index + 1}
                 className="group-data-[orientation=vertical]/timeline:ms-10 group-data-[orientation=vertical]/timeline:not-last:pb-8"
               >

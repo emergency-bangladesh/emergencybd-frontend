@@ -1,7 +1,6 @@
-import { IconCircleCheck } from "@tabler/icons-react";
+import { IconCircleCheck, IconLock } from "@tabler/icons-react";
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { toast } from "sonner";
 import * as v from "valibot";
 import { Button } from "@/components/ui/button";
@@ -18,10 +17,18 @@ import {
   uploadProfilePic,
 } from "@/features/volunteer-registration/actions/register-volunteer";
 import { parseResult } from "@/lib/result";
-import { useVolunteerQuery } from "@/queries/use-volunteer-query";
+import {
+  useVolunteerQuery,
+  volunteerQueryOptions,
+} from "@/queries/use-volunteer-query";
 
-export const Route = createFileRoute("/volunteer/$uuid/upload-media")({
+export const Route = createFileRoute("/volunteer/upload-missing-media/$uuid")({
   component: UploadMissingMediaComponent,
+  loader: async ({ params, context: { queryClient } }) => {
+    const uuid = params.uuid;
+    // Ensure volunteer data is loaded
+    await queryClient.ensureQueryData(volunteerQueryOptions(uuid));
+  },
 });
 
 const uploadMediaSchema = v.object({
@@ -41,16 +48,6 @@ function UploadMissingMediaComponent() {
   const { uuid } = Route.useParams();
   const navigate = useNavigate();
   const { data: volunteer, isLoading, error } = useVolunteerQuery(uuid);
-
-  // Redirect if volunteer is not in missing-media status
-  useEffect(() => {
-    if (volunteer && volunteer.status !== "missing-media") {
-      toast.error("Access Denied", {
-        description: "Only volunteers with missing media can access this page",
-      });
-      navigate({ to: "/volunteer/$uuid", params: { uuid } });
-    }
-  }, [volunteer, navigate, uuid]);
 
   const form = useForm({
     defaultValues: {
@@ -88,13 +85,14 @@ function UploadMissingMediaComponent() {
       }
 
       toast.success("Media uploaded successfully", {
-        description: "Your media has been uploaded. Please wait for verification.",
+        description:
+          "Your media has been uploaded. Please wait for verification.",
       });
-      navigate({ to: "/volunteer/$uuid", params: { uuid } });
+      navigate({ to: "/registration/success" });
     },
   });
 
-  if (isLoading) {
+  if (isLoading || !volunteer) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
         <Loader />
@@ -108,15 +106,44 @@ function UploadMissingMediaComponent() {
         <div className="text-center">
           <h3 className="text-xl font-bold text-destructive">Error</h3>
           <p className="text-muted-foreground">
-            Failed to load volunteer information
+            Failed to load volunteer information: <br/>
+            {error.message}
           </p>
         </div>
       </div>
     );
   }
 
-  if (!volunteer || volunteer.status !== "missing-media") {
-    return null; // Will redirect via useEffect
+  // Show access denied message if status is not missing-media
+  if (volunteer.status !== "missing-media") {
+    return (
+      <div className="flex justify-center items-center min-h-[400px]">
+        <div className="text-center max-w-md space-y-4">
+          <div className="flex justify-center">
+            <div className="rounded-full bg-muted p-4">
+              <IconLock className="size-12 text-muted-foreground" />
+            </div>
+          </div>
+          <h3 className="text-2xl font-bold">Access Restricted</h3>
+          <p className="text-muted-foreground">
+            You are not authorized to view this page. This page is only
+            accessible to volunteers with missing media status.
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Current status:{" "}
+            <span className="font-semibold">{volunteer.status}</span>
+          </p>
+          <Button
+            variant="outline"
+            onClick={() =>
+              navigate({ to: "/volunteer/$uuid", params: { uuid } })
+            }
+          >
+            Go to Profile
+          </Button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -137,6 +164,21 @@ function UploadMissingMediaComponent() {
           form.handleSubmit();
         }}
       >
+        <form.Field name="profilePicture">
+          {(field) => (
+            <div className="flex flex-col gap-1">
+              <FormAvatarUpload
+                field={field}
+                buttonLabel="Upload Profile Picture"
+              />
+              <Muted className="text-xs">
+                Upload a clear face photo for identification
+              </Muted>
+              <FieldErrorInfo field={field} />
+            </div>
+          )}
+        </form.Field>
+
         <form.Field name="nidNumber">
           {(field) => (
             <div className="flex flex-col gap-1">
@@ -184,21 +226,6 @@ function UploadMissingMediaComponent() {
                 );
               }}
             </form.Field>
-          )}
-        </form.Field>
-
-        <form.Field name="profilePicture">
-          {(field) => (
-            <div className="flex flex-col gap-1">
-              <FormAvatarUpload
-                field={field}
-                buttonLabel="Upload Profile Picture"
-              />
-              <Muted className="text-xs">
-                Upload a clear face photo for identification
-              </Muted>
-              <FieldErrorInfo field={field} />
-            </div>
           )}
         </form.Field>
 
