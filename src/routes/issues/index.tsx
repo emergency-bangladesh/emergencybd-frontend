@@ -18,7 +18,7 @@ export const Route = createFileRoute("/issues/")({
 
 const message = {
   en: "No issues found",
-  bn: "দখনর মত কছই নই",
+  bn: "দেখানোর মত কিছু পাওয়া যায় নাই",
 };
 
 function RouteComponent() {

@@ -74,4 +74,25 @@ export const faqsEn = [
     answer:
       "Emergency BD, the software, is free to use for individuals seeking crisis management support. However, some services may have costs associated with third-party providers, such as transportation or medical assistance, which will be clearly communicated.",
   },
+  {
+    question: "What official documents are required?",
+    answer:
+      "You will need one official document: either your National ID (NID) or your Birth Registration Certificate.",
+  },
+  {
+    question: "Is it safe? Why are you collecting our official documents?",
+    answer:
+      "Yes, it is safe. We are collecting this information from the beginning to avoid future complications as we plan to integrate more features. Verifying identity now prevents the hassle of gathering information later and ensures a secure platform.",
+  },
+  {
+    question: "Who is behind this platform?",
+    answer:
+      "The team prefers to remain anonymous to focus on the impact of their work rather than personal recognition. However, they are very active on email and their Facebook page. You can reach out to them through these channels for a quick response to any issues.",
+  },
+  {
+    question:
+      "I need blood, but I messaged the page and got a late response. What should I do?",
+    answer:
+      "To report a need for blood or a missing person, please visit our website and use the 'Report an Issue' feature. You can also register as a volunteer to stay properly connected with the network. This makes the process easier, and volunteers relevant to your issue will be notified via email.",
+  },
 ];
