@@ -5,6 +5,15 @@ export const SOCIAL_LINKS = {
   linkedin: "https://www.linkedin.com/company/project-emergency-bangladesh/",
 };
 
+export const ISSUE_STATUS = [
+  "open",
+  "working",
+  "solved",
+  "invalid",
+  "idle",
+  "closed",
+] as const;
+
 export const DISTRICT_WITH_UPAZILA_OR_THANA: Array<{
   name: string;
   allUpazilaOrThana: Array<string>;

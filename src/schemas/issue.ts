@@ -1,11 +1,12 @@
 import * as v from "valibot";
+import { ISSUE_STATUS } from "@/constants";
 import { parseDateFromUtc } from "@/lib/utils";
 
 // Base schema for summary (list view)
 export const issueSummarySchema = v.pipe(
   v.object({
     uuid: v.string(),
-    status: v.picklist(["open", "working", "solved", "invalid", "idle"]),
+    status: v.picklist(ISSUE_STATUS),
     created_at: v.string(),
     last_updated: v.string(),
     account_uuid: v.string(),
@@ -28,7 +29,7 @@ export type Issue = v.InferOutput<typeof issueSummarySchema>;
 // Detailed schemas
 const baseDetailSchema = v.object({
   issue_uuid: v.string(),
-  status: v.picklist(["open", "working", "solved", "invalid"]),
+  status: v.picklist(ISSUE_STATUS),
   created_at: v.string(),
   last_updated: v.string(),
   account_uuid: v.string(),

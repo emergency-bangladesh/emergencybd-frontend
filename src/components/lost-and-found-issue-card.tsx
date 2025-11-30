@@ -28,7 +28,10 @@ interface LostAndFoundIssueCardProps {
   issue: Issue;
 }
 
-const statusConfig = {
+const statusConfig: Record<
+  Issue["status"],
+  { label: string; className: string }
+> = {
   open: {
     label: "Open",
     className: "bg-amber-600 text-white hover:bg-amber-700",
@@ -43,6 +46,14 @@ const statusConfig = {
   },
   invalid: {
     label: "Invalid",
+    className: "bg-muted text-muted-foreground hover:bg-muted/90",
+  },
+  idle: {
+    label: "Idle",
+    className: "bg-muted text-muted-foreground hover:bg-muted/90",
+  },
+  closed: {
+    label: "Closed",
     className: "bg-muted text-muted-foreground hover:bg-muted/90",
   },
 };

@@ -17,12 +17,12 @@ export default function AboutUsBn() {
     <>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 text-center">
         <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4">
-          <Badge variant="secondary">Emergency BD</Badge>
-          <Badge className="uppercase">Trusted · Fast · Local</Badge>
+          <Badge variant="secondary">ইমারজেন্সি বাংলাদেশ</Badge>
+          <Badge className="uppercase">বিশ্বস্ত · দ্রুত · স্থানীয়</Badge>
         </div>
 
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
-          Welcome to <span className="text-primary">Emergency BD</span>
+          <span className="text-primary">ইমারজেন্সি বাংলাদেশ</span> -এ স্বাগতম
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-base sm:text-lg text-muted-foreground">
           জরুরী পরিস্থিতিতে সাড়া প্রদান এবং সংকট ব্যবস্থাপনায় আপনার নির্ভরযোগ্য অংশীদার — যখন
@@ -31,7 +31,7 @@ export default function AboutUsBn() {
 
         <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
           <Button variant="default" size="lg" className="w-full sm:w-auto">
-            <Link to="/issues/new">এখন সাহায্য নিন</Link>
+            <Link to="/issues/new">সাহায্য নিন</Link>
           </Button>
           <Button
             variant="outline"

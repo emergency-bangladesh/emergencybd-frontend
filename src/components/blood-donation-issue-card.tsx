@@ -27,7 +27,10 @@ interface bloodDonationIssueCardProps {
   issue: Issue;
 }
 
-const statusConfig = {
+const statusConfig: Record<
+  Issue["status"],
+  { label: string; className: string }
+> = {
   open: {
     label: "Open",
     className: "bg-primary text-primary-foreground hover:bg-primary/90",
@@ -48,11 +51,13 @@ const statusConfig = {
     label: "Idle",
     className: "bg-muted text-muted-foreground hover:bg-muted/90",
   },
+  closed: {
+    label: "Closed",
+    className: "bg-muted text-muted-foreground hover:bg-muted/90",
+  },
 };
 
 export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
-  // TODO: remove toast
-  toast.info(`trying to display${issue.issueUuid}`);
   const onRespond = async () => {
     const [_, error] = await parseResult(() =>
       fetchBackend(`/issues/${issue.issueUuid}/respond`, "POST"),
@@ -89,7 +94,7 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
   const isVolunteer = user?.type === "volunteer";
 
   const formatDate = (date: Date) => date.toLocaleDateString();
-  const formatTime = (date: Date) => format(date, "hh:mm a");
+  const formatTime = (date: Date) => format(date, "dd/MM/yy, HH:mm");
 
   // HACK: I really can figure out the good design pattern. I tried many things,
   // but all seems like unscalable! Need to figure out a pattern for the codebase soon!
@@ -256,7 +261,7 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
           <div className="flex items-center gap-1.5">
             <IconClock className="h-3.5 w-3.5" />
             <span>
-              Updated {formatTime(new Date(bloodDonationIssue.lastUpdated))}
+              Updated at {formatTime(new Date(bloodDonationIssue.lastUpdated))}
             </span>
           </div>
         </div>

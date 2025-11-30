@@ -37,7 +37,6 @@ function RouteComponent() {
   return (
     <div className="flex flex-col gap-8">
       {data.issues.map((issue) => {
-        console.log(issue);
         if (issue.category === "blood_donation") {
           return <BloodDonationIssueCard key={issue.issueUuid} issue={issue} />;
         } else

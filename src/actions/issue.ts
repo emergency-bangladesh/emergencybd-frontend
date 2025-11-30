@@ -1,11 +1,12 @@
 import * as v from "valibot";
 import { fetchBackend } from "@/lib/fetch-backend";
 import {
+  bloodDonationIssueSchema,
   type Issue,
   issueSummarySchema,
-  bloodDonationIssueSchema,
   lostAndFoundIssueSchema,
 } from "@/schemas/issue";
+
 export type { Issue } from "@/schemas/issue";
 
 export async function getIssues(): Promise<{
@@ -27,6 +28,7 @@ export async function getIssueDetail(uuid: string) {
 export async function getBloodDonationIssueDetails(uuid: string) {
   const res = await fetchBackend(`/issues/blood_donation/${uuid}`, "GET");
   const data = await res.json();
+  console.log({ url: `/issues/blood_donation/${uuid}`, data });
   return v.parse(bloodDonationIssueSchema, data.data);
 }
 
