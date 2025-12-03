@@ -26,6 +26,7 @@ export async function getIssueDetail(uuid: string) {
 }
 
 export async function getBloodDonationIssueDetails(uuid: string) {
+  console.log("calling getBloodDonationIssueDetails");
   const res = await fetchBackend(`/issues/blood_donation/${uuid}`, "GET");
   const data = await res.json();
   console.log({ url: `/issues/blood_donation/${uuid}`, data });

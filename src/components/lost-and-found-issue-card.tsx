@@ -23,6 +23,7 @@ import { apiUrl, fetchBackend } from "@/lib/fetch-backend";
 import { parseResult } from "@/lib/result";
 import type { Issue } from "@/schemas/issue";
 import { Loader } from "./ui/loader";
+import { useState } from "react";
 
 interface LostAndFoundIssueCardProps {
   issue: Issue;
@@ -46,20 +47,25 @@ const statusConfig: Record<
   },
   invalid: {
     label: "Invalid",
-    className: "bg-muted text-muted-foreground hover:bg-muted/90",
+    className: "bg-muted text-muted-foreground hover:bg-muted",
   },
   idle: {
     label: "Idle",
-    className: "bg-muted text-muted-foreground hover:bg-muted/90",
+    className: "bg-muted text-muted-foreground hover:bg-muted",
   },
   closed: {
     label: "Closed",
-    className: "bg-muted text-muted-foreground hover:bg-muted/90",
+    className: "bg-muted text-muted-foreground hover:bg-muted",
   },
 };
 
 export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
-  const onRespond = async () => {
+  const [isResponding, setIsResponding] = useState(false);
+  const [isMarkingResolved, setIsMarkingResolved] = useState(false);
+  const [isMarkingInvalid, setIsMarkingInvalid] = useState(false);
+
+  const respondToIssue = async () => {
+    setIsResponding(true);
     const [_, error] = await parseResult(() =>
       fetchBackend(`/issues/${issue.issueUuid}/respond`, "POST"),
     );
@@ -68,8 +74,10 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
         description: error.message,
       });
     }
+    setIsResponding(false);
   };
-  const onMarkResolved = async () => {
+  const markIssueAsResolved = async () => {
+    setIsMarkingResolved(true);
     const [_, error] = await parseResult(() =>
       fetchBackend(`/issues/${issue.issueUuid}/update/status/solved`, "PATCH"),
     );
@@ -78,8 +86,10 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
         description: error.message,
       });
     }
+    setIsMarkingResolved(false);
   };
-  const onMarkInvalid = async () => {
+  const markIssueAsInvalid = async () => {
+    setIsMarkingInvalid(true);
     const [_, error] = await parseResult(() =>
       fetchBackend(`/issues/${issue.issueUuid}/update/status/invalid`, "PATCH"),
     );
@@ -88,17 +98,17 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
         description: error.message,
       });
     }
+    setIsMarkingInvalid(false);
   };
 
   const { user } = useAuth();
   const currentUserUuid = user?.uuid;
-  const isVolunteer = user?.type === "volunteer";
 
   const formatDate = (date: Date) => date.toLocaleDateString();
-  const formatTime = (date: Date) => format(date, "hh:mm a");
+  const formatTime = (date: Date) => format(date, "dd/MM/yy, HH:mm");
 
   const { data: lostAndFoundIssue, isLoading: isIssueLoading } = useQuery({
-    queryKey: ["issue", issue.issueUuid],
+    queryKey: ["issue", "lost_and_found", issue.issueUuid],
     queryFn: () => getLostAndFoundIssueDetails(issue.issueUuid),
   });
 
@@ -127,9 +137,6 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
   const statusInfo = statusConfig[lostAndFoundIssue.status];
 
   const isOwner = currentUserUuid === lostAndFoundIssue.accountUuid;
-  const isVolunteerResponding =
-    isVolunteer && currentUserUuid !== lostAndFoundIssue.accountUuid;
-  const hasVolunteerResponded = lostAndFoundIssue.status === "working";
 
   // Validate image_urls length (1-3 images)
   const validImages = image_urls.slice(0, 3);
@@ -283,42 +290,53 @@ export function LostAndFoundIssueCard({ issue }: LostAndFoundIssueCardProps) {
           <div className="flex flex-wrap gap-2 border-t pt-4">
             {isOwner && (
               <Button
-                onClick={() => onMarkResolved()}
+                onClick={() => markIssueAsResolved()}
                 className="flex-1 sm:flex-none"
+                disabled={isMarkingResolved}
               >
                 <IconCircleCheck className="mr-2 h-4 w-4" />
+                {isMarkingResolved && <Loader />}
                 Mark as Resolved
               </Button>
             )}
 
-            {isVolunteerResponding && lostAndFoundIssue.status === "open" && (
-              <Button
-                onClick={() => onRespond()}
-                className="flex-1 sm:flex-none"
-              >
-                Respond
-              </Button>
-            )}
+            {user?.type === "volunteer" &&
+              currentUserUuid !== lostAndFoundIssue.accountUuid && (
+                <Button
+                  onClick={() => respondToIssue()}
+                  className="flex-1 sm:flex-none"
+                  disabled={isResponding}
+                >
+                  {isResponding && <Loader />}
+                  Respond
+                </Button>
+              )}
 
-            {isVolunteer && hasVolunteerResponded && !isOwner && (
-              <>
-                <Button
-                  onClick={() => onMarkResolved()}
-                  className="flex-1 sm:flex-none"
-                >
-                  <IconCircleCheck className="mr-2 h-4 w-4" />
-                  Mark as Resolved
-                </Button>
-                <Button
-                  onClick={() => onMarkInvalid()}
-                  variant="destructive"
-                  className="flex-1 sm:flex-none"
-                >
-                  <IconCircleX className="mr-2 h-4 w-4" />
-                  Mark as Invalid
-                </Button>
-              </>
-            )}
+            {user.type === "volunteer" &&
+              lostAndFoundIssue.respondersUuid.includes(currentUserUuid) &&
+              !isOwner && (
+                <>
+                  <Button
+                    onClick={() => markIssueAsResolved()}
+                    className="flex-1 sm:flex-none"
+                    disabled={isMarkingResolved}
+                  >
+                    <IconCircleCheck className="mr-2 h-4 w-4" />
+                    {isMarkingResolved && <Loader />}
+                    Mark as Resolved
+                  </Button>
+                  <Button
+                    onClick={() => markIssueAsInvalid()}
+                    variant="destructive"
+                    className="flex-1 sm:flex-none"
+                    disabled={isMarkingInvalid}
+                  >
+                    <IconCircleX className="mr-2 h-4 w-4" />
+                    {isMarkingInvalid && <Loader />}
+                    Mark as Invalid
+                  </Button>
+                </>
+              )}
           </div>
         )}
 

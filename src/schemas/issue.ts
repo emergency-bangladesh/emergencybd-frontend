@@ -36,6 +36,7 @@ const baseDetailSchema = v.object({
   phone_number: v.string(),
   emergency_phone_number: v.string(),
   email_address: v.string(),
+  responders_uuid: v.array(v.string()),
 });
 
 export const bloodDonationIssueSchema = v.pipe(
@@ -60,6 +61,7 @@ export const bloodDonationIssueSchema = v.pipe(
     phoneNumber: input.phone_number,
     emergencyPhoneNumber: input.emergency_phone_number,
     emailAddress: input.email_address,
+    respondersUuid: input.responders_uuid,
     category: input.category,
     patientName: input.patient_name,
     bloodGroup: input.blood_group,
@@ -95,6 +97,7 @@ export const lostAndFoundIssueSchema = v.pipe(
     phoneNumber: input.phone_number,
     emergencyPhoneNumber: input.emergency_phone_number,
     emailAddress: input.email_address,
+    respondersUuid: input.responders_uuid,
     category: input.category,
     nameOfPerson: input.name_of_person,
     age: input.age,

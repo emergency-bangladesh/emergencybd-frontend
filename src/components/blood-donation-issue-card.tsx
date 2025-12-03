@@ -12,6 +12,7 @@ import {
 } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
+import { useState } from "react";
 import { toast } from "sonner";
 import { getBloodDonationIssueDetails } from "@/actions/issue";
 import { Badge } from "@/components/ui/badge";
@@ -33,32 +34,37 @@ const statusConfig: Record<
 > = {
   open: {
     label: "Open",
-    className: "bg-primary text-primary-foreground hover:bg-primary/90",
+    className: "bg-amber-600 text-white hover:bg-amber-700",
   },
   working: {
     label: "In Progress",
-    className: "bg-chart-4 text-foreground hover:bg-chart-4/90",
+    className: "bg-blue-600 text-white hover:bg-blue-700",
   },
   solved: {
     label: "Solved",
-    className: "bg-chart-4 text-foreground hover:bg-chart-4/90",
+    className: "bg-green-600 text-white hover:bg-green-700",
   },
   invalid: {
     label: "Invalid",
-    className: "bg-muted text-muted-foreground hover:bg-muted/90",
+    className: "bg-muted text-muted-foreground hover:bg-destructive",
   },
   idle: {
     label: "Idle",
-    className: "bg-muted text-muted-foreground hover:bg-muted/90",
+    className: "bg-muted text-muted-foreground hover:bg-muted",
   },
   closed: {
     label: "Closed",
-    className: "bg-muted text-muted-foreground hover:bg-muted/90",
+    className: "bg-muted text-muted-foreground hover:bg-muted",
   },
 };
 
 export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
-  const onRespond = async () => {
+  const [isResponding, setIsResponding] = useState(false);
+  const [isMarkingResolved, setIsMarkingResolved] = useState(false);
+  const [isMarkingInvalid, setIsMarkingInvalid] = useState(false);
+
+  const respondToIssue = async () => {
+    setIsResponding(true);
     const [_, error] = await parseResult(() =>
       fetchBackend(`/issues/${issue.issueUuid}/respond`, "POST"),
     );
@@ -67,40 +73,44 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
         description: error.message,
       });
     }
+    setIsResponding(false);
   };
-  const onMarkResolved = async () => {
+  const markIssueAsResolved = async () => {
+    setIsMarkingResolved(true);
     const [_, error] = await parseResult(() =>
-      fetchBackend(`/issues/${issue.issueUuid}/update/status/solved`, "POST"),
+      fetchBackend(`/issues/${issue.issueUuid}/update/status/solved`, "PATCH"),
     );
     if (error) {
       toast.error("Something went wrong", {
         description: error.message,
       });
     }
+    setIsMarkingResolved(false);
   };
-  const onMarkInvalid = async () => {
+  const markIssueAsInvalid = async () => {
+    setIsMarkingInvalid(true);
     const [_, error] = await parseResult(() =>
-      fetchBackend(`/issues/${issue.issueUuid}/update/status/invalid`, "POST"),
+      fetchBackend(`/issues/${issue.issueUuid}/update/status/invalid`, "PATCH"),
     );
     if (error) {
       toast.error("Something went wrong", {
         description: error.message,
       });
     }
+    setIsMarkingInvalid(false);
   };
 
   const { user } = useAuth();
   const currentUserUuid = user?.uuid;
-  const isVolunteer = user?.type === "volunteer";
 
   const formatDate = (date: Date) => date.toLocaleDateString();
   const formatTime = (date: Date) => format(date, "dd/MM/yy, HH:mm");
 
   // HACK: I really can figure out the good design pattern. I tried many things,
-  // but all seems like unscalable! Need to figure out a pattern for the codebase soon!
+  // but all seems like not scalable! Need to figure out a pattern for the codebase soon!
   // WARN: did the same at @./lost-and-found-issue-card.tsx file tho.
   const { data: bloodDonationIssue, isLoading } = useQuery({
-    queryKey: ["issue", issue.issueUuid],
+    queryKey: ["issue", "blood_donation", issue.issueUuid],
     queryFn: () => getBloodDonationIssueDetails(issue.issueUuid),
   });
 
@@ -111,11 +121,10 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
     return null;
   }
 
+  console.log({ bloodDonationIssue });
+
   const statusInfo = statusConfig[issue.status];
   const isOwner = currentUserUuid === bloodDonationIssue.accountUuid;
-  const isVolunteerResponding =
-    isVolunteer && currentUserUuid !== bloodDonationIssue.accountUuid;
-  const hasVolunteerResponded = bloodDonationIssue.status === "working";
 
   return (
     <Card className="w-full md:w-2xl max-w-2xl overflow-hidden transition-shadow hover:shadow-lg">
@@ -210,44 +219,57 @@ export function BloodDonationIssueCard({ issue }: bloodDonationIssueCardProps) {
 
         {currentUserUuid && (
           <div className="flex flex-wrap gap-2 border-t pt-4">
-            {isOwner && (
+            {isOwner && bloodDonationIssue.status !== "solved" && (
               <Button
-                onClick={() => onMarkResolved()}
+                onClick={() => markIssueAsResolved()}
                 className="flex-1 sm:flex-none"
+                disabled={isMarkingResolved}
               >
                 <IconCircleCheck className="mr-2 h-4 w-4" />
+                {isMarkingResolved && <Loader />}
                 Mark as Resolved
               </Button>
             )}
 
-            {isVolunteerResponding && bloodDonationIssue.status === "open" && (
+            {user.type === "volunteer" && !isOwner && (
               <Button
-                onClick={() => onRespond()}
+                onClick={() => respondToIssue()}
                 className="flex-1 sm:flex-none"
+                disabled={isResponding}
               >
+                {isResponding && <Loader />}
                 Respond
               </Button>
             )}
 
-            {isVolunteer && hasVolunteerResponded && !isOwner && (
-              <>
-                <Button
-                  onClick={() => onMarkResolved()}
-                  className="flex-1 sm:flex-none"
-                >
-                  <IconCircleCheck className="mr-2 h-4 w-4" />
-                  Mark as Resolved
-                </Button>
-                <Button
-                  onClick={() => onMarkInvalid()}
-                  variant="destructive"
-                  className="flex-1 sm:flex-none"
-                >
-                  <IconCircleX className="mr-2 h-4 w-4" />
-                  Mark as Invalid
-                </Button>
-              </>
-            )}
+            {user.type === "volunteer" &&
+              bloodDonationIssue.respondersUuid.includes(currentUserUuid) &&
+              !isOwner && (
+                <>
+                  <Button
+                    onClick={() => markIssueAsResolved()}
+                    className="flex-1 sm:flex-none"
+                    disabled={isMarkingResolved}
+                  >
+                    <IconCircleCheck className="mr-2 h-4 w-4" />
+                    {isMarkingResolved && <Loader />}
+                    Mark as Resolved
+                  </Button>
+                  <Button
+                    onClick={() => markIssueAsInvalid()}
+                    variant="destructive"
+                    className="flex-1 sm:flex-none"
+                    disabled={isMarkingInvalid}
+                  >
+                    {isMarkingInvalid ? (
+                      <Loader />
+                    ) : (
+                      <IconCircleX className="mr-2 h-4 w-4" />
+                    )}
+                    Mark as Invalid
+                  </Button>
+                </>
+              )}
           </div>
         )}
 
