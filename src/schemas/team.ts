@@ -7,7 +7,7 @@ export const teamSchema = v.pipe(
     name: v.string(),
     expiration_date: v.string(),
     leader_uuid: v.string(),
-    co_leader_uuid: v.optional(v.string()),
+    co_leader_uuid: v.nullable(v.string()),
     members_count: v.number(),
     created_at: v.string(),
     last_updated: v.string(),
