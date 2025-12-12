@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { BloodDonationIssueFormProvider } from "@/features/issue-reporting/blood-donation/form/form-provider";
+import { BloodDonationIssueFormProvider } from "@/features/issues/blood-donation/form/form-provider";
 
 export const Route = createFileRoute("/issues/new/blood-donation")({
   component: BloodDonationIssueLayout,

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Loader } from "@/components/ui/loader";
 import { useAuth } from "@/features/auth/hooks/use-auth";
-import { useLostAndFoundForm } from "@/features/issue-reporting/lost-and-found/form/use-lost-and-found-form";
+import { useLostAndFoundForm } from "@/features/issues/lost-and-found/form/use-lost-and-found-form";
 import { useLanguage } from "@/integrations/language/use-language";
 import { LostAndFoundInfo } from "./-info";
 import { LostAndFoundIssueStepper } from "./-stepper";

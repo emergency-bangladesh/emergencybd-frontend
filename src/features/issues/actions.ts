@@ -5,9 +5,9 @@ import {
   type Issue,
   issueSummarySchema,
   lostAndFoundIssueSchema,
-} from "@/schemas/issue";
+} from "./schemas";
 
-export type { Issue } from "@/schemas/issue";
+export type { Issue } from "./schemas";
 
 export async function getIssues(): Promise<{
   issues: Array<Issue>;

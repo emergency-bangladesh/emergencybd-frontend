@@ -4,9 +4,9 @@ import { BackButton } from "@/components/back-button";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/ui/file-upload";
 import { FieldErrorInfo } from "@/components/ui/form";
-import type { LostAndFoundFormValue } from "@/features/issue-reporting/lost-and-found/form/form-schema";
-import { validateLostAndFoundPictureInformationStep } from "@/features/issue-reporting/lost-and-found/form/form-step-validation";
-import { useLostAndFoundForm } from "@/features/issue-reporting/lost-and-found/form/use-lost-and-found-form";
+import type { LostAndFoundFormValue } from "@/features/issues/lost-and-found/form/form-schema";
+import { validateLostAndFoundPictureInformationStep } from "@/features/issues/lost-and-found/form/form-step-validation";
+import { useLostAndFoundForm } from "@/features/issues/lost-and-found/form/use-lost-and-found-form";
 import { LostAndFoundInfo } from "./-info";
 import { LostAndFoundIssueStepper } from "./-stepper";
 

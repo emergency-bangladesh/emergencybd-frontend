@@ -1,6 +1,5 @@
 import { IconPlus } from "@tabler/icons-react";
 import { createFileRoute } from "@tanstack/react-router";
-import { teamExistsWithName } from "@/actions/validate-team";
 import { BackButton } from "@/components/back-button";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,8 +9,9 @@ import {
   FormTextInput,
 } from "@/components/ui/form";
 import { RequireAuth } from "@/features/auth/components/require-auth";
-import { TeamCreationFormProvider } from "@/features/team-creation/form/form-provider";
-import { useTeamCreationForm } from "@/features/team-creation/form/use-team-creation-form";
+import { teamExistsWithName } from "@/features/teams/actions";
+import { TeamCreationFormProvider } from "@/features/teams/team-creation/form/form-provider";
+import { useTeamCreationForm } from "@/features/teams/team-creation/form/use-team-creation-form";
 
 export const Route = createFileRoute("/team/create")({
   component: () => (

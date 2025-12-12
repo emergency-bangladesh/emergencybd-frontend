@@ -1,5 +1,5 @@
 import * as v from "valibot";
-import { contactInformationSchema } from "../../shared-form-schema";
+import { contactInformationSchema } from "@/features/issues/shared-form-schema";
 
 // Step 1: Detailed Information
 export const detailedInformationSchema = v.object({

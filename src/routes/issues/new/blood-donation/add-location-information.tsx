@@ -9,9 +9,9 @@ import {
   FormTextInput,
 } from "@/components/ui/form";
 import { DISTRICT_WITH_UPAZILA_OR_THANA } from "@/constants";
-import type { BloodDonationIssueFormValue } from "@/features/issue-reporting/blood-donation/form/form-schema";
-import { validateBloodDonationLocationInformationStep } from "@/features/issue-reporting/blood-donation/form/form-step-validation";
-import { useBloodDonationIssueForm } from "@/features/issue-reporting/blood-donation/form/use-blood-donation-issue-form";
+import type { BloodDonationIssueFormValue } from "@/features/issues/blood-donation/form/form-schema";
+import { validateBloodDonationLocationInformationStep } from "@/features/issues/blood-donation/form/form-step-validation";
+import { useBloodDonationIssueForm } from "@/features/issues/blood-donation/form/use-blood-donation-issue-form";
 import { useLanguage } from "@/integrations/language/use-language";
 import { BloodDonationInfo } from "./-info";
 import { BloodDonationIssueStepper } from "./-stepper";

@@ -1,5 +1,5 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
-import { getVolunteerDetails } from "@/actions/get-volunteer-details";
+import { getVolunteerDetails } from "@/features/volunteers/actions";
 
 export function volunteerQueryOptions(uuid: string) {
   return queryOptions({

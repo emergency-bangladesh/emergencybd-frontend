@@ -13,11 +13,11 @@ import { Loader } from "@/components/ui/loader";
 import { DISTRICT_WITH_UPAZILA_OR_THANA } from "@/constants";
 import { RequireAuth } from "@/features/auth/components/require-auth";
 import { useAuth } from "@/features/auth/hooks/use-auth";
-import { uploadProfilePic } from "@/features/volunteer-registration/actions/register-volunteer";
+import type { User } from "@/features/users/schemas";
+import { uploadProfilePic } from "@/features/volunteers/registration/actions/register-volunteer";
 import { fetchBackend } from "@/lib/fetch-backend";
-import { useVolunteerQuery } from "@/queries/use-volunteer-query";
 import { parseResult } from "@/lib/result";
-import type { User } from "@/schemas/user";
+import { useVolunteerQuery } from "@/queries/use-volunteer-query";
 
 export const Route = createFileRoute("/settings/update-information")({
   component: UpdateInformationComponent,
@@ -45,32 +45,30 @@ function UpdateInformationComponent() {
 
 const volunteerUpdateSchema = v.pipe(
   v.object({
-    currentDistrict: v.optional(v.pipe(v.string(), v.minLength(1, "District is required"))),
-    currentUpazila: v.optional(v.pipe(v.string(), v.minLength(1, "Upazila is required"))),
+    currentDistrict: v.optional(
+      v.pipe(v.string(), v.minLength(1, "District is required")),
+    ),
+    currentUpazila: v.optional(
+      v.pipe(v.string(), v.minLength(1, "Upazila is required")),
+    ),
     profilePicture: v.optional(v.instance(File)),
   }),
   v.forward(
-    v.check(
-      (data) => {
-        if (data.currentDistrict) {
-          return !!data.currentUpazila;
-        }
-        return true;
-      },
-      "Upazila is required if district is selected",
-    ),
+    v.check((data) => {
+      if (data.currentDistrict) {
+        return !!data.currentUpazila;
+      }
+      return true;
+    }, "Upazila is required if district is selected"),
     ["currentUpazila"],
   ),
   v.forward(
-    v.check(
-      (data) => {
-        if (data.currentUpazila) {
-          return !!data.currentDistrict;
-        }
-        return true;
-      },
-      "District is required if upazila is selected",
-    ),
+    v.check((data) => {
+      if (data.currentUpazila) {
+        return !!data.currentDistrict;
+      }
+      return true;
+    }, "District is required if upazila is selected"),
     ["currentDistrict"],
   ),
 );

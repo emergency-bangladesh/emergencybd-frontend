@@ -1,9 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import type React from "react";
-import {
-  volunteerExistsWithEmailAddress,
-  volunteerExistsWithPhoneNumber,
-} from "@/actions/validate-volunteer";
 import { BackButton } from "@/components/back-button";
 import { NextButton } from "@/components/next-button";
 import {
@@ -15,9 +11,13 @@ import {
   FormTextInput,
 } from "@/components/ui/form";
 import { SelectItem } from "@/components/ui/select";
-import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
-import { validateFormStepPersonalInformation } from "@/features/volunteer-registration/form/form-step-validation";
-import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import type { VolunteerRegistrationFormValue } from "@/features/volunteers/registration/form/form-schema";
+import { validateFormStepPersonalInformation } from "@/features/volunteers/registration/form/form-step-validation";
+import { useVolunteerRegistrationForm } from "@/features/volunteers/registration/form/use-volunteer-registration-form";
+import {
+  volunteerExistsWithEmailAddress,
+  volunteerExistsWithPhoneNumber,
+} from "@/features/volunteers/actions";
 import { VolunteerRegistrationStepper } from "./-stepper";
 
 export const Route = createFileRoute(

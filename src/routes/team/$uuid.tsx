@@ -7,7 +7,6 @@ import {
 } from "@tabler/icons-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { format } from "date-fns";
-import { volunteerProfilePicUrl } from "@/actions/get-volunteer-details";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Loader } from "@/components/ui/loader";
 import {
@@ -21,6 +20,7 @@ import {
   TimelineTitle,
 } from "@/components/ui/timeline";
 import Muted from "@/components/ui/typography/muted";
+import { volunteerProfilePicUrl } from "@/features/volunteers/actions";
 import { useTeamPlanQuery } from "@/queries/use-team-plan-query";
 import { teamQueryOptions, useTeamQuery } from "@/queries/use-team-query";
 

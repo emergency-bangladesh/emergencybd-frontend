@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { VolunteerRegistrationFormProvider } from "@/features/volunteer-registration/form/form-provider";
+import { VolunteerRegistrationFormProvider } from "@/features/volunteers/registration/form/form-provider";
 
 export const Route = createFileRoute("/registration/volunteer")({
   component: VolunteerRegistrationPageLayout,

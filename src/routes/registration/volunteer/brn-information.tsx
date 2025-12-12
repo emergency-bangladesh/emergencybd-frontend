@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import type React from "react";
 import { useId, useMemo } from "react";
-import { volunteerExistsWithPhoneNumber } from "@/actions/validate-volunteer";
 import { BackButton } from "@/components/back-button";
 import { NextButton } from "@/components/next-button";
 import {
@@ -10,9 +9,10 @@ import {
   FormTelInput,
   FormTextInput,
 } from "@/components/ui/form";
-import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
-import { validateFormStepIDInformation } from "@/features/volunteer-registration/form/form-step-validation";
-import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import type { VolunteerRegistrationFormValue } from "@/features/volunteers/registration/form/form-schema";
+import { validateFormStepIDInformation } from "@/features/volunteers/registration/form/form-step-validation";
+import { useVolunteerRegistrationForm } from "@/features/volunteers/registration/form/use-volunteer-registration-form";
+import { volunteerExistsWithPhoneNumber } from "@/features/volunteers/actions";
 import { VolunteerRegistrationStepper } from "./-stepper";
 
 export const Route = createFileRoute("/registration/volunteer/brn-information")(

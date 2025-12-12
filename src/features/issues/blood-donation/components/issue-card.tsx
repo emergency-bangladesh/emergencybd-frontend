@@ -14,15 +14,15 @@ import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useState } from "react";
 import { toast } from "sonner";
-import { getBloodDonationIssueDetails } from "@/actions/issue";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Loader } from "@/components/ui/loader";
 import { useAuth } from "@/features/auth/hooks/use-auth";
+import { getBloodDonationIssueDetails } from "@/features/issues/actions";
+import type { Issue } from "@/features/issues/schemas";
 import { fetchBackend } from "@/lib/fetch-backend";
 import { parseResult } from "@/lib/result";
-import type { Issue } from "@/schemas/issue";
-import { Loader } from "./ui/loader";
 
 interface bloodDonationIssueCardProps {
   issue: Issue;

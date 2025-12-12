@@ -13,17 +13,17 @@ import {
 } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
+import { useState } from "react";
 import { toast } from "sonner";
-import { getLostAndFoundIssueDetails } from "@/actions/issue";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Loader } from "@/components/ui/loader";
 import { useAuth } from "@/features/auth/hooks/use-auth";
+import { getLostAndFoundIssueDetails } from "@/features/issues/actions";
+import type { Issue } from "@/features/issues/schemas";
 import { apiUrl, fetchBackend } from "@/lib/fetch-backend";
 import { parseResult } from "@/lib/result";
-import type { Issue } from "@/schemas/issue";
-import { Loader } from "./ui/loader";
-import { useState } from "react";
 
 interface LostAndFoundIssueCardProps {
   issue: Issue;

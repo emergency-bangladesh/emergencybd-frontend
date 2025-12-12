@@ -1,5 +1,5 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
-import { getTeamDetails } from "@/actions/team";
+import { getTeamDetails } from "@/features/teams/actions";
 
 export function teamQueryOptions(uuid: string) {
   return queryOptions({

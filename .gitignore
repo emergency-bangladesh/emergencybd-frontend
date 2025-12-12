@@ -13,3 +13,4 @@ count.txt
 .env
 .env.development
 todo.md
+tmp*

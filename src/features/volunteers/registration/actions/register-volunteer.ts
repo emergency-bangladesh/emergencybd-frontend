@@ -1,13 +1,11 @@
 import * as v from "valibot";
+import type { CreateVolunteerPayload } from "@/features/volunteers/schemas";
+import { createVolunteerSchema } from "@/features/volunteers/schemas";
 import {
   compressNidImage,
   compressProfileImage,
 } from "@/integrations/image-compression/image-compressor";
 import { fetchBackend } from "@/lib/fetch-backend";
-import {
-  type CreateVolunteerPayload,
-  createVolunteerSchema,
-} from "@/schemas/volunteer";
 
 interface ServerResponseOnVolunteerCreate {
   volunteer_uuid: string;

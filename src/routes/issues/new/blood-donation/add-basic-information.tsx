@@ -9,9 +9,9 @@ import {
   FormTextInput,
 } from "@/components/ui/form";
 import { SelectItem } from "@/components/ui/select";
-import type { BloodDonationIssueFormValue } from "@/features/issue-reporting/blood-donation/form/form-schema";
-import { validateBloodDonationBasicInformationStep } from "@/features/issue-reporting/blood-donation/form/form-step-validation";
-import { useBloodDonationIssueForm } from "@/features/issue-reporting/blood-donation/form/use-blood-donation-issue-form";
+import type { BloodDonationIssueFormValue } from "@/features/issues/blood-donation/form/form-schema";
+import { validateBloodDonationBasicInformationStep } from "@/features/issues/blood-donation/form/form-step-validation";
+import { useBloodDonationIssueForm } from "@/features/issues/blood-donation/form/use-blood-donation-issue-form";
 import { useLanguage } from "@/integrations/language/use-language";
 import { BloodDonationInfo } from "./-info";
 import { BloodDonationIssueStepper } from "./-stepper";

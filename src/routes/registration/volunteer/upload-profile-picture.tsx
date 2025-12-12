@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/form";
 import { Loader } from "@/components/ui/loader";
 import Muted from "@/components/ui/typography/muted";
-import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import { useVolunteerRegistrationForm } from "@/features/volunteers/registration/form/use-volunteer-registration-form";
 import { VolunteerRegistrationStepper } from "./-stepper";
 
 export const Route = createFileRoute(

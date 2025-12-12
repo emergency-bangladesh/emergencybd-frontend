@@ -78,4 +78,6 @@ export const createVolunteerSchema = v.object({
   gender: v.picklist(["male", "female", "intersex"]),
 });
 
-export type CreateVolunteerPayload = v.InferOutput<typeof createVolunteerSchema>;
+export type CreateVolunteerPayload = v.InferOutput<
+  typeof createVolunteerSchema
+>;

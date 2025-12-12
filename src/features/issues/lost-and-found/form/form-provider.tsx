@@ -2,37 +2,40 @@ import { useForm } from "@tanstack/react-form";
 import { useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
-import { reportBloodDonationIssue } from "../actions/report-blood-donation-issue";
 import { parseResult } from "@/lib/result";
-import { BloodDonationIssueFormContext } from "./form-context";
-import type { BloodDonationIssueFormValue } from "./form-schema";
-import { bloodDonationIssueSchema } from "./form-schema";
+import { reportLostAndFoundIssue } from "../actions/report-lost-and-found-issue";
+import { LostAndFoundFormContext } from "./form-context";
+import type { LostAndFoundFormValue } from "./form-schema";
+import { lostAndFoundSchema } from "./form-schema";
 
-function useInitBloodDonationIssueForm() {
+function useInitLostAndFoundForm() {
   const navigate = useNavigate();
-  const defaultValues: BloodDonationIssueFormValue = {
-    acceptTerms: false,
-    amountInBag: undefined!,
-    bloodGroup: undefined!,
+  const defaultValues: LostAndFoundFormValue = {
+    personsName: undefined!,
+    age: undefined!,
+    dateTimeLost: undefined!,
+    details: undefined!,
+    lastSeenLocation: undefined!,
     district: undefined!,
-    exactDateAndTime: undefined!,
-    hospitalName: undefined!,
-    patientName: undefined!,
-    specialInstruction: undefined,
     upazila: undefined!,
+    bloodGroup: undefined,
+    occupation: undefined,
+    images: [],
+    acceptTerms: false,
     emailAddress: undefined!,
     fullName: undefined!,
     phoneNumber: undefined!,
     emergencyContactNumber: undefined!,
   };
+
   const form = useForm({
     defaultValues,
     validators: {
-      onChange: bloodDonationIssueSchema,
+      onChange: lostAndFoundSchema,
     },
     onSubmit: async ({ value }) => {
       const [res, error] = await parseResult(() =>
-        reportBloodDonationIssue(value),
+        reportLostAndFoundIssue(value),
       );
       if (error) {
         toast.error("Something went wrong", {
@@ -47,20 +50,20 @@ function useInitBloodDonationIssueForm() {
   return form;
 }
 
-export type BloodDonationIssueFormInstance = ReturnType<
-  typeof useInitBloodDonationIssueForm
+export type LostAndFoundFormInstance = ReturnType<
+  typeof useInitLostAndFoundForm
 >;
 
-export function BloodDonationIssueFormProvider({
+export function LostAndFoundFormProvider({
   children,
 }: {
   children: ReactNode;
 }) {
-  const form = useInitBloodDonationIssueForm();
+  const form = useInitLostAndFoundForm();
 
   return (
-    <BloodDonationIssueFormContext.Provider value={form}>
+    <LostAndFoundFormContext.Provider value={form}>
       {children}
-    </BloodDonationIssueFormContext.Provider>
+    </LostAndFoundFormContext.Provider>
   );
 }

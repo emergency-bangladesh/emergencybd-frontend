@@ -15,7 +15,7 @@ import Muted from "@/components/ui/typography/muted";
 import {
   uploadNidImages,
   uploadProfilePic,
-} from "@/features/volunteer-registration/actions/register-volunteer";
+} from "@/features/volunteers/registration/actions/register-volunteer";
 import { parseResult } from "@/lib/result";
 import {
   useVolunteerQuery,

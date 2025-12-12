@@ -10,7 +10,7 @@ import {
   FormTextInput,
 } from "@/components/ui/form";
 import { Loader } from "@/components/ui/loader";
-import { useBloodDonationIssueForm } from "@/features/issue-reporting/blood-donation/form/use-blood-donation-issue-form";
+import { useBloodDonationIssueForm } from "@/features/issues/blood-donation/form/use-blood-donation-issue-form";
 import { useLanguage } from "@/integrations/language/use-language";
 import { BloodDonationInfo } from "./-info";
 import { BloodDonationIssueStepper } from "./-stepper";

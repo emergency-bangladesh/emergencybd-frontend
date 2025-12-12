@@ -5,9 +5,9 @@ import { BackButton } from "@/components/back-button";
 import { NextButton } from "@/components/next-button";
 import { FileUpload } from "@/components/ui/file-upload";
 import { FieldErrorInfo, FormTextInput } from "@/components/ui/form";
-import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
-import { validateFormStepIDInformation } from "@/features/volunteer-registration/form/form-step-validation";
-import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import type { VolunteerRegistrationFormValue } from "@/features/volunteers/registration/form/form-schema";
+import { validateFormStepIDInformation } from "@/features/volunteers/registration/form/form-step-validation";
+import { useVolunteerRegistrationForm } from "@/features/volunteers/registration/form/use-volunteer-registration-form";
 import { VolunteerRegistrationStepper } from "./-stepper";
 
 export const Route = createFileRoute("/registration/volunteer/nid-information")(

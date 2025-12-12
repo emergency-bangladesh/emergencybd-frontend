@@ -1,7 +1,7 @@
 import * as v from "valibot";
+import { type LoginPayload, loginSchema } from "@/features/auth/schemas";
+import { type User, userSchema } from "@/features/users/schemas";
 import { fetchBackend } from "@/lib/fetch-backend";
-import { type LoginPayload, loginSchema } from "@/schemas/auth";
-import { type User, userSchema } from "@/schemas/user";
 
 export async function getCurrentUser(): Promise<User> {
   const res = await fetchBackend("/auth/me", "GET");

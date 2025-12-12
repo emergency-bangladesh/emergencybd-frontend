@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { volunteerProfilePicUrl } from "@/schemas/volunteer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -11,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/features/auth/hooks/use-auth";
+import { volunteerProfilePicUrl } from "@/features/volunteers/schemas";
 import { useVolunteerQuery } from "@/queries/use-volunteer-query";
 import { Button } from "./ui/button";
 import { Loader } from "./ui/loader";

@@ -9,9 +9,9 @@ import {
   FormComboBox,
 } from "@/components/ui/form";
 import { DISTRICT_WITH_UPAZILA_OR_THANA } from "@/constants";
-import type { VolunteerRegistrationFormValue } from "@/features/volunteer-registration/form/form-schema";
-import { validateFormStepLocationInformation } from "@/features/volunteer-registration/form/form-step-validation";
-import { useVolunteerRegistrationForm } from "@/features/volunteer-registration/form/use-volunteer-registration-form";
+import type { VolunteerRegistrationFormValue } from "@/features/volunteers/registration/form/form-schema";
+import { validateFormStepLocationInformation } from "@/features/volunteers/registration/form/form-step-validation";
+import { useVolunteerRegistrationForm } from "@/features/volunteers/registration/form/use-volunteer-registration-form";
 import { VolunteerRegistrationStepper } from "./-stepper";
 
 export const Route = createFileRoute(
